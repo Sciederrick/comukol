@@ -1,23 +1,12 @@
 <template>
   <div id="createJoinTeam" class="pt-4">
-    <div id="nav">
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/register">Register</router-link>
-    </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
-      <img class="w-full" src="@/assets/img/card-top.jpg" alt="Sunset in the mountains">
+      <img class="w-3/4 mx-auto" src="@/assets/img/team.png" alt="Sunset in the mountains">
       <div class="px-6 py-4">
         <div class="font-bold text-xl mb-2">ComuKOL for Teams</div>
         <form class="" action="index.html" method="post">
-        <label class="flex flex-row">
-          <fa-icon :icon="['fas', 'envelope']" size="1x" class="self-center"/>
-          <input v-model="email" type="email" name="email" placeholder="johndoe@gmail.com" class="input mx-auto py-1 px-2" autocomplete="off">
-        </label>
-        <label class="flex flex-row">
-          <fa-icon  :icon="['fas', 'key']" class="self-center" size="1x"/>
-          <input v-model="password" type="password" name="password" class="input mx-auto py-1 px-2" autocomplete="off">
-        </label>
-        <input @click.submit.prevent="login()" class="btn float-right bg-green-500 text-white mr-8" type="submit" name="login" value="sign in">
+          <input @click.submit.prevent="" class="btn w-3/4 mx-auto py-2 bg-green-500 text-white my-2 mr-8" type="submit" name="login" value="create team">
+          <input @click.submit.prevent="" class="btn w-3/4 mx-auto py-2 bg-blue-600 text-white my-2 mr-8" type="submit" name="login" value="join team">
         </form>
       </div>
       <div class="px-6 py-4 w-full mt-2">
@@ -38,7 +27,7 @@ export default {
     }
   },
   methods:{
-    
+
   }
 }
 </script>

@@ -51,7 +51,7 @@ export default {
       let response = this.$axios.post('http://localhost:5000/register', data)
       .then((response)=>{
         console.log('Registration attempt successful!')
-        router.push('/CreateJoinTeam')
+        router.push('/create/join/team')
       })
       .catch((errors)=>{
         window.alert('Registration attempt failed!')
