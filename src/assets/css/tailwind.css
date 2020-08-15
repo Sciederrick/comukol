@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+.btn {
+  @apply inline-block rounded-lg outline-none px-2;
+}
+.btn-blank-task {
+  @apply py-2 px-4 text-white bg-red-600 shadow-lg font-bold text-2xl;
+}
+.dec-inc-taskbox {
+  @apply w-8 bg-transparent text-indigo-900 font-bold py-4;
+}
+.input {
+   @apply border rounded-md my-2 w-3/4;
+ }
+.page-title {
+  @apply text-blue-300 font-bold text-center text-xl;
+}
+.app {
+  @apply fixed top-0 left-0 bottom-0 right-0 bg-red-500 text-white text-center w-full h-full mx-auto py-56;
+}
+.load {
+  @apply bg-red-500 bg-opacity-50 ;
+}
+.init {
+  @apply bg-red-400;
+}
+@tailwind utilities;

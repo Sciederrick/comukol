@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import SignIn from '../views/SignIn.vue'
+import SignUp from '../views/SignUp.vue'
+import CreateJoinTeam from '../views/CreateJoinTeam.vue'
 
 Vue.use(VueRouter)
 
@@ -9,6 +12,21 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/login',
+    name: 'SignIn',
+    component: SignIn
+  },
+  {
+    path: '/register',
+    name: 'SignUp',
+    component: SignUp
+  },
+  {
+    path: '/create/join/team',
+    name: 'CreateJoinTeam',
+    component: CreateJoinTeam
   },
   {
     path: '/about',
