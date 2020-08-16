@@ -4,19 +4,21 @@ import Home from '../views/Home.vue'
 import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import CreateJoinTeam from '../views/CreateJoinTeam.vue'
+import CreateTeam from '../views/CreateTeam.vue'
+import UserProfile from '../views/UserProfile.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/login',
     name: 'SignIn',
     component: SignIn
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: Home
   },
   {
     path: '/register',
@@ -27,6 +29,16 @@ Vue.use(VueRouter)
     path: '/create/join/team',
     name: 'CreateJoinTeam',
     component: CreateJoinTeam
+  },
+  {
+    path: '/create/team',
+    name: 'CreateTeam',
+    component: CreateTeam
+  },
+  {
+    path: '/user/profile',
+    name: 'UserProfile',
+    component: UserProfile
   },
   {
     path: '/about',

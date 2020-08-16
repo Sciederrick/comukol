@@ -102,21 +102,28 @@ app.post("/login", checkNotAuthenticated, (req, res, next) => {
   })(req, res, next)
 })
 
+app.post("/user/authorization/check", checkAuthenticated, (req, res)=>{
+  //User authorization
+  res.send("Access granted")
+})
+
 app.delete('/logout', (req, res)=>{
   req.logOut()
-  res.redirect('/login')
+  // res.redirect('/')
 })
 
 function checkAuthenticated(req, res, next){
   if(req.isAuthenticated()){
     return next()
   }
-  res.redirect('/login')
+  // res.redirect('/')
+  return res.status(400).send('Not authenticated!')
+  console.log(req.session())
 }
 
 function checkNotAuthenticated(req, res, next){
   if(req.isAuthenticated()){
-    return res.redirect('/')
+    // return res.redirect('/user/profile')
   }
   next()
 }

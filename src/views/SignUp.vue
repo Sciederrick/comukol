@@ -2,13 +2,13 @@
   <div id="signUp" class="pt-4">
     <div id="nav">
       <router-link to="/register">Register</router-link> |
-      <router-link to="/login">Login</router-link>
+      <router-link to="/">Login</router-link>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
       <img class="w-full" src="@/assets/img/card-top2.jpg" alt="Sunset in the mountains">
       <div class="px-6 py-4">
         <div class="font-bold text-xl mb-2">ComuKOL for Teams</div>
-        <form class="" action="index.html" method="post">
+        <form class="" action="" method="post">
         <label class="flex flex-row">
           <fa-icon :icon="['fas', 'envelope']" size="1x" class="self-center"/>
           <input v-model="email" type="email" name="email" placeholder="johndoe@gmail.com" class="input mx-auto py-1 px-2" autocomplete="off">
