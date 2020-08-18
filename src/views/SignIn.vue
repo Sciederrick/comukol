@@ -49,7 +49,7 @@ export default {
       let response = await this.$axios.post('http://localhost:5000/login', data)
         .then((response)=>{
           console.log('Login attempt successful!')
-          router.push('/create/join/team')
+          router.push('/user/profile')
         })
         .catch((errors)=>{
           window.alert('Login attempt failed!')

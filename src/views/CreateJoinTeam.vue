@@ -30,19 +30,22 @@ export default {
   },
   methods:{
     createTeam(){
-      let data={
-       from:'CreateJoinTeam'
-      }
-      this.$axios.post('http://localhost:5000/user/authorization/check', data)
-        .then((response)=>{
-          console.log('visiting create team page!')
-          router.push('/create/team')
-        })
-        .catch((err)=>{
-          window.alert('Access denied!')
-          router.push('/')
-        })
+      router.push('/create/team')
     }
+    // createTeam(){
+    //   let data={
+    //    from:'CreateJoinTeam'
+    //   }
+    //   this.$axios.post('http://localhost:5000/user/authorization/check', data)
+    //     .then((response)=>{
+    //       console.log('visiting create team page!')
+    //       router.push('/create/team')
+    //     })
+    //     .catch((err)=>{
+    //       window.alert('Access denied!')
+    //       router.push('/')
+    //     })
+    // }
   }
 }
 </script>

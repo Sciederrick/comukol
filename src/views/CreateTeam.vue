@@ -11,7 +11,7 @@
             <textarea v-model="description" name="description" rows="5" cols="80" class="border rounded py-1 px-2" placeholder="team description"></textarea>
           </label>
           <InviteMembers></InviteMembers>
-          <input @click.submit.prevent="" class="btn w-full py-2 bg-blue-600 text-white my-2" type="submit" name="createTeam" value="create">
+          <input @click.submit.prevent="createTeam" class="btn w-full py-2 bg-blue-600 text-white my-2" type="submit" name="createTeam" value="create">
         </form>
       </div>
       <div class="px-6 py-4 w-full mt-2">
@@ -23,7 +23,7 @@
 
 <script>
 import InviteMembers from '@/components/InviteMembers.vue'
-
+import router from "../router"
 export default {
   name: 'CreateTeam',
   components:{
@@ -36,7 +36,9 @@ export default {
     }
   },
   methods:{
-
+    createTeam(){
+      router.push('/home')
+    }
   }
 }
 </script>

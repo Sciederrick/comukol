@@ -20,10 +20,18 @@
           <div :class="isOpen ? 'block': 'hidden'" class=" h-screen rounded bg-gray-900 px-1 pt-2 pb-4 text-left">
             <a href="#" class="block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">Team_Buktu</a>
             <hr>
-            <a href="#" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">Home</a>
-            <a href="#" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">Members</a>
-            <a href="#" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">Workspace</a>
-            <a href="#" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">Media</a>
+            <a href="#" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">
+              <fa-icon  :icon="['fas', 'home']" class="self-center" size="1x"/>  Home
+            </a>
+            <a href="#" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">
+              <fa-icon  :icon="['fas', 'users']" class="self-center" size="1x"/>  Members
+            </a>
+            <a href="#" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">
+              <fa-icon  :icon="['fas', 'briefcase']" class="self-center" size="1x"/>  Workspace
+            </a>
+            <a href="#" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">
+              <fa-icon  :icon="['fas', 'file']" class="self-center" size="1x"/>  Media
+            </a>
           </div>
         </div>
         <Charts class="w-full mx-auto"/>
