@@ -6,6 +6,10 @@ import SignUp from '../views/SignUp.vue'
 import CreateJoinTeam from '../views/CreateJoinTeam.vue'
 import CreateTeam from '../views/CreateTeam.vue'
 import UserProfile from '../views/UserProfile.vue'
+import Events from '../views/Events.vue'
+import Charts from '../views/Charts.vue'
+import Profile from '../components/Profile.vue'
+import EditProfile from '../components/EditProfile.vue'
 
 Vue.use(VueRouter)
 
@@ -17,8 +21,19 @@ Vue.use(VueRouter)
   },
   {
     path: '/home',
-    name: 'Home',
-    component: Home
+    component: Home,
+    children:[
+      {
+        path: '',
+        name: 'Charts',
+        component: Charts
+      },
+      {
+        path: '/events',
+        name: 'Events',
+        component: Events
+      }
+    ]
   },
   {
     path: '/register',
@@ -37,8 +52,19 @@ Vue.use(VueRouter)
   },
   {
     path: '/user/profile',
-    name: 'UserProfile',
-    component: UserProfile
+    component: UserProfile,
+    children:[
+      {
+        path: '',
+        name: 'Profile',
+        component: Profile
+      },
+      {
+        path: '/edit',
+        name: 'EditProfile',
+        component: EditProfile
+      }
+    ]
   },
   {
     path: '/about',
