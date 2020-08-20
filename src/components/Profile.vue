@@ -1,7 +1,10 @@
 <template>
   <div id="Profile" class="p-4 border rounded-lg text-left md:w-3/4 md:pl-12 md:pt-8 lg:border-0 lg:rounded-none lg:pt-4">
     <p class="my-3 py-1 lg:w-full lg:bg-gray-200 lg:text-black  rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'users']" color="blue" class="self-center pr-2" size="1x"/>
-       Team(s): cholera_mitigation
+       Team(s):
+       <ul class="inline">
+         <li v-for="team in user.teams">{{team}}</li>
+       </ul>
     </p>
     <p class="my-3 py-1 lg:w-5/6 lg:bg-gray-200 lg:text-black  rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'university']" color="green" class="self-center pr-2" size="1x"/>
        Institution of Work: {{user.workplace}}
@@ -27,7 +30,8 @@ export default {
   name: 'Profile',
   props:{
     user:{
-      type:Object
+      type:Object,
+      required:true
     }
   },
   data(){

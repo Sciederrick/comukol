@@ -61,7 +61,7 @@ Vue.use(VueRouter)
         props:true
       },
       {
-        path: '/edit',
+        path: '/user/profile/edit',
         name: 'EditProfile',
         component: EditProfile,
         props:true

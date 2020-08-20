@@ -2,7 +2,7 @@
   <div id="UserProfile" class="p-4 overflow-hidden bg-white">
     <div class="pl-2 text-left">
       <router-link to="/create/join/team">
-        <button class="btn ml-1 md:ml-4 lg:ml-8 hover:bg-indigo-300 hover:text-white font-bold">Next  <fa-icon  :icon="['fas', 'long-arrow-alt-right']" class="self-center" color="" size="1x"/>
+        <button @click.prevent="nextPage()" class="btn ml-1 md:ml-4 lg:ml-8 hover:bg-indigo-300 hover:text-white font-bold">Next  <fa-icon  :icon="['fas', 'long-arrow-alt-right']" class="self-center" color="" size="1x"/>
         </button>
       </router-link>
     </div>
@@ -14,7 +14,7 @@
         <p class="py-2 px-2 lg:pl-6 text-left font-sans italic text-opacity-25 underline">{{user.role?'focalperson':user.role===undefined?'error':'member'}}</p>
         <div class="w-full text-sm md:text-base lg:w-48 text-left py-4 md:py-2">
           <router-link to="/user/profile" class="inline py-2 px-3 border border-transparent rounded-md md:border-0 md:rounded-none md:px-6 md:block text-blue-800  lg:font-semibold hover:bg-indigo-500 hover:text-white">Profile</router-link>
-          <router-link to="/edit" class="inline py-2 px-3 border border-transparent rounded-md md:border-0 md:rounded-none md:px-6 md:block text-blue-800  lg:font-semibold hover:bg-indigo-500 hover:text-white">Edit <fa-icon  :icon="['fas', 'edit']" class="self-center" color="" size="xs"/></router-link>
+          <router-link to="/user/profile/edit" class="inline py-2 px-3 border border-transparent rounded-md md:border-0 md:rounded-none md:px-6 md:block text-blue-800  lg:font-semibold hover:bg-indigo-500 hover:text-white">Edit <fa-icon  :icon="['fas', 'edit']" class="self-center" color="" size="xs"/></router-link>
           <router-link to="" class="inline py-2 px-3 border border-transparent rounded-md md:border-0 md:rounded-none md:px-6 md:block text-blue-800  lg:font-semibold hover:bg-indigo-500 hover:text-white">Calendar</router-link>
           <router-link to="" class="inline py-2 px-3 border border-transparent rounded-md md:border-0 md:rounded-none md:px-6 md:block text-blue-800  lg:font-semibold hover:bg-indigo-500 hover:text-white">Files</router-link>
         </div>
@@ -45,7 +45,8 @@ export default {
   },
   methods:{
     fetchUser(){
-      const email=window.email
+      const user=JSON.parse(localStorage.getItem('user'))
+      const email=user.email
       const url='http://localhost:5000/user/profile'
       this.$axios.post(url, {email})
         .then(response=>{
@@ -55,6 +56,15 @@ export default {
         .catch(err=>{
           this.fail(err)
         })
+    },
+    nextPage(){
+      if(this.user.contact===null||this.user.name===null||this.user.jurisdiction===null||this.user.specialty===null||this.user.workplace===null){
+        router.push('/user/profile/edit')
+        this.fail('please complete your profile first then')
+      }else{
+        localStorage.role=this.user.role
+        router.push('/create/join/team')
+      }
     }
   },
   created(){

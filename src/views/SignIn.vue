@@ -49,7 +49,11 @@ export default {
       let response = await this.$axios.post('http://localhost:5000/login', data)
         .then((response)=>{
           console.log('Login attempt successful!')
-          window.email=this.email
+          const user={
+            email:this.email,
+            token:response.data
+          }
+          localStorage.setItem('user', JSON.stringify(user))
           router.push('/user/profile')
         })
         .catch((errors)=>{
