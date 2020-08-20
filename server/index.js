@@ -45,6 +45,7 @@ app.post('/register', (req, res, next)=>{
         let record=new User()
         record._id=id
         record.email=email
+        record.role=1
         record.password=record.hashPassword(password)
         record.save((err, user)=>{
           if(err){
@@ -79,6 +80,35 @@ app.post("/login", (req, res) => {
       res.status(404).json({error: 'User does not exist'})
     }
   })
+})
+
+app.post("/user/profile", (req, res) => {
+  const email=req.body.email
+  User.findOne({email}, (err, user)=>{
+    if(err) res.status(404).send(`error: ${err}`)
+    if(user){
+      console.log(user)
+      res.send(user)
+    }else{
+      res.status(499).json({error: 'User retrieval failed'})
+    }
+  })
+})
+
+app.post("/profile/update", (req, res)=>{
+  console.log(req.body)
+  const email=req.body.email, name=req.body.fullName, contact=req.body.contact, workplace=req.body.workplace, specialty=req.body.specialty, jurisdiction=req.body.jurisdiction
+  if(!email||!name||!contact||!workplace||!specialty||!jurisdiction){
+    res.status(409).json({error: 'All fields should be field!'})
+    console.log('empty fields')
+  }else{
+    console.log('trying findOneAndUpdate...')
+    User.findOneAndUpdate({email}, {name, contact, workplace, specialty, jurisdiction}, {new: true}, (err, doc)=>{
+      if(err) res.status(500).json({error: 'Update Failed!'})
+      console.log(doc)
+      res.send(doc)
+    })
+  }
 })
 
 

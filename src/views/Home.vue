@@ -38,15 +38,19 @@
         <router-view></router-view>
       </div>
     </main>
-    <footer id="statusPanel" class="w-screen fixed bottom-0 h-5">
-      <p class="font-serif"></p>
+    <footer>
+      <statusBar/>
     </footer>
   </div>
 </template>
 
 <script>
+import statusBar from '../components/statusBar.vue'
 export default {
   name: 'Home',
+  components:{
+    statusBar
+  },
   data(){
     return{
       isOpen: false,

@@ -26,7 +26,7 @@ Vue.use(VueRouter)
       {
         path: '',
         name: 'Charts',
-        component: Charts
+        component: Charts,
       },
       {
         path: '/events',
@@ -57,12 +57,14 @@ Vue.use(VueRouter)
       {
         path: '',
         name: 'Profile',
-        component: Profile
+        component: Profile,
+        props:true
       },
       {
         path: '/edit',
         name: 'EditProfile',
-        component: EditProfile
+        component: EditProfile,
+        props:true
       }
     ]
   },

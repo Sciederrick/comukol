@@ -4,16 +4,16 @@
        Team(s): cholera_mitigation
     </p>
     <p class="my-3 py-1 lg:w-5/6 lg:bg-gray-200 lg:text-black  rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'university']" color="green" class="self-center pr-2" size="1x"/>
-       Institution of Work: {Red Cross Society}
+       Institution of Work: {{user.workplace}}
     </p>
     <p class="my-3 py-1 lg:w-3/4 lg:bg-gray-200 lg:text-black  rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'id-card-alt']" color="green" class="self-center pr-2" size="1x"/>
-       Specialty: {Epidemiologist}
+       Specialty: {{user.specialty}}
     </p>
     <p class="my-3 py-1 lg:w-1/2 lg:bg-gray-200 lg:text-black  rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'phone-alt']" color="green" class="self-center pr-2" size="1x"/>
-       {254743709788}
+       {{user.contact}}
     </p>
     <p class="my-3 py-1 lg:w-1/3 lg:bg-gray-200 lg:text-black  rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'envelope']" class="self-center pr-2" size="1x"/>
-      {gatweri@gmail.com}
+      {{user.email}}
     </p>
     <p>
       <span class="my-3 py-1 lg:w-1/4 lg:bg-gray-200 lg:text-black  rounded-md lg:pl-4 lg:pr-2"><fa-icon  :icon="['fas', 'upload']" class="self-center pr-2" size="1x"/>  Image</span>
@@ -25,6 +25,11 @@
 <script>
 export default {
   name: 'Profile',
+  props:{
+    user:{
+      type:Object
+    }
+  },
   data(){
     return{
       contactVisible:false,

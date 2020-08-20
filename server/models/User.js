@@ -4,12 +4,42 @@ const bcrypt = require('bcrypt-nodejs')
 //Schema
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
-  _id: {type: String},
-  name: {type: String},
-  email: {type: String, required: true},
-  specialty: {type: String},
-  teams: {type: [String]},
-  password: {type: String, required: true }
+  _id: {
+    type: String
+  },
+  image: {
+    data: Buffer, contentType: String
+  },
+  name: {
+    type: String, default: null
+  },
+  contact: {
+    type: String, default: null
+  },
+  email: {
+    type: String, required: true
+  },
+  workplace: {
+    type: String, default: null
+  },
+  specialty: {
+    type: String, default: null
+  },
+  jurisdiction: {
+    type: String, default: null
+  },
+  position: {
+    type: String, default: null
+  },
+  role: {
+    type: Boolean, default: 0
+  },
+  teams: {
+    type: [String]
+  },
+  password: {
+    type: String, required: true
+  }
 }, {timestamp: true, _id: true, autoIndex: true });
 
 userSchema.methods.hashPassword=(password)=>{

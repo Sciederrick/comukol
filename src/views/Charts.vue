@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import statusPanel from '../mixins/statusPanel'
 export default {
   name: 'Charts',
   data(){
@@ -25,27 +26,25 @@ export default {
   },
   methods:{
     fetchApiData(){
-      this.$axios.get('https://api.covid19api.com/summary', {timeout:10000})
+      const url='https://api.covid19api.com/summary'
+      this.$axios.get(url, {timeout:10000})
       .then(response=>{
         // , data.NewConfirmed, data.NewDeaths, data.TotalDeaths, data.NewRecovered, data.TotalRecovered
-        document.querySelector('#statusPanel>p').innerText='data loaded successfully'
-        document.querySelector('#statusPanel>p').style.color='white'
-        document.querySelector('#statusPanel>p').style.backgroundColor='green'
         this.globalChartData=response.data.Global
         response.data.Countries.map(data=>{
           this.countriesChartData.push([data.Country, data.TotalConfirmed])
         })
+        this.success()
       })
       .catch(err=>{
-        document.querySelector('#statusPanel>p').innerText='${err}, please refresh'
-        document.querySelector('#statusPanel>p').style.color='white'
-        document.querySelector('#statusPanel>p').style.backgroundColor='red'
+        this.fail(err)
       })
     }
   },
   created(){
     this.fetchApiData()
-  }
+  },
+  mixins:[statusPanel]
 }
 </script>
 
