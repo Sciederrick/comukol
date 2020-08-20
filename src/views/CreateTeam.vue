@@ -32,12 +32,14 @@ export default {
   data(){
     return {
       teamName:'',
-      description:''
+      description:'',
+      invites:''
     }
   },
   methods:{
     createTeam(){
-      router.push('/home')
+      // router.push('/home')
+      console.log(`team name: ${this.teamName} \n description: ${this.description} \n invites: ${this.invites}`)
     }
   }
 }
