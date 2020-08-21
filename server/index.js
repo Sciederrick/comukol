@@ -32,7 +32,7 @@ db.once('open', ()=>{
 let User = require('./models/User.js')
 /************************Import Model******************************/
 
-app.post('/register', (req, res, next)=>{
+app.post('/api/register', (req, res, next)=>{
   let id=req.body.id
   let email=req.body.email
   let password=req.body.password
@@ -60,7 +60,7 @@ app.post('/register', (req, res, next)=>{
   })
 })
 
-app.post("/login", (req, res) => {
+app.post("/api/login", (req, res) => {
   let email=req.body.email
   User.findOne({email}, (err, user)=>{
     if(err) res.status(404).send(`error: ${err}`)
@@ -82,7 +82,7 @@ app.post("/login", (req, res) => {
   })
 })
 
-app.post("/user/profile", (req, res) => {
+app.post("/api/user/profile", (req, res) => {
   const email=req.body.email
   User.findOne({email}, (err, user)=>{
     if(err) res.status(404).send(`error: ${err}`)
@@ -94,7 +94,7 @@ app.post("/user/profile", (req, res) => {
   })
 })
 
-app.post("/profile/update", (req, res)=>{
+app.post("/api/profile/update", (req, res)=>{
   const email=req.body.email, name=req.body.fullName, contact=req.body.contact, workplace=req.body.workplace, specialty=req.body.specialty, jurisdiction=req.body.jurisdiction
   if(!email||!name||!contact||!workplace||!specialty||!jurisdiction){
     res.status(409).json({error: 'All fields should be field!'})
@@ -107,7 +107,7 @@ app.post("/profile/update", (req, res)=>{
   }
 })
 
-app.post("/invite/members", (req, res)=>{
+app.post("/api/invite/members", (req, res)=>{
   const mail=req.body.invitees
   const transporter=nodemailer.createTransport({
     service:'gmail',
