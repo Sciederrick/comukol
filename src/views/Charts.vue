@@ -27,7 +27,7 @@ export default {
   methods:{
     fetchApiData(){
       const url='https://api.covid19api.com/summary'
-      this.$axios.get(url, {timeout:10000})
+      this.$axios.get(url, {timeout:20000})
       .then(response=>{
         // , data.NewConfirmed, data.NewDeaths, data.TotalDeaths, data.NewRecovered, data.TotalRecovered
         this.globalChartData=response.data.Global

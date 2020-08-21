@@ -7,7 +7,7 @@
     <div class="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
       <img class="w-full" src="@/assets/img/card-top2.jpg" alt="Sunset in the mountains">
       <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2">ComuKOL for Teams</div>
+        <div class="font-bold text-xl mb-2">ComuKOL Account Creation</div>
         <form class="" action="" method="post">
         <label class="flex flex-row">
           <fa-icon :icon="['fas', 'envelope']" size="1x" class="self-center"/>

@@ -17,7 +17,7 @@
               </button>
             </div>
           </div>
-          <div :class="isOpen ? 'block': 'hidden'" class=" h-screen rounded bg-gray-900 px-1 pt-2 pb-4 text-left">
+          <div :class="isOpen ? 'block': 'hidden'" class=" h-screen rounded bg-gray-700 px-1 pt-2 pb-4 text-left">
             <router-link to="/home" href="#" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">
               <fa-icon  :icon="['fas', 'home']" class="self-center" size="1x"/>  Home
             </router-link>

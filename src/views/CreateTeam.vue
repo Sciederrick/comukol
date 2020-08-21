@@ -15,7 +15,7 @@
             <div class="font-bold text-md my-2 text-left dropdown" @click="toggler()">Invite Members <fa-icon  :icon="['fas', 'angle-down']" class="dropdown" size="1x"/></div>
             <div :class="{hide:!display}">
               <label>
-                <textarea v-model="invites" name="description" rows="1" cols="" class="border rounded py-1 px-2 w-full" placeholder="email addresses..."></textarea>
+                <textarea v-model="invites" name="description" rows="1" cols="" class="border rounded py-1 px-2 w-full" placeholder="paste email addresses here..."></textarea>
               </label>
               <input @click.submit.prevent="inviteMembers" class="btn w-full py-2 bg-green-600 text-white my-2" type="submit" name="inviteMembers" value="invite">
             </div>
@@ -54,11 +54,17 @@ export default {
       console.log(`team name: ${this.teamName} \n description: ${this.description}`)
     },
     inviteMembers(){
-      const invitees=this.invites
+      let invitees=this.invites
+      invitees=invitees.trim()
+      invitees=invitees.split('.com')
+      invitees=invitees.map((el)=>{
+        return el.trim().concat('.com')
+      })
+      invitees.pop()
+      invitees=invitees.toString()
       const url='http://localhost:5000/invite/members'
       this.$axios.post(url, {invitees})
         .then(response=>{
-          console.log(response)
           this.success('email invite sent!')
         })
         .catch(err=>{
