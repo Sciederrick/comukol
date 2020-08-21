@@ -17,7 +17,6 @@ const requestParser = function(req, res, next) {
   next()
 }
 
-app.use(serveStatic(__dirname+"/dist"))
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(requestParser)
