@@ -47,7 +47,7 @@ export default {
     fetchUser(){
       const user=JSON.parse(localStorage.getItem('user'))
       const email=user.email
-      const url='http://localhost:5000/user/profile'
+      const url='/api/user/profile'
       this.$axios.post(url, {email})
         .then(response=>{
           this.user=response.data

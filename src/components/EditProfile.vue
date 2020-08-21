@@ -90,7 +90,7 @@ export default {
         specialty:this.specialty,
         jurisdiction:this.jurisdiction
       }
-      const url='http://localhost:5000/profile/update'
+      const url='/api/profile/update'
       this.$axios.post(url, data, {timeout:35000})
         .then(response=>{
           this.user=response.data

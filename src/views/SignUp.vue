@@ -48,7 +48,7 @@ export default {
         email:this.email,
         password:this.password
       }
-      const url='http://localhost:5000/register'
+      const url='/api/register'
       let response = this.$axios.post(url, data)
       .then((response)=>{
         console.log('Registration attempt successful!')

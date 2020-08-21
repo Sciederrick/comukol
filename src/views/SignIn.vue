@@ -46,7 +46,7 @@ export default {
         email:this.email,
         password:this.password
       }
-      let response = await this.$axios.post('http://localhost:5000/login', data)
+      let response = await this.$axios.post('/api/login', data)
         .then((response)=>{
           console.log('Login attempt successful!')
           const user={

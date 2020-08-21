@@ -62,7 +62,7 @@ export default {
       })
       invitees.pop()
       invitees=invitees.toString()
-      const url='http://localhost:5000/invite/members'
+      const url='/api/invite/members'
       this.$axios.post(url, {invitees})
         .then(response=>{
           this.success('email invite sent!')
