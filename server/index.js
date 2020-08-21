@@ -3,6 +3,8 @@ if(process.env.NODE_ENV !== 'production'){
 }
 
 const express = require('express')
+const path = require('path')
+const serveStatic = require('serve-static')
 const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
@@ -17,6 +19,7 @@ const requestParser = function(req, res, next) {
   next()
 }
 
+app.use(serveStatic(__dirname+"/dist"))
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(requestParser)
@@ -112,8 +115,8 @@ app.post("/invite/members", (req, res)=>{
   const transporter=nodemailer.createTransport({
     service:'gmail',
     auth: {
-      user: 'derrickmbarani@gmail.com',
-      pass: 'derrick8'
+      user: process.env.EMAIL,
+      pass: process.env.EMAIL_PASS
     }
   })
   const mailOptions={
