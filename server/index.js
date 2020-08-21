@@ -3,8 +3,6 @@ if(process.env.NODE_ENV !== 'production'){
 }
 
 const express = require('express')
-const path = require('path')
-const serveStatic = require('serve-static')
 const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
