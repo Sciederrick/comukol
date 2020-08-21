@@ -94,7 +94,7 @@ export default {
       this.$axios.post(url, data, {timeout:35000})
         .then(response=>{
           this.user=response.data
-          this.success()
+          this.success('profile modified successfully!')
           router.push('/user/profile')
         })
         .catch(err=>{

@@ -1,7 +1,7 @@
 export default{
   methods:{
-    success(){
-      document.querySelector('#statusPanel>p').innerText='operation success'
+    success(message='operation success'){
+      document.querySelector('#statusPanel>p').innerText=message
       document.querySelector('#statusPanel>p').style.color='white'
       document.querySelector('#statusPanel>p').style.backgroundColor='green'
     },

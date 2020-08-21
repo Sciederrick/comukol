@@ -15,8 +15,8 @@
         <div class="w-full text-sm md:text-base lg:w-48 text-left py-4 md:py-2">
           <router-link to="/user/profile" class="inline py-2 px-3 border border-transparent rounded-md md:border-0 md:rounded-none md:px-6 md:block text-blue-800  lg:font-semibold hover:bg-indigo-500 hover:text-white">Profile</router-link>
           <router-link to="/user/profile/edit" class="inline py-2 px-3 border border-transparent rounded-md md:border-0 md:rounded-none md:px-6 md:block text-blue-800  lg:font-semibold hover:bg-indigo-500 hover:text-white">Edit <fa-icon  :icon="['fas', 'edit']" class="self-center" color="" size="xs"/></router-link>
-          <router-link to="" class="inline py-2 px-3 border border-transparent rounded-md md:border-0 md:rounded-none md:px-6 md:block text-blue-800  lg:font-semibold hover:bg-indigo-500 hover:text-white">Calendar</router-link>
-          <router-link to="" class="inline py-2 px-3 border border-transparent rounded-md md:border-0 md:rounded-none md:px-6 md:block text-blue-800  lg:font-semibold hover:bg-indigo-500 hover:text-white">Files</router-link>
+          <router-link to="" class="inline py-2 px-3 border border-transparent rounded-md md:border-0 md:rounded-none md:px-6 md:block text-blue-800  lg:font-semibold hover:bg-indigo-500 hover:text-white" title="coming soon">Calendar</router-link>
+          <router-link to="" class="inline py-2 px-3 border border-transparent rounded-md md:border-0 md:rounded-none md:px-6 md:block text-blue-800  lg:font-semibold hover:bg-indigo-500 hover:text-white" title="coming soon">Files</router-link>
         </div>
       </div>
       <router-view :user="user"></router-view>
