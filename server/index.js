@@ -117,7 +117,7 @@ app.post("/api/invite/members", (req, res)=>{
     }
   })
   const mailOptions={
-    from: 'derrickmbarani@gmail.com',
+    from: process.env.EMAIL,
     to: mail,
     subject: 'You have been invited to ComuKOL',
     text: 'Please visit the following link: http://ComuKOL.net'
@@ -125,7 +125,6 @@ app.post("/api/invite/members", (req, res)=>{
   transporter.sendMail(mailOptions)
     .then((response)=>{
       console.log('email sent')
-      console.log(response)
       res.send(response)
     })
     .catch((err)=>{
