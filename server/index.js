@@ -289,8 +289,8 @@ app.post("/api/invite/members", (req, res)=>{
   console.log(mail)
   const auth = {
     auth:{
-      api_key:'ec2b004620fe5cf6aaf4a83d2bf600f7-203ef6d0-951e4abe',
-      domain:'sandboxf8efbf2d4fab4b4890b917a05a69d644.mailgun.org'
+      api_key: process.env.MAILGUN_API_KEY,
+      domain: process.env.MAILGUN_DOMAIN
     }
   }
   const transporter=nodemailer.createTransport(mailGun(auth))
