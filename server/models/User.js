@@ -8,7 +8,7 @@ const userSchema = new Schema({
     type: String
   },
   image: {
-    data: Buffer, contentType: String
+    type: String, default: 'avatar.jpg'
   },
   name: {
     type: String, default: null

@@ -99,7 +99,7 @@ export default {
         })
         .catch(err=>{
           console.log(err)
-          this.fail(err)
+          this.fail(err.response.data.error)
         })
     }
   },

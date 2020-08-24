@@ -1,14 +1,11 @@
 <template>
-  <div id="home" class="w-full p-1 overflow-hidden">
-    <header class="bg-gray-900 px-6">
-      <p class="text-white text-2xl text-left">Comukol</p>
+  <div id="home" class="w-full p-1 overflow-hidden font-sans">
+    <header class="bg-gray-300 px-6">
+      <p class="text-gray-800 font-bold text-2xl text-left">Comukol</p>
     </header>
-    <main class="mb-6">
-      <div id="team" class="h-16 bg-gray-200 mt-1">
-        <p>......</p>
-      </div>
+    <main class="mt-4">
       <div class="relative">
-        <div id="sidebar" class="absolute left-0 z-40 font-serif">
+        <div id="sidebar" class="absolute left-0 z-40 mt-1">
           <div class="flex items-center justify-between px-4 lg:px-6 lg:py-1">
             <div class="">
               <button @click="isOpen=!isOpen" type="button" class="text-gray-500 hover:text-white focus:text-white focus:outline-none" name="button">
@@ -17,21 +14,21 @@
               </button>
             </div>
           </div>
-          <div :class="isOpen ? 'block': 'hidden'" class=" h-screen rounded bg-gray-700 px-1 pt-2 pb-4 text-left">
-            <router-link to="/home" href="#" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">
-              <fa-icon  :icon="['fas', 'home']" class="self-center" size="1x"/>  Home
+          <div :class="isOpen ? 'block': 'hidden'" class=" h-auto rounded bg-gray-700 px-1 pt-2 pb-4 text-left">
+            <router-link to="/home" class="mt-1 block pl-4 pr-6 py-6 text-white font-semibold rounded hover:bg-gray-800">
+              <fa-icon  :icon="['fas', 'home']" class="self-center" size="1x"/><span class="pl-2">Home</span>
             </router-link>
-            <router-link to="" href="#" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">
-              <fa-icon  :icon="['fas', 'users']" class="self-center" size="1x"/>  Members
+            <router-link to="" class="mt-1 block pl-4 pr-6 py-6 text-white font-semibold rounded hover:bg-gray-800">
+              <fa-icon  :icon="['fas', 'users']" class="self-center" size="1x"/><span class="pl-2">Members</span>
             </router-link>
-            <router-link to="" href="#" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">
-              <fa-icon  :icon="['fas', 'briefcase']" class="self-center" size="1x"/>  Workspace
+            <router-link to="/workspace" class="mt-1 block pl-4 pr-6 py-6 text-white font-semibold rounded hover:bg-gray-800">
+              <fa-icon  :icon="['fas', 'briefcase']" class="self-center" size="1x"/><span class="pl-2">Workspace</span>
             </router-link>
-            <router-link to="/events" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">
-              <fa-icon  :icon="['fas', 'calendar-week']" class="self-center" size="1x"/>  Events
+            <router-link to="/events" class="mt-1 block pl-4 pr-6 py-6 text-white font-semibold rounded hover:bg-gray-800">
+              <fa-icon  :icon="['fas', 'calendar-week']" class="self-center" size="1x"/><span class="pl-2">Events</span>
             </router-link>
-            <router-link to="" class="mt-1 block px-20 py-8 text-white font-semibold rounded hover:bg-gray-800">
-              <fa-icon  :icon="['fas', 'file']" class="self-center" size="1x"/>  Media
+            <router-link to="" class="mt-1 block pl-4 pr-6 py-6 text-white font-semibold rounded hover:bg-gray-800">
+              <fa-icon  :icon="['fas', 'file']" class="self-center" size="1x"/><span class="pl-2">Events</span>
             </router-link>
           </div>
         </div>

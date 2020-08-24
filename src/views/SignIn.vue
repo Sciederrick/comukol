@@ -53,6 +53,7 @@ export default {
             email:this.email,
             token:response.data
           }
+          localStorage.clear()
           localStorage.setItem('user', JSON.stringify(user))
           router.push('/user/profile')
         })

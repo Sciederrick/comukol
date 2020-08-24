@@ -4,12 +4,15 @@ if(process.env.NODE_ENV !== 'production'){
 
 const express = require('express')
 const app = express()
+const path = require('path')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
+const mailGun = require('nodemailer-mailgun-transport')
+const multer = require('multer')
 
 const requestParser = function(req, res, next) {
   let now = new Date().toLocaleString()
@@ -17,10 +20,79 @@ const requestParser = function(req, res, next) {
   next()
 }
 
+const fileFilterProfile = (req, file, cb)=>{
+  const allowedTypes = ["image/jpeg", "image/png", "image/jpg"]
+  if(!allowedTypes.includes(file.mimetype)){
+    const error = new Error("Wrong file type")
+    error.code = "LIMIT_FILE_TYPES"
+    return cb(error, false)
+  }
+  cb(null, true)
+}
+
+//for shared official documents
+const fileFilter2 = (req, file, cb)=>{
+  const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "application/pdf", "application/docx", "application/odt", "application/xls", "application/xlsx", "application/ods", "application/ppt", "application/pptx", "application/txt"]
+  if(!allowedTypes.includes(file.mimetype)){
+    const error = new Error("Wrong file type")
+    error.code = "LIMIT_FILE_TYPES"
+    return cb(error, false)
+  }
+  cb(null, true)
+}
+
+//for all files, storing files with their original extension
+let storageProfile = multer.diskStorage({
+  destination: (req, file, cb)=>{
+    cb(null, './uploads/profile')
+  },
+  filename: (req, file, cb)=>{
+    let ext = file.mimetype.split('/')[1]
+    cb(null, `${file.originalname}`)
+  }
+})
+
+let storageToolkit = multer.diskStorage({
+  destination: (req, file, cb)=>{
+    cb(null, './uploads/toolKit/Cholera/')
+  },
+  filename: (req, file, cb)=>{
+    let ext = file.mimetype.split('/')[1]
+    cb(null, `${file.originalname}`)
+  }
+})
+
+
+//for profile photo
+const MAX_SIZE = 200000
+const upload = multer({
+  storageProfile,
+  fileFilterProfile,
+  limits:{
+    fileSize: MAX_SIZE
+  }
+})
+
+//for shared official documents
+const MAX_SIZE_2 = 200000000
+const upload2 = multer({
+  dest: './uploads/toolKit/Cholera/',
+  fileFilter2,
+  limits:{
+    fileSize: MAX_SIZE_2
+  }
+})
+
+const MAX_SIZE_3 = 200000000
+const pureUpload = multer({
+  storage: storageToolkit
+})
+
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(requestParser)
 app.use(cors())
+
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
@@ -82,6 +154,28 @@ app.post("/api/login", (req, res) => {
   })
 })
 
+app.post("/api/invited/confirm", (req, res)=>{
+  let email=req.body.email
+  User.findOne({email, role:false, contact:null}, (err, user)=>{
+    if(err) res.status(404).send(`error: ${err}`)
+    if(user) console.log(user)
+    res.status(404).json({error: 'User does not exist'})
+  })
+})
+
+app.post("/api/invited/modify/password", (req, res)=>{
+  let email=req.body.email
+  let password=req.body.password
+  password=bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+  User.findOneAndUpdate({email}, {password}, {new: true}, (err, user)=>{
+    if(err) res.status(499).json({error: 'Update Failed!'})
+    if(user){
+      res.send(user)
+    }
+    res.status(404).json({error: 'Update error!'})
+  })
+})
+
 app.post("/api/user/profile", (req, res) => {
   const email=req.body.email
   User.findOne({email}, (err, user)=>{
@@ -101,26 +195,72 @@ app.post("/api/profile/update", (req, res)=>{
     console.log('empty fields')
   }else{
     User.findOneAndUpdate({email}, {name, contact, workplace, specialty, jurisdiction}, {new: true}, (err, doc)=>{
-      if(err) res.status(500).json({error: 'Update Failed!'})
+      if(err) res.status(499).json({error: 'Update Failed!'})
       res.send(doc)
     })
   }
 })
 
+app.post("/api/profile/photo/upload", upload.single('file'), (req, res)=>{
+  const originalName=req.file.originalname
+  const email=req.body.email
+  User.findOneAndUpdate({email}, {image:originalName}, {new: true}, (err, doc)=>{
+    if(err) res.status(499).json({error: 'Update Failed!'})
+    res.send(doc)
+  })
+})
+
+app.post("/api/file/manager/multiple/uploads", upload2.array('files'), (req, res)=>{
+  console.log(req.files)
+  res.json({files: req.files})
+})
+
+app.post("/api/file/manager/dropzone", pureUpload.single('file'), (req, res)=>{
+  console.log(req.file)
+  res.json({files: req.file})
+})
+
+app.use((err, req, res, next)=>{
+  if(err.code === "LIMIT_FILE_TYPES"){
+    res.status(422).json({error: 'Only images are allowed'})
+    return
+  }
+
+  if(err.code === "LIMIT_FILE_SIZE"){
+    res.status(422).json({error:`Too large. Max size is ${MAX_SIZE/1000}kb`})
+  }
+})
+
+//File listing
+app.get("/api/file/manager/get/files", (req, res)=>{
+
+})
+
+//sending email invites
 app.post("/api/invite/members", (req, res)=>{
   const mail=req.body.invitees
-  const transporter=nodemailer.createTransport({
-    service:'gmail',
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.EMAIL_PASS
+  console.log(`invited: ${mail}`)
+  // const transporter=nodemailer.createTransport({
+  //   service:'gmail',
+  //   auth: {
+  //     user: process.env.EMAIL,
+  //     pass: process.env.EMAIL_PASS
+  //   }
+  // })
+  console.log('invite members through email')
+  console.log(mail)
+  const auth = {
+    auth:{
+      api_key:'ec2b004620fe5cf6aaf4a83d2bf600f7-203ef6d0-951e4abe',
+      domain:'sandboxf8efbf2d4fab4b4890b917a05a69d644.mailgun.org'
     }
-  })
+  }
+  const transporter=nodemailer.createTransport(mailGun(auth))
   const mailOptions={
     from: process.env.EMAIL,
     to: mail,
-    subject: 'You have been invited to ComuKOL',
-    text: 'Please visit the following link: http://ComuKOL.net'
+    subject: `You have been invited to ComuKOL`,
+    text: 'Please visit the following link: http://Comukol.herokuapp.com/invited'
   }
   transporter.sendMail(mailOptions)
     .then((response)=>{
@@ -131,6 +271,44 @@ app.post("/api/invite/members", (req, res)=>{
       res.status(411).json({error: 'Email not sent'})
       console.log('error: '+err)
     })
+})
+
+/************************Import Model******************************/
+let Team = require('./models/Team.js')
+/************************Import Model******************************/
+//create Team
+app.post("/api/create/team", (req, res)=>{
+  const teamName = req.body.teamName
+  const email = req.body.email
+  const description = req.body.description
+  const toolkit = req.body.toolkit
+  const datetime = new Date()
+  const created_at = datetime.toLocaleString()
+  let operation = false
+  let team = null
+  let record=new Team()
+  record.name = teamName
+  record.creator =  email
+  record.description = description
+  record.toolkit = toolkit
+  record.created_at = created_at
+  record.save((err, team)=>{
+    if(err){
+      res.status(500).send('db error')
+    }else{
+        User.findOneAndUpdate({email}, {$push:{teams: teamName}}, {new: true}, (err, user)=>{
+          if(err){
+            res.status(499).json({error: err})
+            console.log(err)
+          }
+          if(user){
+            res.status(200).send(team)
+          }
+          res.status(404).json({error: 'Update error!'})
+        })
+    }
+  }
+)
 })
 
 //Handle production

@@ -20,6 +20,8 @@ Vue.use(VueTelInput)
 
 Chartkick.configure({language: "en", mapsApiKey: "AIzaSyAbzzDj3yw9FrKFV0Vvaotsqiw8Xg66vuc"})
 
+export const bus = new Vue()
+
 Vue.prototype.$axios = axios
 
 new Vue({

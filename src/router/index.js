@@ -8,8 +8,12 @@ import CreateTeam from '../views/CreateTeam.vue'
 import UserProfile from '../views/UserProfile.vue'
 import Events from '../views/Events.vue'
 import Charts from '../views/Charts.vue'
+import Workspace from '../views/Workspace.vue'
+import InvitedMemberSignIn from '../views/InvitedMemberSignIn.vue'
 import Profile from '../components/Profile.vue'
 import EditProfile from '../components/EditProfile.vue'
+import MultipleUploads from '../components/MultipleFilesUploader.vue'
+import FilesDropZone from '../components/FilesDropZone.vue'
 
 Vue.use(VueRouter)
 
@@ -18,6 +22,11 @@ Vue.use(VueRouter)
     path: '/',
     name: 'SignIn',
     component: SignIn
+  },
+  {
+    path: '/invited',
+    name: 'InvitedMemberSignIn',
+    component: InvitedMemberSignIn
   },
   {
     path: '/home',
@@ -32,6 +41,11 @@ Vue.use(VueRouter)
         path: '/events',
         name: 'Events',
         component: Events
+      },
+      {
+        path: '/workspace',
+        name: 'Workspace',
+        component: Workspace
       }
     ]
   },
@@ -75,6 +89,16 @@ Vue.use(VueRouter)
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+  },
+  {
+    path: '/files',
+    name: 'Files',
+    component: MultipleUploads
+  },
+  {
+    path: '/drop/files',
+    name: 'FilesDropZone',
+    component: FilesDropZone
   }
 ]
 

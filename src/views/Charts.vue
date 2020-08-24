@@ -1,6 +1,6 @@
 <template>
   <div id="charts">
-    <div class="">
+    <div class="mt-4">
       <h2 class="text-sm">Total Confirmed Cases (Covid19)</h2>
       <geo-chart :data="countriesChartData"></geo-chart>
     </div>
@@ -47,7 +47,3 @@ export default {
   mixins:[statusPanel]
 }
 </script>
-
-<style>
-
-</style>
