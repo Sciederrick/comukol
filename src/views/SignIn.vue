@@ -5,7 +5,7 @@
       <router-link to="/register">Register</router-link>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
-      <img class="w-full" src="@/assets/img/card-top.jpg" alt="Sunset in the mountains">
+      <img class="w-full" src="@/assets/img/join.png" alt="Join">
       <div class="px-6 py-4">
         <div class="font-bold text-xl mb-2">ComuKOL login</div>
         <form class="" action="" method="post">

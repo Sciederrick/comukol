@@ -14,6 +14,9 @@ import Profile from '../components/Profile.vue'
 import EditProfile from '../components/EditProfile.vue'
 import MultipleUploads from '../components/MultipleFilesUploader.vue'
 import FilesDropZone from '../components/FilesDropZone.vue'
+import DefaultTemplates from '../components/DefaultTemplates.vue'
+import CustomTemplates from '../components/CustomTemplates.vue'
+import FilledForms from '../components/FilledForms.vue'
 
 Vue.use(VueRouter)
 
@@ -44,8 +47,24 @@ Vue.use(VueRouter)
       },
       {
         path: '/workspace',
-        name: 'Workspace',
-        component: Workspace
+        component: Workspace,
+        children:[
+          {
+            path: '',
+            name: 'DefaultTemplates',
+            component: DefaultTemplates
+          },
+          {
+            path: '/custom/templates',
+            name: 'CustomTemplates',
+            component: CustomTemplates
+          },
+          {
+            path: '/filled/forms',
+            name: 'FilledForms',
+            component: FilledForms
+          }
+        ]
       }
     ]
   },

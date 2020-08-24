@@ -1,10 +1,11 @@
 <template>
-  <div id="FilesDropZone" >
+  <div id="FilesDropZone">
     <form enctype="multipart/form-data">
-      <div class="relative h-56 mx-2 rounded border-dotted border-2 border-green-400 mt-8 md:mx-auto md:w-5/6 lg:w-1/4 cursor-pointer bg-green-200 outline-none focus:shadow-outline focus:bg-blue-100 hover:bg-green-300">
+      <div class="relative h-48 mx-2 rounded border-dotted border-2 border-green-400 mt-8 md:mx-auto md:w-5/6 lg:w-full cursor-pointer bg-green-200 outline-none focus:shadow-outline focus:bg-blue-100 hover:bg-green-300">
         <input @change="sendFile" ref="file" type="file" class="absolute inset-0 opacity-0 w-full h-56 cursor-pointer">
-        <p v-if="!uploading" class="text-lg text-center  text-green-900 p-12">
+        <p v-if="!uploading" class="text-sm text-center text-green-900 p-12">
           Drag your files here
+          <fa-icon :icon="['fas', 'file-upload']" size="1x" color="white" class="self-center"/>
         </p>
         <p v-if="uploading" class="font-semibold">
           <progress :value="progress" class="w-5/6 rounded h-1 text-center text-white" max="100">{{progress}}%</progress>

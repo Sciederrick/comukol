@@ -1,10 +1,13 @@
 <template>
   <div id="home" class="w-full p-1 overflow-hidden font-sans">
-    <header class="bg-gray-300 px-6">
+    <header class="bg-gray-300 px-6 py-2 flex flex-row justify-between">
       <p class="text-gray-800 font-bold text-2xl text-left">Comukol</p>
+      <div class="h-8 w-8 ml-2 my-1 lg:mx-3 rounded-full overflow-hidden border-2 border-gray-600 focus:outline-none focus:border-white">
+        <img class="h-full w-full object-cover" :src="require(`@/../server/uploads/profile/avatar.jpg`)" alt="photo">
+      </div>
     </header>
     <main class="mt-4">
-      <div class="relative">
+      <div class="">
         <div id="sidebar" class="absolute left-0 z-40 mt-1">
           <div class="flex items-center justify-between px-4 lg:px-6 lg:py-1">
             <div class="">
@@ -32,7 +35,7 @@
             </router-link>
           </div>
         </div>
-        <router-view></router-view>
+        <router-view class="static"></router-view>
       </div>
     </main>
     <footer>

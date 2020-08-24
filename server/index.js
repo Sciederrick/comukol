@@ -5,6 +5,7 @@ if(process.env.NODE_ENV !== 'production'){
 const express = require('express')
 const app = express()
 const path = require('path')
+const fs = require('fs')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -231,9 +232,46 @@ app.use((err, req, res, next)=>{
   }
 })
 
-//File listing
-app.get("/api/file/manager/get/files", (req, res)=>{
+//File listing(DefaultTemplates), ???
+app.post("/api/file/manager/get/files", (req, res)=>{
+  const toolkit = req.body.toolkit
+  const dirLocation = `./uploads/toolKit/Cholera`
+  // const dirLocation = `./uploads/toolKit/${toolkit}`
+  fs.readdir(dirLocation, (err, files)=>{
+    if(err){
+      console.log(err)
+      res.status(500).json({error:err})
+    }
+    res.status(200).send(files)
+  })
+})
 
+//File listing(CustomTemplates), ???
+app.post("/api/file/manager/get/files/custom", (req, res)=>{
+  const toolkit = req.body.toolkit
+  const dirLocation = `./uploads/teams/Cholera`
+  // const dirLocation = `./uploads/toolKit/${toolkit}`
+  fs.readdir(dirLocation, (err, files)=>{
+    if(err){
+      console.log(err)
+      res.status(500).json({error:err})
+    }
+    res.status(200).send(files)
+  })
+})
+
+//File listing(FilledForms), ???
+app.post("/api/file/manager/get/files/filled", (req, res)=>{
+  const toolkit = req.body.toolkit
+  const dirLocation = `./uploads/teams/Cholera/filled`
+  // const dirLocation = `./uploads/toolKit/${toolkit}`
+  fs.readdir(dirLocation, (err, files)=>{
+    if(err){
+      console.log(err)
+      res.status(500).json({error:err})
+    }
+    res.status(200).send(files)
+  })
 })
 
 //sending email invites

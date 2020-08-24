@@ -5,7 +5,7 @@
       <router-link to="/">Login</router-link>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
-      <img class="w-full" src="@/assets/img/card-top2.jpg" alt="Sunset in the mountains">
+      <img class="w-full" src="@/assets/img/comukol.jpeg" alt="Comukol">
       <div class="px-6 py-4">
         <div class="font-bold text-xl mb-2">ComuKOL Account Creation</div>
         <form class="" action="" method="post">

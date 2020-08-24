@@ -1,29 +1,29 @@
 <template>
-  <div id="charts" class="w-full h-screen overflow-hidden">
-   <h1>ToolKit</h1>
-   <FilesDropZone/>
+  <div id="Workspace" class="w-full lg:w-3/4 lg:mx-auto h-auto overflow-hidden bg-gray-100">
+    <div class="w-full flex flex-row justify-evenly p-4">
+      <a href="#">
+        <router-link to="/workspace" class="underline hover:line-through">Default <span class="hidden md:inline-block">Templates</span></router-link>
+      </a>
+      <a href="#">
+        <router-link to="/custom/templates" class="underline hover:line-through">Custom <span class="hidden md:inline-block">Templates</span></router-link>
+      </a>
+      <a href="#">
+        <router-link to="/filled/forms" class="underline hover:line-through">Filled <span class="hidden md:inline-block">Forms</span></router-link>
+      </a>
+    </div>
+    <router-view class="pt-8"></router-view>
   </div>
 </template>
 
 <script>
-import statusPanel from '../mixins/statusPanel'
-import FilesDropZone from '@/components/FilesDropZone.vue'
-export default {
-  name: 'Workspace',
-  components:{
-    FilesDropZone
-  },
-  data(){
-    return{
+export default{
 
-    }
-  },
-  methods:{
-
-  },
-  created(){
-    
-  },
-  mixins:[statusPanel]
 }
 </script>
+
+<style scoped>
+#Workspace a.router-link-exact-active {
+  color: #42b983;
+  font-weight: bold;
+}
+</style>
