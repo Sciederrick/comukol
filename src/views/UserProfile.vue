@@ -9,7 +9,7 @@
     <div class="flex flex-col md:flex-row mx-auto max-w-5xl justify-around mt-3 m-1 pt-4">
       <div class="relative">
         <div class="h-20 w-20 ml-2 md:h-32 md:w-32 lg:mx-3 rounded-full overflow-hidden border-2 border-gray-600 focus:outline-none focus:border-white">
-          <img class="h-full w-full object-cover" :src="require(`@/../server/uploads/profile/${user.image}`)" alt="photo">
+          <img v-if="user.image" class="h-full w-full object-cover" :src="require(`@/../server/uploads/profile/${user.image}`)" alt="photo">
         </div>
         <p class="py-2 px-2 lg:pl-6 text-left font-sans italic text-opacity-25 underline">{{user.role?'focalperson':user.role===undefined?'error':'member'}}</p>
         <div class="w-full text-sm md:text-base lg:w-48 text-left py-4 md:py-2">
@@ -51,6 +51,7 @@ export default {
       this.$axios.post(url, {email})
         .then(response=>{
           this.user=response.data
+          localStorage.userImage = this.user.image
           this.success()
         })
         .catch(err=>{
