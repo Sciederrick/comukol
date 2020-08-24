@@ -3,7 +3,7 @@
     <p class="my-3 py-1 lg:w-full lg:bg-gray-200 lg:text-black rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'users']" color="blue" class="self-center pr-2" size="1x"/>
        <span class="italic font-hairline text-sm p-1">Team(s):</span>
        <ul class="inline">
-         <li v-for="team in user.teams">{{team}}</li>
+         <li v-for="team in user.teams" class="inline px-1 text-sm underline">{{team}}</li>
        </ul>
     </p>
     <p class="my-3 py-1 lg:w-5/6 lg:bg-gray-200 lg:text-black rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'university']" color="green" class="self-center pr-2" size="1x"/>
