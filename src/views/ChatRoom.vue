@@ -28,7 +28,7 @@ export default{
   methods:{
     scrollToBottom(){
       let box = document.querySelector('#ChatBox')
-      box.scrollTop = box.scrollHeight+20
+      box.scrollTop = box.scrollHeight + 30
     },
     joinServer(){
       this.socket.on('loggedIn', data=>{
@@ -55,7 +55,10 @@ export default{
     }
   },
   mounted(){
-    this.username = prompt('what is your username?', 'Anonymous')
+    // this.username = prompt('what is your username?', 'Anonymous')
+    const user=JSON.parse(localStorage.getItem('user'))
+    const email=user.email
+    this.username = email
     if(!this.username){
       this.username = "Anonymous"
     }

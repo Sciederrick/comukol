@@ -19,7 +19,14 @@ const multer = require('multer')
 /*socket.io*/
 let users = []
 let messages = []
-let index = 0
+/*************Chat Model*************/
+const Chat = require('./models/Chat')
+/**************Chat Model************/
+Chat.find({}, (err, docs)=>{
+  if(err) throw err
+  messages = docs
+})
+
 io.on('connection', socket=>{
   socket.emit('loggedIn', {
     users: users.map(s => s.username),
@@ -33,14 +40,15 @@ io.on('connection', socket=>{
     io.emit('userOnline', socket.username)
   })
   socket.on('msg', msg=>{
-    let message={
-      index: index,
+    let message = new Chat({
       username: socket.username,
       msg: msg
-    }
-    messages.push(message)
-    io.emit('msg', message)
-    index++
+    })
+    message.save((err, docs)=>{
+      if(err) throw err
+      messages.push(docs)
+      io.emit('msg', docs)
+    })
   })
   //Disconnect
   socket.on('disconnect', ()=>{

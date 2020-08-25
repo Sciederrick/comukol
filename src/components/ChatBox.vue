@@ -3,7 +3,10 @@
     <div class="flex flex-col bg-gray-400 shadow-sm">
       <div class="overflow-y-auto flex-grow h-64" id="ChatBox" >
         <div class="flex border-b border-white p-4" v-for="message in messages" :key="message.index">
-          <div class="w-32 text-sm">{{message.username}}</div>
+          <div class="w-32 text-sm">
+            <p class="text-left text-sm"><fa-icon :icon="['fas', 'user']" size="1x" class="mr-2"/>{{message.username}}</p>
+            <p class="text-left text-xs">{{message.created_at}}</p>
+          </div>
           <div class="flex-grow">{{message.msg}}</div>
         </div>
       </div>
