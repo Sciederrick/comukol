@@ -3,6 +3,8 @@ if(process.env.NODE_ENV !== 'production'){
 }
 
 const app = require('express')()
+const http = require('http').Server(app)
+const io = require('socket.io')(http)
 const path = require('path')
 const fs = require('fs')
 const cors = require('cors')
@@ -13,6 +15,42 @@ const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const mailGun = require('nodemailer-mailgun-transport')
 const multer = require('multer')
+
+/*socket.io*/
+let users = []
+let messages = []
+let index = 0
+io.on('connection', socket=>{
+  socket.emit('loggedIn', {
+    users: users.map(s => s.username),
+    messages: messages
+  })
+  socket.on('newUser', username=>{
+    console.log(`${username} has arrived at the forum`)
+    socket.username = username
+    users.push(socket)
+
+    io.emit('userOnline', socket.username)
+  })
+  socket.on('msg', msg=>{
+    let message={
+      index: index,
+      username: socket.username,
+      msg: msg
+    }
+    messages.push(message)
+    io.emit('msg', message)
+    index++
+  })
+  //Disconnect
+  socket.on('disconnect', ()=>{
+    console.log(`${socket.username} has left the forum.`)
+    io.emit('userLeft', socket.username)
+    users.splice(users.indexOf(socket), 1)
+  })
+})
+/*socket.io*/
+
 
 const requestParser = function(req, res, next) {
   let now = new Date().toLocaleString()
@@ -358,4 +396,4 @@ if(process.env.NODE_ENV === 'production'){
   app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'))
 }
 
-app.listen(process.env.PORT||5000)
+http.listen(process.env.PORT||5000, ()=>`listening on port %s`, process.env.PORT||5000)
