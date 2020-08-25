@@ -2,8 +2,7 @@ if(process.env.NODE_ENV !== 'production'){
   require('dotenv').config()
 }
 
-const express = require('express')
-const app = express()
+const app = require('express')()
 const path = require('path')
 const fs = require('fs')
 const cors = require('cors')
@@ -348,6 +347,7 @@ app.post("/api/create/team", (req, res)=>{
   }
 )
 })
+
 
 //Handle production
 if(process.env.NODE_ENV === 'production'){

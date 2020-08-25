@@ -10,6 +10,7 @@ import Events from '../views/Events.vue'
 import Charts from '../views/Charts.vue'
 import Workspace from '../views/Workspace.vue'
 import InvitedMemberSignIn from '../views/InvitedMemberSignIn.vue'
+import Chartroom from '../views/Chartroom.vue'
 import Profile from '../components/Profile.vue'
 import EditProfile from '../components/EditProfile.vue'
 import MultipleUploads from '../components/MultipleFilesUploader.vue'
@@ -100,6 +101,11 @@ Vue.use(VueRouter)
         props:true
       }
     ]
+  },
+  {
+    path: '/chatroom/',
+    name: 'Chartroom',
+    component: Chartroom
   },
   {
     path: '/about',
