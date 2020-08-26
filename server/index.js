@@ -16,50 +16,6 @@ const nodemailer = require('nodemailer')
 const mailGun = require('nodemailer-mailgun-transport')
 const multer = require('multer')
 
-/*socket.io*/
-let users = []
-let messages = []
-/*************Chat Model*************/
-const Chat = require('./models/Chat')
-/**************Chat Model************/
-Chat.find({}, (err, docs)=>{
-  if(err) throw err
-  messages = docs
-})
-
-io.on('connection', socket=>{
-  socket.emit('loggedIn', {
-    users: users.map(s => s.username),
-    messages: messages
-  })
-  socket.on('newUser', username=>{
-    console.log(`${username} has arrived at the forum`)
-    socket.username = username
-    users.push(socket)
-
-    io.emit('userOnline', socket.username)
-  })
-  socket.on('msg', msg=>{
-    let message = new Chat({
-      username: socket.username,
-      msg: msg
-    })
-    message.save((err, docs)=>{
-      if(err) throw err
-      messages.push(docs)
-      io.emit('msg', docs)
-    })
-  })
-  //Disconnect
-  socket.on('disconnect', ()=>{
-    console.log(`${socket.username} has left the forum.`)
-    io.emit('userLeft', socket.username)
-    users.splice(users.indexOf(socket), 1)
-  })
-})
-/*socket.io*/
-
-
 const requestParser = function(req, res, next) {
   let now = new Date().toLocaleString()
   console.log(`[${now}] ${req.method} ${req.path} - ${req.ip}`)
@@ -149,6 +105,52 @@ db.once('open', ()=>{
 /************************Import Model******************************/
 let User = require('./models/User.js')
 /************************Import Model******************************/
+
+
+
+/*socket.io*/
+let users = []
+let messages = []
+/*************Chat Model*************/
+const Chat = require('./models/Chat')
+/**************Chat Model************/
+Chat.find({}, (err, docs)=>{
+  if(err) throw err
+  messages = docs
+})
+
+io.on('connection', socket=>{
+  socket.emit('loggedIn', {
+    users: users.map(s => s.username),
+    messages: messages
+  })
+  socket.on('newUser', username=>{
+    console.log(`${username} has arrived at the forum`)
+    socket.username = username
+    users.push(socket)
+
+    io.emit('userOnline', socket.username)
+  })
+  socket.on('msg', msg=>{
+    let message = new Chat({
+      username: socket.username,
+      msg: msg
+    })
+    message.save((err, docs)=>{
+      if(err) throw err
+      messages.push(docs)
+      io.emit('msg', docs)
+    })
+  })
+  //Disconnect
+  socket.on('disconnect', ()=>{
+    console.log(`${socket.username} has left the forum.`)
+    io.emit('userLeft', socket.username)
+    users.splice(users.indexOf(socket), 1)
+  })
+})
+/*socket.io*/
+
 
 app.post('/api/register', (req, res, next)=>{
   let id=req.body.id
@@ -323,13 +325,6 @@ app.post("/api/file/manager/get/files/filled", (req, res)=>{
 app.post("/api/invite/members", (req, res)=>{
   const mail=req.body.invitees
   console.log(`invited: ${mail}`)
-  // const transporter=nodemailer.createTransport({
-  //   service:'gmail',
-  //   auth: {
-  //     user: process.env.EMAIL,
-  //     pass: process.env.EMAIL_PASS
-  //   }
-  // })
   console.log('invite members through email')
   console.log(mail)
   const auth = {
@@ -393,7 +388,6 @@ app.post("/api/create/team", (req, res)=>{
   }
 )
 })
-
 
 //Handle production
 if(process.env.NODE_ENV === 'production'){

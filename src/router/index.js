@@ -103,7 +103,7 @@ Vue.use(VueRouter)
     ]
   },
   {
-    path: '/chatRoom/',
+    path: '/chatroom',
     name: 'ChatRoom',
     component: ChatRoom
   },

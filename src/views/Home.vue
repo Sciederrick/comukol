@@ -32,8 +32,8 @@
             <router-link to="/events" class="mt-1 block pl-4 pr-6 py-6 text-white font-semibold rounded hover:bg-gray-800">
               <fa-icon  :icon="['fas', 'calendar-week']" class="self-center" size="1x"/><span class="pl-2">Events</span>
             </router-link>
-            <router-link to="" class="mt-1 block pl-4 pr-6 py-6 text-white font-semibold rounded hover:bg-gray-800">
-              <fa-icon  :icon="['fas', 'file']" class="self-center" size="1x"/><span class="pl-2">Events</span>
+            <router-link to="/chatroom" class="mt-1 block pl-4 pr-6 py-6 text-white font-semibold rounded hover:bg-gray-800">
+              <fa-icon  :icon="['fas', 'file']" class="self-center" size="1x"/><span class="pl-2">Chatroom</span>
             </router-link>
           </div>
         </div>

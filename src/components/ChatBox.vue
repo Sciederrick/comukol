@@ -7,7 +7,7 @@
             <p class="text-left text-xs md:text-sm"><fa-icon :icon="['fas', 'user']" size="1x" class="mr-2"/>{{message.username}}</p>
             <p class="text-left text-xs">{{message.created_at}}</p>
           </div>
-          <div class="flex-grow text-right"><span class="pr-3 text-green-600">{{message.msg}}</span><fa-icon :icon="['fas', 'quote-right']" size="1x" style="self-center"/></div>
+          <div class="flex-grow text-right"><span class="pr-3 text-green-600 bg-white rounded">{{message.msg}}</span><fa-icon :icon="['fas', 'quote-right']" size="1x" style="self-center"/></div>
         </div>
       </div>
     </div>
