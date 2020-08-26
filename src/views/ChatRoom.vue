@@ -1,12 +1,13 @@
 <template>
-<div id="ChatRoom" class="flex flex-col h-3/4 w-3/4 lg:w-1/2 mx-auto mt-4 p-4 rounded-lg font-mono bg-gray-100">
-  <div class="flex flex-row justify-evenly pb-4 text-sm">
-    <h1>Chatroom</h1>
-    <p class="username">Username: {{username}}</p>
-    <p class="online">Online: {{users.length}}</p>
+  <div id="ChatRoom" class="h-screen w-screen overflow-hidden bg-gray-400">
+    <div class="flex flex-col w-full h-full md:h-3/4 md:w-3/4 lg:w-1/2 mx-auto p-4 rounded-lg font-mono bg-gray-400">
+      <div class="flex flex-row flex-wrap justify-between px-2 pb-4 text-sm">
+        <p class="username">{{username}}</p>
+        <p class="online">Online: {{users.length}}</p>
+      </div>
+      <ChatBox :messages="messages" @sendMessage="this.sendMessage"/>
+    </div>
   </div>
-  <ChatBox :messages="messages" @sendMessage="this.sendMessage"/>
-</div>
 </template>
 
 <script>
@@ -28,7 +29,7 @@ export default{
   methods:{
     scrollToBottom(){
       let box = document.querySelector('#ChatBox')
-      box.scrollTop = box.scrollHeight + 30
+      box.scrollTop = box.scrollHeight
     },
     joinServer(){
       this.socket.on('loggedIn', data=>{
@@ -47,7 +48,6 @@ export default{
       })
       this.socket.on('msg', message=>{
         this.messages.push(message)
-        this.scrollToBottom()
       })
     },
     sendMessage(message){
@@ -63,6 +63,9 @@ export default{
       this.username = "Anonymous"
     }
     this.joinServer()
+  },
+  updated(){
+    this.scrollToBottom()
   }
 }
 </script>
