@@ -23,6 +23,11 @@ const requestParser = function(req, res, next) {
   next()
 }
 
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json())
+app.use(requestParser)
+app.use(cors())
+
 const fileFilterProfile = (req, file, cb)=>{
   const allowedTypes = ["image/jpeg", "image/png", "image/jpg"]
   if(!allowedTypes.includes(file.mimetype)){
@@ -91,10 +96,6 @@ const pureUpload = multer({
   storage: storageToolkit
 })
 
-app.use(bodyParser.urlencoded({extended:false}))
-app.use(bodyParser.json())
-app.use(requestParser)
-app.use(cors())
 
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
