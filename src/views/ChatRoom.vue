@@ -1,5 +1,8 @@
 <template>
   <div id="ChatRoom" class="h-screen w-screen overflow-hidden bg-gray-300">
+    <div class="w-screen p-2">
+      <router-link to=""></router-link>
+    </div>
     <div class="flex flex-col w-full h-full md:h-3/4 md:w-3/4 lg:w-1/2 mx-auto p-4 rounded-lg font-mono bg-gray-400">
       <div class="flex flex-row flex-wrap justify-between px-2 pb-4 text-sm">
         <p class="username">{{username}}</p>
@@ -55,10 +58,10 @@ export default{
     }
   },
   mounted(){
-    this.username = prompt('what is your username?', 'Anonymous')
-    // const user=JSON.parse(localStorage.getItem('user'))
-    // const email=user.email
-    // this.username = email
+    // this.username = prompt('what is your username?', 'Anonymous')
+    const user=JSON.parse(localStorage.getItem('user'))
+    const email=user.email
+    this.username = email
     if(!this.username){
       this.username = "Anonymous"
     }
@@ -69,3 +72,9 @@ export default{
   }
 }
 </script>
+
+<style scoped>
+#ChatRoom{
+  background-image:url("./../assets/img/chatroom.png");
+}
+</style>
