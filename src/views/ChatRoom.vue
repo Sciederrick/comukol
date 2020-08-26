@@ -25,7 +25,7 @@ export default{
   data(){
     return{
       username: "",
-      socket: io("http://comukol.herokuapp.com/"),
+      socket: io("http://comukol.herokuapp.com/chatroom"),
       messages: [],
       users: []
     }
