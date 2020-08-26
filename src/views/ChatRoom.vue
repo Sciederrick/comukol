@@ -25,7 +25,7 @@ export default{
   data(){
     return{
       username: "",
-      socket: io("ws://127.0.0.1:5000"),
+      socket: io.connect("ws://127.0.0.1:5000"),
       messages: [],
       users: []
     }
@@ -59,10 +59,10 @@ export default{
     }
   },
   mounted(){
-    this.username = prompt('what is your username?', 'Anonymous')
-    // const user=JSON.parse(localStorage.getItem('user'))
-    // const email=user.email
-    // this.username = email
+    // this.username = prompt('what is your username?', 'Anonymous')
+    const user=JSON.parse(localStorage.getItem('user'))
+    const email=user.email
+    this.username = email
     if(!this.username){
       this.username = "Anonymous"
     }
