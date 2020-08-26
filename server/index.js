@@ -120,7 +120,6 @@ Chat.find({}, (err, docs)=>{
   if(err) throw err
   messages = docs
 })
-console.log(messages)
 
 io.on('connection', socket=>{
   socket.emit('loggedIn', {
