@@ -113,12 +113,13 @@ let User = require('./models/User.js')
 let users = []
 let messages = []
 /*************Chat Model*************/
-const Chat = require('./models/Chat')
+const Chat = require('./models/Chat.js')
 /**************Chat Model************/
 Chat.find({}, (err, docs)=>{
   if(err) throw err
   messages = docs
 })
+console.log(messages)
 
 io.on('connection', socket=>{
   socket.emit('loggedIn', {
