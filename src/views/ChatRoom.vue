@@ -25,7 +25,7 @@ export default{
   data(){
     return{
       username: "",
-      socket: io(),
+      socket: io('http://127.0.0.1:5000'),
       messages: [],
       users: []
     }

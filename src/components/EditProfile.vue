@@ -1,5 +1,5 @@
 <template>
-  <div id="EditProfile" class="p-4 border rounded-lg text-left md:w-3/4 md:pl-12 md:pt-8 lg:border-0 lg:rounded-md lg:pt-6 lg:bg-gray-100">
+  <div id="EditProfile" class="p-4 lg:border lg:rounded-lg text-left md:w-3/4 md:pl-12 md:pt-8 lg:border-0 lg:rounded-md lg:pt-6 lg:bg-gray-100">
     <form class="mx-auto lg:mr-4">
       <div class="flex flex-row items-center justify-between lg:justify-center">
         <label for="Name" class="w-16 text-left lg:w-48 md:text-right text-sm md:text-base">Name:</label>

@@ -1,21 +1,21 @@
 <template>
-  <div id="Profile" class="p-4 border rounded-lg text-left md:w-3/4 md:pl-12 md:pt-8 lg:border-0 lg:rounded-none lg:pt-4 font-sans">
+  <div id="Profile" class="p-4 lg:border lg:rounded-lg text-left md:w-3/4 md:pl-20 md:pt-8 lg:border-0 lg:rounded-none lg:pt-4 font-sans">
     <p class="my-3 py-1 lg:w-full lg:bg-gray-200 lg:text-black rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'users']" color="blue" class="self-center pr-2" size="1x"/>
-       <span class="italic font-hairline text-sm p-1">Team(s):</span>
+       <span class="italic font-hairline text-sm  md:text-basep-1">Team(s):</span>
        <ul class="inline">
          <li v-for="team in user.teams" class="inline-block px-1 text-sm underline">{{team}}</li>
        </ul>
     </p>
-    <p class="my-3 py-1 lg:w-5/6 lg:bg-gray-200 lg:text-black rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'university']" color="green" class="self-center pr-2" size="1x"/>
-       <span class="italic font-hairline text-sm p-1">Institution of Work:</span>{{user.workplace}}
+    <p class="my-3 py-1 lg:w-5/6 lg:bg-gray-200 lg:text-black rounded-md lg:pl-4 text-sm md:text-base"><fa-icon  :icon="['fas', 'university']" color="green" class="self-center pr-2" size="1x"/>
+       <span class="italic font-hairline p-1">Institution of Work:</span>{{user.workplace}}
     </p>
-    <p class="my-3 py-1 lg:w-3/4 lg:bg-gray-200 lg:text-black rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'id-card-alt']" color="green" class="self-center pr-2" size="1x"/>
-      <span class="italic font-hairline text-sm p-1">Specialty:</span>{{user.specialty}}
+    <p class="my-3 py-1 lg:w-3/4 lg:bg-gray-200 lg:text-black rounded-md lg:pl-4 text-sm md:text-base"><fa-icon  :icon="['fas', 'id-card-alt']" color="green" class="self-center pr-2" size="1x"/>
+      <span class="italic font-hairline p-1">Specialty:</span>{{user.specialty}}
     </p>
-    <p class="my-3 py-1 lg:w-1/2 lg:bg-gray-200 lg:text-black rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'phone-alt']" color="green" class="self-center pr-2" size="1x"/>
+    <p class="my-3 py-1 lg:w-1/2 lg:bg-gray-200 lg:text-black rounded-md lg:pl-4 text-sm md:text-base"><fa-icon  :icon="['fas', 'phone-alt']" color="green" class="self-center pr-2" size="1x"/>
        {{user.contact}}
     </p>
-    <p class="my-3 py-1 lg:w-1/3 lg:bg-gray-200 lg:text-black rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'envelope']" class="self-center pr-2" size="1x"/>
+    <p class="my-3 py-1 lg:w-1/3 lg:bg-gray-200 lg:text-black rounded-md lg:pl-4 text-sm md:text-base"><fa-icon  :icon="['fas', 'envelope']" class="self-center pr-2" size="1x"/>
       {{user.email}}
     </p>
     <form enctype="multipart/form-data">
