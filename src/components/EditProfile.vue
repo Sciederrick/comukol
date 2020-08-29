@@ -7,7 +7,7 @@
       </div>
       <div class="flex flex-row items-center justify-between">
         <label for="Contact" class="w-16 text-left lg:w-48 md:text-right text-sm md:text-base">Contact:</label>
-         <vue-tel-input v-model="contact" v-bind="bindProps" id="Contact" class="input w-3/4 lg:w-1/2 mx-auto px-2 lg:ml-2"></vue-tel-input>
+         <vue-tel-input v-model="contact" v-bind="bindProps" id="Contact" class="input w-3/4 lg:w-1/2 mx-auto px-2 lg:ml-2" value="0700123456"></vue-tel-input>
       </div>
       <div class="flex flex-row items-center justify-between">
         <label for="Email" class="w-16 text-left lg:w-48 md:text-right text-sm md:text-base">Email</label>

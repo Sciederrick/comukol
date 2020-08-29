@@ -11,7 +11,7 @@
         <form class="" action="" method="post">
         <label class="flex flex-row">
           <fa-icon :icon="['fas', 'envelope']" size="1x" class="self-center"/>
-          <input v-model="email" type="email" name="email" placeholder="johndoe@gmail.com" class="input mx-auto py-1 px-2" autocomplete="off">
+          <input v-model="email" type="email" name="email" placeholder="johndoe@gmail.com" class="input mx-auto py-1 px-2" autocomplete="on">
         </label>
         <label class="flex flex-row">
           <fa-icon  :icon="['fas', 'key']" class="self-center" size="1x"/>

@@ -1,7 +1,7 @@
 <template>
   <div id="home" class="w-full p-1 overflow-hidden font-sans">
     <header class="bg-gray-300 px-6 py-2 lg:py-0 flex flex-row justify-between">
-      <p class="text-gray-800 font-bold text-2xl text-left">Comukol</p>
+      <p class="text-gray-800 font-bold text-2xl text-left">ComuKol</p>
       <div class="h-8 w-8 ml-2 my-1 lg:mx-3 lg:h-10 lg:w-10 rounded-full overflow-hidden border-2 border-gray-600 focus:outline-none focus:border-white">
         <router-link to="/user/profile" :key="$route.path">
           <img v-if="userImage" class="h-full w-full object-cover" :src="require(`@/../server/uploads/profile/${userImage}`)" alt="photo">
