@@ -1,5 +1,8 @@
 <template>
   <div id="Profile" class="p-4 lg:border lg:rounded-lg text-left md:w-3/4 md:pl-20 md:pt-8 lg:border-0 lg:rounded-none lg:pt-4 font-sans">
+    <p class="cursor-pointer font-mono" @click="refresh">
+      <fa-icon :icon="['fas', 'sync-alt']" size="1x" class="self-center mr-1"/><span class="text-sm self-center">refresh</span>
+    </p>
     <p class="my-3 py-1 lg:w-full lg:bg-gray-200 lg:text-black rounded-md lg:pl-4"><fa-icon  :icon="['fas', 'users']" color="blue" class="self-center pr-2" size="1x"/>
        <span class="italic font-hairline text-sm  md:text-basep-1">Team(s):</span>
        <ul class="inline">
@@ -50,6 +53,9 @@ export default {
     }
   },
   methods:{
+    refresh(){
+      location.reload()
+    },
     selectFile(){
       const file=this.$refs.file.files[0]
       const allowedTypes = ["image/jpeg", "image/png", "image/jpg"]

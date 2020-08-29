@@ -13,6 +13,7 @@ import InvitedMemberSignIn from '../views/InvitedMemberSignIn.vue'
 import ChatRoom from '../views/ChatRoom.vue'
 import Profile from '../components/Profile.vue'
 import EditProfile from '../components/EditProfile.vue'
+import Report from '../components/Report.vue'
 import MultipleUploads from '../components/MultipleFilesUploader.vue'
 import FilesDropZone from '../components/FilesDropZone.vue'
 import DefaultTemplates from '../components/DefaultTemplates.vue'
@@ -99,6 +100,11 @@ Vue.use(VueRouter)
         name: 'EditProfile',
         component: EditProfile,
         props:true
+      },
+      {
+        path: '/user/profile/report',
+        name: 'Report',
+        component: Report
       }
     ]
   },
