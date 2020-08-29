@@ -2,13 +2,13 @@
   <div id="Workspace" class="w-full lg:w-3/4 lg:mx-auto h-auto overflow-hidden bg-gray-100">
     <div class="w-full flex flex-row justify-evenly p-4">
       <a href="#">
-        <router-link to="/workspace" class="underline hover:line-through">Default <span class="hidden md:inline-block">Templates</span></router-link>
+        <router-link to="#" class="underline hover:line-through">Default <span class="hidden md:inline-block">Templates</span></router-link>
       </a>
       <a href="#">
-        <router-link to="/custom/templates" class="underline hover:line-through">Custom <span class="hidden md:inline-block">Templates</span></router-link>
+        <router-link to="#" class="underline hover:line-through">Custom <span class="hidden md:inline-block">Templates</span></router-link>
       </a>
       <a href="#">
-        <router-link to="/filled/forms" class="underline hover:line-through">Filled <span class="hidden md:inline-block">Forms</span></router-link>
+        <router-link to="#" class="underline hover:line-through">Filled <span class="hidden md:inline-block">Forms</span></router-link>
       </a>
     </div>
     <router-view class="pt-8"></router-view>
