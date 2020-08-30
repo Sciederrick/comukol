@@ -10,6 +10,7 @@
         </ul>
       </div>
       <div>
+        <p class="text-xs text-center text-red-500">file preview(pdf only)</p>
         <iframe src="" id="preview" class="w-full lg:h-64 mx-auto my-4 lg:max-w-sm"/>
         <MultipleFilesUploader category="Custom"/>
         <button class="btn w-full md:w-3/4 p-1 rounded my-3 bg-green-500 text-white hover:bg-green-700">create form</button>

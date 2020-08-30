@@ -7,6 +7,7 @@
       </ul>
     </div>
     <div class="">
+      <p class="text-xs text-center text-red-500">file preview(pdf only)</p>
       <iframe src="" id="preview" class="w-full lg:h-64 mx-auto my-4 lg:max-w-sm"/>
     </div>
     <Spinner v-if="spinner"/>

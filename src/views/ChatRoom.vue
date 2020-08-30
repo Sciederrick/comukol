@@ -25,7 +25,7 @@ export default{
   data(){
     return{
       username: "",
-      socket: io('http://127.0.0.1:5000'),
+      socket: io(),
       messages: [],
       users: []
     }
@@ -59,7 +59,6 @@ export default{
     }
   },
   mounted(){
-    // this.username = prompt('what is your username?', 'Anonymous')
     const user=JSON.parse(localStorage.getItem('user'))
     const email=user.email
     this.username = email
