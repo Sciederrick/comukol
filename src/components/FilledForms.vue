@@ -7,7 +7,7 @@
           <li v-for="file in files" :key="file" @click="downloadFile" class="relative text-left text-xs font-mono  pl-2 pr-1 md:px-4 md:pl-4 py-1 border border-white cursor-pointer">
             <fa-icon :icon="['fas', 'file']" color="aqua" class="self-center mr-1"/>
             {{file.split('/').pop()}}
-            <fa-icon :icon="['fas', 'trash-alt']" class="absolute right-0 ml-2" size="1x" color="red" :id="file.split('/').pop()" @click="deleteFile"/>
+            <fa-icon :icon="['fas', 'trash-alt']" class="absolute right-0 ml-2 text-base" size="1x" color="red" :id="file.split('/').pop()" @click="deleteFile"/>
           </li>
         </ul>
       </div>
