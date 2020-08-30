@@ -4,10 +4,10 @@
       <div class="max-w-sm pb-4">
         <p class="text-left"><fa-icon :icon="['fas', 'folder-open']" color="" class="self-center mr-1"/>Custom Templates</p>
         <ul>
-          <li v-for="file in files" @click="downloadFile" class="text-left text-xs font-mono md:px-4 pl-4 pr-1 cursor-pointer py-1 border border-white hover:underline">
+          <li v-for="file in files" @click="downloadFile" class="relative text-left text-xs font-mono pl-2 pr-1 md:px-4 md:pl-4 cursor-pointer py-1 border border-white hover:underline">
             <fa-icon :icon="['fas', 'file']" color="aqua" class="self-center mr-1"/>
             {{file.split('/').pop()}}
-            <fa-icon :icon="['fas', 'trash-alt']" class="float-right ml-2" size="1x" color="red" :id="file.split('/').pop()" @click="deleteFile"/>
+            <fa-icon :icon="['fas', 'trash-alt']" class="absolute right-0 ml-2 text-base" size="1x" color="red" :id="file.split('/').pop()" @click="deleteFile"/>
           </li>
         </ul>
       </div>
