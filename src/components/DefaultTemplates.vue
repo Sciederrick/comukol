@@ -3,7 +3,10 @@
     <div class="max-w-sm pb-4">
       <p class="text-left"><fa-icon :icon="['fas', 'folder-open']" color="" class="self-center mr-1"/>Default Templates</p>
       <ul>
-        <li v-for="file in files" @click.prevent="downloadFile" class="text-left text-xs font-mono cursor-pointer pl-4 py-1 hover:underline"><fa-icon :icon="['fas', 'file']" color="aqua" class="self-center mr-1"/>{{file.split('/').pop()}}</li>
+        <li v-for="file in files" @click="downloadFile" class="text-left text-xs font-mono cursor-pointer px-4 py-1 border border-white hover:underline">
+          <fa-icon :icon="['fas', 'file']" color="aqua" class="self-center mr-1"/>
+          {{file.split('/').pop()}}
+        </li>
       </ul>
     </div>
     <div class="">

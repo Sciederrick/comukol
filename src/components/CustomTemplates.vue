@@ -4,8 +4,10 @@
       <div class="max-w-sm pb-4">
         <p class="text-left"><fa-icon :icon="['fas', 'folder-open']" color="" class="self-center mr-1"/>Custom Templates</p>
         <ul>
-          <li v-for="file in files" @click.prevent="downloadFile" @dblclick="deleteFile" class="text-left text-xs font-mono pl-4 cursor-pointer py-1 hover:underline">
-            <fa-icon :icon="['fas', 'file']" color="aqua" class="self-center mr-1"/>{{file.split('/').pop()}}
+          <li v-for="file in files" @click="downloadFile" class="text-left text-xs font-mono px-4 cursor-pointer py-1 border border-white hover:underline">
+            <fa-icon :icon="['fas', 'file']" color="aqua" class="self-center mr-1"/>
+            {{file.split('/').pop()}}
+            <fa-icon :icon="['fas', 'trash-alt']" class="float-right ml-2" size="1x" color="red" :id="file.split('/').pop()" @click="deleteFile"/>
           </li>
         </ul>
       </div>
@@ -59,14 +61,13 @@ export default {
     },
     async deleteFile(e){
       this.spinner=true
-      let file = this.directoryPath.concat(e.target.textContent)
+      let file = this.directoryPath.concat(e.target.attributes.id.nodeValue)
       const storageRef=storage.ref()
       let fileRef=storageRef.child(file.trim())
       try{
         await fileRef.delete()
         this.spinner=false
         window.alert(`${file} deleted Successfully`)
-        location.reload()
       }catch(err){
         this.spinner=false
         window.alert(err.code)
