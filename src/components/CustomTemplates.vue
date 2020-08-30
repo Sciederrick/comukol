@@ -4,10 +4,12 @@
       <div class="max-w-sm pb-4">
         <p class="text-left"><fa-icon :icon="['fas', 'folder-open']" color="" class="self-center mr-1"/>Custom Templates</p>
         <ul>
-          <li v-for="file in files" @click="downloadFile" class="relative text-left text-xs font-mono pl-2 pr-1 md:px-4 md:pl-4 cursor-pointer py-1 border border-white hover:underline">
+          <li v-for="file in files" :key="file" class="text-left text-xs font-mono pl-2 pr-1 md:px-4 md:pl-4 cursor-pointer py-1 border border-white hover:underline">
             <fa-icon :icon="['fas', 'file']" color="aqua" class="self-center mr-1"/>
-            {{file.split('/').pop()}}
-            <fa-icon :icon="['fas', 'trash-alt']" class="absolute right-0 ml-2 text-base" size="1x" color="red" :id="file.split('/').pop()" @click="deleteFile"/>
+            <span @click="downloadFile">{{file.split('/').pop()}}</span>
+            <button class="block mt-2 outline-none">
+              <fa-icon :icon="['fas', 'trash-alt']" class="text-xs" size="1x" color="red" :id="file.split('/').pop()" @click="deleteFile"/>
+            </button>
           </li>
         </ul>
       </div>
@@ -60,18 +62,21 @@ export default {
       }
     },
     async deleteFile(e){
-      this.spinner=true
-      let file = this.directoryPath.concat(e.target.attributes.id.nodeValue)
-      const storageRef=storage.ref()
-      let fileRef=storageRef.child(file.trim())
-      try{
-        await fileRef.delete()
-        this.spinner=false
-        window.alert(`${file} deleted Successfully`)
-      }catch(err){
-        this.spinner=false
-        window.alert(err.code)
-        console.log(err)
+      const del = window.confirm('Are you sure you want to delete this file?')
+      if(del){
+        this.spinner=true
+        let file = this.directoryPath.concat(e.target.attributes.id.nodeValue)
+        const storageRef=storage.ref()
+        let fileRef=storageRef.child(file.trim())
+        try{
+          await fileRef.delete()
+          this.spinner=false
+          window.alert(`${file} deleted Successfully`)
+        }catch(err){
+          this.spinner=false
+          window.alert(err.code)
+          console.log(err)
+        }
       }
     }
   },

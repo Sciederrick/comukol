@@ -91,7 +91,6 @@ export default{
               //remove the spinner
               this.spinner = false
               this.success(`${snapshot.metadata.name} upload ${snapshot.state}`)
-              location.reload()
             })
             .catch(err=>{
               //remove the spinner

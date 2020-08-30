@@ -3,9 +3,11 @@ export default{
   methods:{
     async downloadFile(e){
       this.spinner=true
-      let file = this.directoryPath.concat(e.target.textContent)
+      let el = e.target.textContent
+      let file = this.directoryPath.concat(el.trim())
       const storageRef=storage.ref()
       let fileRef=storageRef.child(file.trim())
+      console.log(file.trim())
       try{
         const url = await fileRef.getDownloadURL()
         const iframe = document.getElementById('preview')
