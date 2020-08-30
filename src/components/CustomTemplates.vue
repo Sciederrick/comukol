@@ -1,55 +1,84 @@
 <template id="">
   <div class="">
     <div class="flex flex-col justify-center md:flex-row md:justify-evenly">
-      <div class="max-w-sm">
+      <div class="max-w-sm pb-4">
         <p class="text-left"><fa-icon :icon="['fas', 'folder-open']" color="" class="self-center mr-1"/>Custom Templates</p>
         <ul>
-          <li v-for="file in files" class="text-left text-xs font-mono pl-4"><fa-icon :icon="['fas', 'file']" color="aqua" class="self-center mr-1"/>{{file}}</li>
+          <li v-for="file in files" @click.prevent="downloadFile" @dblclick="deleteFile" class="text-left text-xs font-mono pl-4 cursor-pointer py-1 hover:underline">
+            <fa-icon :icon="['fas', 'file']" color="aqua" class="self-center mr-1"/>{{file.split('/').pop()}}
+          </li>
         </ul>
       </div>
-      <div class="">
-        <FilesDropZone/>
+      <div>
+        <iframe src="" id="preview" class="w-full lg:h-64 mx-auto my-4 lg:max-w-sm"/>
+        <MultipleFilesUploader category="Custom"/>
+        <button class="btn w-full md:w-3/4 p-1 rounded my-3 bg-green-500 text-white hover:bg-green-700">create form</button>
       </div>
     </div>
-    <div class="flex mt-4 mx-auto md:mx-0">
-      <div class="w-32 h-32 bg-white text-center py-6 shadow-xl rounded-lg border">
-        <p class="font-mono">New Form</p>
-        <fa-icon :icon="['fas','plus']" size="2x" color="green"/>
-      </div>
-    </div>
+    <Spinner v-if="spinner"/>
   </div>
 </template>
 
 <script>
+import storage from './firebaseInit'
 import statusPanel from '../mixins/statusPanel'
-import FilesDropZone from '@/components/FilesDropZone.vue'
+import downloadFile from '../mixins/downloadFile'
+import MultipleFilesUploader from '@/components/MultipleFilesUploader.vue'
+import Spinner from '@/components/Spinner.vue'
 export default {
   name: 'CustomTemplates',
   components:{
-    FilesDropZone
+    MultipleFilesUploader,
+    Spinner
   },
   data(){
     return{
-      files:''
+      files: [],
+      directoryPath: '',
+      spinner: false
     }
   },
   methods:{
     async fileListing(toolkit){
-      const url = '/api/file/manager/get/files/custom'
+      this.spinner=true
+      const storageRef=storage.ref(toolkit)
       try{
-        const response = await this.$axios.post(url, {toolkit}, {timeout:20000})
-        this.files = response.data
+        let items = await storageRef.listAll()
+        items.items.forEach((item)=>{
+          let el = item.location.path
+          this.files.push(el)
+        })
+        this.spinner=false
       }catch(err){
-        console.log(err)
+        this.spinner=false
+        this.files.push('Nothing Yet')
         this.fail(err.response.data.error)
+        console.log(err)
+      }
+    },
+    async deleteFile(e){
+      this.spinner=true
+      let file = this.directoryPath.concat(e.target.textContent)
+      const storageRef=storage.ref()
+      let fileRef=storageRef.child(file.trim())
+      try{
+        await fileRef.delete()
+        this.spinner=false
+        window.alert(`${file} deleted Successfully`)
+        location.reload()
+      }catch(err){
+        this.spinner=false
+        window.alert(err.code)
+        console.log(err)
       }
     }
   },
   created(){
-    //hard coded value, ???
-    const userToolkit = 'Cholera'
+    const userToolkit = 'Cholera/Custom'
+    this.toolkit=userToolkit
+    this.directoryPath = userToolkit.concat('/')
     this.fileListing(userToolkit)
   },
-  mixins:[statusPanel]
+  mixins:[statusPanel, downloadFile]
 }
 </script>

@@ -4,7 +4,7 @@
       <div v-if="files" class="">
         <p class="text-left"><fa-icon :icon="['fas', 'folder-open']" color="" class="self-center mr-1"/>Filled Forms</p>
         <ul>
-          <li v-for="file in files" class="text-left text-xs font-mono pl-4"><fa-icon :icon="['fas', 'file']" color="aqua" class="self-center mr-1"/>{{file}}</li>
+          <li v-for="file in files" @click="downloadFile" @dblclick="deleteFile" class="text-left text-xs font-mono pl-4 cursor-pointer"><fa-icon :icon="['fas', 'file']" color="aqua" class="self-center mr-1"/>{{file.split('/').pop()}}</li>
         </ul>
       </div>
       <div v-else class="w-full">
@@ -12,40 +12,75 @@
       </div>
     </div>
     <div class="">
-      <FilesDropZone/>
+      <iframe src="" id="preview" class="w-full lg:h-64 mx-auto my-4 lg:max-w-sm"/>
+      <MultipleFilesUploader category="Filled"/>
     </div>
+    <Spinner v-if="spinner"/>
   </div>
 </template>
 <script>
+import storage from './firebaseInit'
 import statusPanel from '../mixins/statusPanel'
-import FilesDropZone from '@/components/FilesDropZone.vue'
+import downloadFile from '../mixins/downloadFile'
+import MultipleFilesUploader from '@/components/MultipleFilesUploader.vue'
+import Spinner from '@/components/Spinner.vue'
 export default {
   name: 'FilledForms',
   components:{
-    FilesDropZone
+    MultipleFilesUploader,
+    Spinner
   },
   data(){
     return{
-      files:''
+      files: [],
+      directoryPath: '',
+      spinner: false
     }
   },
   methods:{
     async fileListing(toolkit){
-      const url = '/api/file/manager/get/filled'
+      this.spinner=true
+      const storageRef=storage.ref(toolkit)
       try{
-        const response = await this.$axios.post(url, {toolkit}, {timeout:20000})
-        this.files = response.data
+        let items = await storageRef.listAll()
+        items.items.forEach((item)=>{
+          let el = item.location.path
+          this.files.push(el)
+        })
+        this.spinner=false
       }catch(err){
-        console.log(err.response.data.error)
+        this.spinner=false
+        this.files.push('Nothing Yet')
         this.fail(err.response.data.error)
+        console.log(err)
+      }
+    },
+    async deleteFile(e){
+      const del = window.confirm('Are you sure you want to delete this file?')
+      if(del){
+        this.spinner=true
+        let file = this.directoryPath.concat(e.target.textContent)
+        const storageRef=storage.ref()
+        let fileRef=storageRef.child(file.trim())
+        try{
+          await fileRef.delete()
+          this.spinner=false
+          window.alert(`${file} deleted Successfully`)
+          location.reload()
+        }catch(err){
+          this.spinner=false
+          window.alert(err.code)
+          console.log(err)
+        }
       }
     }
   },
   created(){
-    //hard coded value, ???
-    const userToolkit = 'Cholera'
+    const userToolkit = 'Cholera/Filled'
+    this.toolkit=userToolkit
+    this.directoryPath = userToolkit.concat('/')
     this.fileListing(userToolkit)
   },
-  mixins:[statusPanel]
+  mixins:[statusPanel, downloadFile]
 }
 </script>

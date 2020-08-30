@@ -2,7 +2,10 @@
 <div id="MultipleFilesUpload">
   <div class="w-full mx-auto">
     <form enctype="multipart/form-data">
-      <span class="my-3 py-1 lg:w-1/4 lg:bg-gray-200 lg:text-black  rounded-md lg:pl-4 lg:pr-2"><fa-icon  :icon="['fas', 'upload']" class="self-center pr-2" size="1x"/>  Image</span>
+      <span class="my-3 py-1 lg:w-1/4 lg:bg-gray-200 lg:text-black rounded-md lg:pl-4 lg:pr-2 text-xs">
+        <fa-icon  :icon="['fas', 'upload']" class="self-center pr-2 text-lg" size="1x"/>
+        Upload File(s)
+      </span>
       <input multiple @change="selectFile" ref="files" type="file" class="ml-1 text-xs bg-orange-400 text-white" placeholder="">
     </form>
   </div>
@@ -10,30 +13,43 @@
     <div v-for="(file, index) in files" :key="index" class="flex flex-col">
       <div class="flex flex-row justify-end">
         <p>{{file.name}}</p>
-        <span v-if="file.invalidMessage" class="text-red-700">&nbsp;- {{file.invalidMessage}}</span>
-        <a @click.prevent="files.splice(index, 1);uploadFiles.splice(index, 1)" class="btn p-1 mx-1"><fa-icon :icon="['fas', 'times-circle']" size="1x" color="red"class="self-center"/></a>
+        <span v-if="file.invalidMessage" class="text-red-700 text-xs self-center">&nbsp;- {{file.invalidMessage}}</span>
+        <a @click.prevent="files.splice(index, 1);uploadFiles.splice(index, 1)" class="btn p-1 mx-1">
+          <fa-icon :icon="['fas', 'times-circle']" size="1x" color="red"class="self-center"/>
+        </a>
       </div>
     </div>
   </div>
   <div class="mx-auto">
-    <button @click.prevent="sendFiles()" class="btn p-1 bg-green-500 text-sm text-white">send</button>
+    <button @click.prevent="sendFiles()" class="btn w-full md:w-3/4 rounded p-1 mt-4 bg-gray-600 text-sm text-white hover:bg-gray-800">upload file</button>
   </div>
+  <Spinner v-if="spinner"/>
   <statusBar/>
 </div>
 </template>
 <script>
+import storage from './firebaseInit'
 import statusBar from './statusBar.vue'
 import statusPanel from '../mixins/statusPanel'
+import Spinner from '@/components/Spinner.vue'
 import _ from 'lodash'
 export default{
   name: 'Files',
   components:{
-    statusBar
+    statusBar,
+    Spinner
+  },
+  props:{
+    category:{
+      type: String,
+      required: true
+    }
   },
   data(){
     return{
       files:[],
-      uploadFiles: []
+      uploadFiles: [],
+      spinner: false
     }
   },
   methods:{
@@ -52,8 +68,8 @@ export default{
     },
     validate(file){
       const MAX_SIZE = 200000000
-      const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "application/pdf", "application/docx", "application/odt", "application/xls", "application/xlsx", "application/ods", "application/ppt", "application/pptx", "application/txt"]
-      if(!allowedTypes.includes(file.type)){
+      const allowedTypes = ["jpeg", "png", "jpg", "pdf", "docx", "doc", "odt", "xls", "xlsx", "ods", "ppt", "pptx", "txt"]
+      if(!allowedTypes.includes(file.name.split('.').pop())){
         return 'Invalid Format!'
       }
 
@@ -61,25 +77,30 @@ export default{
         return `Max size: ${MAX_SIZE/1000}kb`
       }
 
-
       return ''
     },
     async sendFiles(){
-      const formData = new FormData()
+      //show the spinner
+      this.spinner = true
+      //Do some action
       _.forEach(this.uploadFiles, file=>{
-        if(this.validate(file)===''){
-          formData.append('files', file)
+        if(this.validate(file) === ''){
+          const storageRef = storage.ref(`Cholera/${this.category}/${file.name}`)
+          storageRef.put(file)
+            .then((snapshot)=>{
+              //remove the spinner
+              this.spinner = false
+              this.success(`${snapshot.metadata.name} upload ${snapshot.state}`)
+              location.reload()
+            })
+            .catch(err=>{
+              //remove the spinner
+              this.spinner = false
+              this.fail(err.response.data.error)
+              console.log(err)
+            })
         }
       })
-      try{
-        const files = await this.$axios.post('/api/file/manager/multiple/uploads', formData)
-        this.files=[]
-        this.uploadFiles=[]
-        this.success(`${files}:files uploaded successfully`)
-      }catch(err){
-        this.fail(err)
-        console.log(err.response.data.error)
-      }
     }
   },
   mixins:[statusPanel]
