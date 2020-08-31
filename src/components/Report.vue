@@ -4,11 +4,11 @@
       <div class="font-mono text-xs text-blue-500">{{datetime}}<span class="px-2">></span></div>
       <div class="">
         <p class="inline-block">
-          <input type="checkbox" value="true" v-model="dailyReport" class="px-1 self-center" id="DailyReport">
+          <input type="radio" value="true" v-model="dailyReport" class="px-1 self-center" id="DailyReport">
           <label for="DailyReport" class="pl-1 pr-2 self-center text-xs md:text-sm">daily report</label>
         </p>
         <p class="inline-block">
-          <input type="checkbox" value="true" v-model="situationalReport" class="px-1 self-center" id="SituationalReport">
+          <input type="radio" value="true" v-model="situationalReport" class="px-1 self-center" id="SituationalReport">
           <label for="SituationalReport" class="pl-1 pr-2 self-center text-xs md:text-sm">situational report</label>
         </p>
       </div>
