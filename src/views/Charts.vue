@@ -22,7 +22,7 @@
           <h2 class="font-semibold" v-popover.bottom="{name: 'situationalReports', event: 'hover'}">situational reports</h2>
         </div>
         <div class="w-4/5 mx-auto text-left py-4 text-xs shadow-lg rounded px-2">
-          25th Aug 2020 - Surveillance at Mapuon village suggests the existence of cholera. There have been no admission cases so far. However, the community health workers are on the lookout for any suspected cases.
+          25th Aug 2020 - Surveillance at Mapuon village suggests the existence of cholera. There have been no admission cases so far. However, the community health workers are on the lookout for any suspected cases...
         </div>
         <div class="w-4/5 mx-auto text-left py-4 text-xs shadow-lg rounded px-2">
           27th Aug 2020- There has been 7 admission at Mapuon Subcounty hospital. The admitted patients live in the same slum in Lamunyas location. The Environmental health officers are currently on the ground in an aim to identify the cause of disease...
