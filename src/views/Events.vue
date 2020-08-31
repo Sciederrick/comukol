@@ -1,5 +1,5 @@
 <template>
-  <div id="events" class="pt-4 h-screen">
+  <div id="events" class="pt-4 h-screen text-xs md:text-base">
     <popover name="events">
       <p class="text-sm">Powered by the inputs of individual team members from the profile reporting section<fa-icon :icon="['fas', 'user-circle']" size="1x" color="gold" class="ml-2"/></p>
     </popover>
@@ -17,20 +17,20 @@
         </tr>
         <tr class="bg-gray-100">
           <td class="border px-4 py-2">
-            National Enteric Surveillance Program (NESP) reports that E. coli O157 is above expected levels nationally, as well as in Saskatchewan and Manitoba for the week of July 13-19, 2014.
-            PulseNet Canada reports a multi-provincial cluster of six E. coli O157:H7 isolates with the same PFGE patterns in Manitoba (2), Saskatchewan (3) and Alberta (1).
+            National Enteric Surveillance Program (NESP) reports that V.Cholerae O137 is above expected levels nationally, as well as in Moiben and Kapseret for the week of July 13-19, 2014.
+            PulseNet Kenya reports a multi-provincial cluster of six V.Cholerae O137:H7 isolates with the same PFGE patterns in Kapseret (2), Moiben (3) and Ainabkoi (1).
           </td>
         </tr>
         <tr class="bg-gray-100">
           <td class="border px-4 py-2">
-            OICC Assessment call is held with CFIA, Health Canada, National Microbiology Laboratory, and provincial public health partners in Manitoba, Saskatchewan, and Alberta. A national OICC activated.
-          	SK reports five unconfirmed cases with clinical symptoms that attended the same Canada Day BBQ as two confirmed cases from SK.
+            OICC Assessment call is held with CFIA, Health Kenya, National Microbiology Laboratory, and provincial public health partners in Kapseret, Moiben, and Ainabkoi. A national OICC activated.
+          	SK reports five unconfirmed cases with clinical symptoms that attended the same Kenya Day BBQ as two confirmed cases from SK.
           	CFIA is beginning traceback on lettuce.
           </td>
         </tr>
         <tr class="bg-gray-100">
           <td class="border px-4 py-2">
-            Six additional PFGE matches are reported by PulseNet Canada: Saskatchewan (1), Manitoba (2), Alberta (2), and British Columbia (1). The case count is now 12.
+            Six additional PFGE matches are reported by PulseNet Kenya: Moiben (1), Kapseret (2), Ainabkoi (2), and British Columbia (1). The case count is now 12.
             A technical epidemiology call is held at 14:00. On the call, the provinces agree to interview cases using a standardized E. coli hypothesis generating questionnaire.
           </td>
         </tr>

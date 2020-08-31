@@ -204,27 +204,27 @@ app.post("/api/login", (req, res) => {
   })
 })
 
-app.post("/api/invited/confirm", (req, res)=>{
-  let email=req.body.email
-  User.findOne({email, role:false, contact:null}, (err, user)=>{
-    if(err) res.status(404).send(`error: ${err}`)
-    if(user) console.log(user)
-    res.status(404).json({error: 'User does not exist'})
-  })
-})
-
-app.post("/api/invited/modify/password", (req, res)=>{
-  let email=req.body.email
-  let password=req.body.password
-  password=bcrypt.hashSync(password, bcrypt.genSaltSync(10))
-  User.findOneAndUpdate({email}, {password}, {new: true}, (err, user)=>{
-    if(err) res.status(499).json({error: 'Update Failed!'})
-    if(user){
-      res.send(user)
-    }
-    res.status(404).json({error: 'Update error!'})
-  })
-})
+// app.post("/api/invited/confirm", (req, res)=>{
+//   let email=req.body.email
+//   User.findOne({email, role:false, contact:null}, (err, user)=>{
+//     if(err) res.status(404).send(`error: ${err}`)
+//     if(user) console.log(user)
+//     res.status(404).json({error: 'User does not exist'})
+//   })
+// })
+//
+// app.post("/api/invited/modify/password", (req, res)=>{
+//   let email=req.body.email
+//   let password=req.body.password
+//   password=bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+//   User.findOneAndUpdate({email}, {password}, {new: true}, (err, user)=>{
+//     if(err) res.status(499).json({error: 'Update Failed!'})
+//     if(user){
+//       res.send(user)
+//     }
+//     res.status(404).json({error: 'Update error!'})
+//   })
+// })
 
 app.post("/api/user/profile", (req, res) => {
   const email=req.body.email
@@ -251,107 +251,66 @@ app.post("/api/profile/update", (req, res)=>{
   }
 })
 
-app.post("/api/profile/photo/upload", upload.single('file'), (req, res)=>{
-  const originalName=req.file.originalname
-  const email=req.body.email
-  User.findOneAndUpdate({email}, {image:originalName}, {new: true}, (err, doc)=>{
-    if(err) res.status(499).json({error: 'Update Failed!'})
-    res.send(doc)
-  })
-})
+// app.post("/api/profile/photo/upload", upload.single('file'), (req, res)=>{
+//   const originalName=req.file.originalname
+//   const email=req.body.email
+//   User.findOneAndUpdate({email}, {image:originalName}, {new: true}, (err, doc)=>{
+//     if(err) res.status(499).json({error: 'Update Failed!'})
+//     res.send(doc)
+//   })
+// })
 
-app.post("/api/file/manager/multiple/uploads", upload2.array('files'), (req, res)=>{
-  console.log(req.files)
-  res.json({files: req.files})
-})
+// app.post("/api/file/manager/multiple/uploads", upload2.array('files'), (req, res)=>{
+//   console.log(req.files)
+//   res.json({files: req.files})
+// })
+//
+// app.post("/api/file/manager/dropzone", pureUpload.single('file'), (req, res)=>{
+//   console.log(req.file)
+//   res.json({files: req.file})
+// })
+//
+// app.use((err, req, res, next)=>{
+//   if(err.code === "LIMIT_FILE_TYPES"){
+//     res.status(422).json({error: 'Only images are allowed'})
+//     return
+//   }
+//
+//   if(err.code === "LIMIT_FILE_SIZE"){
+//     res.status(422).json({error:`Too large. Max size is ${MAX_SIZE/1000}kb`})
+//   }
+// })
 
-app.post("/api/file/manager/dropzone", pureUpload.single('file'), (req, res)=>{
-  console.log(req.file)
-  res.json({files: req.file})
-})
-
-app.use((err, req, res, next)=>{
-  if(err.code === "LIMIT_FILE_TYPES"){
-    res.status(422).json({error: 'Only images are allowed'})
-    return
-  }
-
-  if(err.code === "LIMIT_FILE_SIZE"){
-    res.status(422).json({error:`Too large. Max size is ${MAX_SIZE/1000}kb`})
-  }
-})
-
-//File listing(DefaultTemplates), ???
-app.post("/api/file/manager/get/files", (req, res)=>{
-  const toolkit = req.body.toolkit
-  const dirLocation = `./uploads/toolKit/Cholera`
-  // const dirLocation = `./uploads/toolKit/${toolkit}`
-  fs.readdir(dirLocation, (err, files)=>{
-    if(err){
-      console.log(err)
-      res.status(500).json({error:err})
-    }
-    res.status(200).send(files)
-  })
-})
-
-//File listing(CustomTemplates), ???
-app.post("/api/file/manager/get/files/custom", (req, res)=>{
-  const toolkit = req.body.toolkit
-  const dirLocation = `./uploads/teams/Cholera`
-  // const dirLocation = `./uploads/toolKit/${toolkit}`
-  fs.readdir(dirLocation, (err, files)=>{
-    if(err){
-      console.log(err)
-      res.status(500).json({error:err})
-    }
-    res.status(200).send(files)
-  })
-})
-
-//File listing(FilledForms), ???
-app.post("/api/file/manager/get/files/filled", (req, res)=>{
-  const toolkit = req.body.toolkit
-  const dirLocation = `./uploads/teams/Cholera/filled`
-  // const dirLocation = `./uploads/toolKit/${toolkit}`
-  fs.readdir(dirLocation, (err, files)=>{
-    if(err){
-      console.log(err)
-      res.status(500).json({error:err})
-    }
-    res.status(200).send(files)
-  })
-})
 
 //sending email invites
-app.post("/api/invite/members", (req, res)=>{
-  const mail=req.body.invitees
-  console.log(`invited: ${mail}`)
-  console.log('invite members through email')
-  console.log(mail)
-  const auth = {
-    auth:{
-      api_key: process.env.MAILGUN_API_KEY,
-      domain: process.env.MAILGUN_DOMAIN
-    }
-  }
-  const transporter=nodemailer.createTransport(mailGun(auth))
-  const mailOptions={
-    from: process.env.EMAIL,
-    to: mail,
-    subject: `You have been invited to ComuKOL`,
-    text: 'Please visit the following link: http://Comukol.herokuapp.com/invited'
-  }
-  transporter.sendMail(mailOptions)
-    .then((response)=>{
-      console.log('email sent')
-      res.send(response)
-    })
-    .catch((err)=>{
-      res.status(411).json({error: 'Email not sent'})
-      console.log('error: '+err)
-    })
-})
+// app.post("/api/invite/members", (req, res)=>{
+//   const mail=req.body.invitees
+//   console.log(`invited: ${mail}`)
+//   console.log('invite members through email')
+//   console.log(mail)
+//   const auth = {
+//     auth:{
+//       api_key: process.env.MAILGUN_API_KEY,
+//       domain: process.env.MAILGUN_DOMAIN
+//     }
+//   }
+//   const transporter=nodemailer.createTransport(mailGun(auth))
+//   const mailOptions={
+//     from: process.env.EMAIL,
+//     to: mail,
+//     subject: `You have been invited to ComuKOL`,
+//     text: 'Please visit the following link: http://Comukol.herokuapp.com/invited'
+//   }
+//   transporter.sendMail(mailOptions)
+//     .then((response)=>{
+//       console.log('email sent')
+//       res.send(response)
+//     })
+//     .catch((err)=>{
+//       res.status(411).json({error: 'Email not sent'})
+//       console.log('error: '+err)
+//     })
+// })
 
 /************************Import Model******************************/
 let Team = require('./models/Team.js')
