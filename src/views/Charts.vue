@@ -1,8 +1,14 @@
 <template>
   <div class="lg:flex lg:flex-row lg:justify-center" id="charts">
+    <popover name="situationalReports">
+      <p class="text-sm">Powered by input of the focal person(Disease Surveilllance Coordinator from his profile section<fa-icon :icon="['fas', 'user-tie']" size="1x" color="gold" class="ml-2"/></p>
+    </popover>
+    <popover name="quantitativeData">
+      <p class="text-sm">Powered by Covid API, we are aiming at Integration with DHIS2 to relay relevant, targeted surveillance information<fa-icon :icon="['fas', 'chart-line']" size="1x" color="gold" class="ml-2"/></p>
+    </popover>
     <div class="mx-auto lg:w-4/5">
       <div class="mt-4">
-        <h2 class="text-xs lg:text-sm underline">Total Confirmed Cases (Covid19)</h2>
+        <h2 class="text-xs lg:text-sm underline" v-popover.bottom="{name: 'quantitativeData', event: 'hover'}">Total Confirmed Cases (Covid19)</h2>
         <geo-chart :data="countriesChartData"></geo-chart>
       </div>
       <div class="w-full mx-auto lg:w-4/5">
@@ -13,7 +19,7 @@
       <button class="text-2xl">...</button>
       <div class="flex flex-col flex-no-wrap justify-around">
         <div class="w-4/5 mx-auto text-center py-1 text-sm rounded px-2">
-          <h2 class="font-semibold">situational reports</h2>
+          <h2 class="font-semibold" v-popover.bottom="{name: 'situationalReports', event: 'hover'}">situational reports</h2>
         </div>
         <div class="w-4/5 mx-auto text-left py-4 text-xs shadow-lg rounded px-2">
           25th Aug 2020 - Surveillance at Mapuon village suggests the existence of cholera. There have been no admission cases so far. However, the community health workers are on the lookout for any suspected cases...

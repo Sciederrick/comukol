@@ -1,9 +1,12 @@
 <template>
   <div id="events" class="pt-4 h-screen">
+    <popover name="events">
+      <p class="text-sm">Powered by the inputs of individual team members from the profile reporting section<fa-icon :icon="['fas', 'user-circle']" size="1x" color="gold" class="ml-2"/></p>
+    </popover>
     <table class="table-auto mx-auto lg:w-3/4">
       <thead>
         <tr>
-          <th class="px-4 py-2">Chronology of Events</th>
+          <th class="px-4 py-2" v-popover.bottom="{name: 'events', event: 'hover'}">Chronology of Events</th>
         </tr>
       </thead>
       <tbody class="text-left">

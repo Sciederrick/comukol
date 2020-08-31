@@ -68,7 +68,7 @@ export default{
     },
     validate(file){
       const MAX_SIZE = 200000000
-      const allowedTypes = ["jpeg", "png", "jpg", "pdf", "docx", "doc", "odt", "xls", "xlsx", "ods", "ppt", "pptx", "txt"]
+      const allowedTypes = ["jpeg", "png", "jpg", "pdf", "docx", "doc", "odt", "xls", "xlsx", "ods", "ppt", "pptx", "txt", "mp4"]
       if(!allowedTypes.includes(file.name.split('.').pop())){
         return 'Invalid Format!'
       }

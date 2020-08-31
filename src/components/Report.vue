@@ -1,14 +1,23 @@
 <template>
   <div class="md:ml-8 font-sans" id="Report">
+    <popover name="dailyReport">
+      <p class="text-sm">Daily reports reflect on the chronological events section<fa-icon :icon="['fas', 'calendar-week']" size="1x" color="blue" class="ml-2"/></p>
+    </popover>
+    <popover name="situationalReport">
+      <p class="text-sm">Situational reports reflect on the homepage<fa-icon :icon="['fas', 'home']" size="1x" color="green" class="ml-2"/></p>
+    </popover>
+    <popover name="backDate">
+      <p class="text-sm">backDate this report in case you are late on the deadline, so that cumulative reports maintain order<fa-icon :icon="['fas', 'smile-wink']" size="1x" color="brown" class="ml-2"/></p>
+    </popover>
     <div class="flex flex-row py-2 text-left">
       <div class="font-mono text-xs text-blue-500">{{datetime}}<span class="px-2">></span></div>
       <div class="">
         <p class="inline-block">
-          <input type="radio" value="true" v-model="dailyReport" class="px-1 self-center" id="DailyReport">
+          <input type="radio" name="report" value="true" v-model="dailyReport" class="px-1 self-center" id="DailyReport" v-popover.bottom="{name:'dailyReport', event:'hover'}">
           <label for="DailyReport" class="pl-1 pr-2 self-center text-xs md:text-sm">daily report</label>
         </p>
         <p class="inline-block">
-          <input type="radio" value="true" v-model="situationalReport" class="px-1 self-center" id="SituationalReport">
+          <input type="radio" name="report" value="true" v-model="situationalReport" class="px-1 self-center" id="SituationalReport" v-popover.bottom="{name:'situationalReport', event:'hover'}">
           <label for="SituationalReport" class="pl-1 pr-2 self-center text-xs md:text-sm">situational report</label>
         </p>
       </div>
@@ -16,7 +25,7 @@
     <ckeditor v-model="report"></ckeditor>
     <div class="flex flex row justify-start">
       <label class="self-center mr-2" for="BackDate">Modify Date:</label>
-      <input type="date" class="input p-1 lg:w-1/3" id="BackDate">
+      <input type="date" class="input p-1 lg:w-1/3" id="BackDate" v-popover.bottom="{name:'backDate', event:'hover'}">
     </div>
     <div class="w-full">
       <button @click.prevent="submitReport" class="float-right mt-4 lg:mt-6 btn p-1 rounded bg-blue-400 text-white hover:bg-blue-700">submit</button>
