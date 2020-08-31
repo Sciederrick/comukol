@@ -12,7 +12,7 @@
       <tbody class="text-left">
         <tr>
           <td class="border px-4 py-2">
-            Day 1: Monday, July 21, 2014 (6 confirmed cases: MB-2, SK-3, AB-1)
+            Monday, July 21, 2014 (6 confirmed cases: MB-2, SK-3, AB-1)
           </td>
         </tr>
         <tr class="bg-gray-100">
@@ -35,26 +35,51 @@
           </td>
         </tr>
       </tbody>
+      <tbody v-for="report in reports" :key="report._id">
+        <tr>
+          <td class="border px-4 py-2 text-left" v-html="report.created_at"></td>
+        </tr>
+        <tr class="bg-gray-100">
+          <td class="border px-4 py-2 text-left" v-html="report.body"></td>
+        </tr>
+      </tbody>
     </table>
+    <statusBar/>
   </div>
 </template>
 
 <script>
 import router from "../router"
-
+import statusBar from "@/components/statusBar.vue"
+import statusPanel from "../mixins/statusPanel"
 export default {
   name: 'Events',
+  components:{
+    statusBar
+  },
   data(){
     return {
-
+      reports:[]
     }
   },
   methods:{
-
-  }
+    async dailyReports(){
+      const url = '/api/daily/reports'
+      try{
+        const reports = await this.$axios.get(url)
+        if(reports.data.length>=1){
+          this.reports = reports.data
+          this.success()
+        }
+      }catch(err){
+        console.log(err)
+        this.fail(err.response.data.error)
+      }
+    }
+  },
+  created(){
+    this.dailyReports()
+  },
+  mixins:[statusPanel]
 }
 </script>
-
-<style>
-
-</style>

@@ -113,16 +113,13 @@ export default {
           .then(response=>{
             this.success(`team ${response.data.name} has been created successfully!`)
           })
-          .then(response=>{
-            this.inviteMembers() //send email to invited members
-            // setTimeout(()=>{
-            //   router.push('/home')
-            // }, 3500)
-          })
           .catch(err=>{
             this.fail(err)
             console.log(err.response.data.error)
           })
+          // .then(response=>{
+            // this.inviteMembers() //send email to invited members
+          // })
         }
       }
 

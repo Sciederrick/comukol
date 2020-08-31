@@ -30,11 +30,8 @@
         <div class="w-4/5 mx-auto text-left py-4 text-xs shadow-lg rounded px-2">
           30 Aug 2020 - The Sub County Surveillance Officer has advised that young people must take precautions to protect themselves and protect others as everyone else...
         </div>
-        <div class="">
-
-        </div>
-        <div class="">
-
+        <div class="w-4/5 mx-auto text-left py-4 text-xs shadow-lg rounded px-2" v-for="report in reports" :key="report._id">
+          <span v-html="report.created_at" class="pr-1"></span>-<div v-html="report.body" class="pl-1"></div>
         </div>
       </div>
     </div>
@@ -52,7 +49,8 @@ export default {
       ],
       countriesChartData:[
 
-      ]
+      ],
+      reports:[]
     }
   },
   methods:{
@@ -70,10 +68,24 @@ export default {
       .catch(err=>{
         this.fail(err)
       })
+    },
+    async situationalReports(){
+      const url = '/api/situational/reports'
+      try{
+        const reports = await this.$axios.get(url)
+        if(reports.data.length>=1){
+          this.reports = reports.data
+          this.success()
+        }
+      }catch(err){
+        console.log(err)
+        this.fail(err.response.data.error)
+      }
     }
   },
   created(){
     this.fetchApiData()
+    this.situationalReports()
   },
   mixins:[statusPanel]
 }

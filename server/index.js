@@ -28,73 +28,73 @@ app.use(bodyParser.json())
 app.use(requestParser)
 app.use(cors())
 
-const fileFilterProfile = (req, file, cb)=>{
-  const allowedTypes = ["image/jpeg", "image/png", "image/jpg"]
-  if(!allowedTypes.includes(file.mimetype)){
-    const error = new Error("Wrong file type")
-    error.code = "LIMIT_FILE_TYPES"
-    return cb(error, false)
-  }
-  cb(null, true)
-}
+// const fileFilterProfile = (req, file, cb)=>{
+//   const allowedTypes = ["image/jpeg", "image/png", "image/jpg"]
+//   if(!allowedTypes.includes(file.mimetype)){
+//     const error = new Error("Wrong file type")
+//     error.code = "LIMIT_FILE_TYPES"
+//     return cb(error, false)
+//   }
+//   cb(null, true)
+// }
 
 //for shared official documents
-const fileFilter2 = (req, file, cb)=>{
-  const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "application/pdf", "application/docx", "application/odt", "application/xls", "application/xlsx", "application/ods", "application/ppt", "application/pptx", "application/txt"]
-  if(!allowedTypes.includes(file.mimetype)){
-    const error = new Error("Wrong file type")
-    error.code = "LIMIT_FILE_TYPES"
-    return cb(error, false)
-  }
-  cb(null, true)
-}
+// const fileFilter2 = (req, file, cb)=>{
+//   const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "application/pdf", "application/docx", "application/odt", "application/xls", "application/xlsx", "application/ods", "application/ppt", "application/pptx", "application/txt"]
+//   if(!allowedTypes.includes(file.mimetype)){
+//     const error = new Error("Wrong file type")
+//     error.code = "LIMIT_FILE_TYPES"
+//     return cb(error, false)
+//   }
+//   cb(null, true)
+// }
 
 //for all files, storing files with their original extension
-let storageProfile = multer.diskStorage({
-  destination: (req, file, cb)=>{
-    cb(null, './uploads/profile')
-  },
-  filename: (req, file, cb)=>{
-    let ext = file.mimetype.split('/')[1]
-    cb(null, `${file.originalname}`)
-  }
-})
-
-let storageToolkit = multer.diskStorage({
-  destination: (req, file, cb)=>{
-    cb(null, './uploads/toolKit/Cholera/')
-  },
-  filename: (req, file, cb)=>{
-    let ext = file.mimetype.split('/')[1]
-    cb(null, `${file.originalname}`)
-  }
-})
+// let storageProfile = multer.diskStorage({
+//   destination: (req, file, cb)=>{
+//     cb(null, './uploads/profile')
+//   },
+//   filename: (req, file, cb)=>{
+//     let ext = file.mimetype.split('/')[1]
+//     cb(null, `${file.originalname}`)
+//   }
+// })
+//
+// let storageToolkit = multer.diskStorage({
+//   destination: (req, file, cb)=>{
+//     cb(null, './uploads/toolKit/Cholera/')
+//   },
+//   filename: (req, file, cb)=>{
+//     let ext = file.mimetype.split('/')[1]
+//     cb(null, `${file.originalname}`)
+//   }
+// })
 
 
 //for profile photo
-const MAX_SIZE = 200000
-const upload = multer({
-  storageProfile,
-  fileFilterProfile,
-  limits:{
-    fileSize: MAX_SIZE
-  }
-})
+// const MAX_SIZE = 200000
+// const upload = multer({
+//   storageProfile,
+//   fileFilterProfile,
+//   limits:{
+//     fileSize: MAX_SIZE
+//   }
+// })
 
 //for shared official documents
-const MAX_SIZE_2 = 200000000
-const upload2 = multer({
-  dest: './uploads/toolKit/Cholera/',
-  fileFilter2,
-  limits:{
-    fileSize: MAX_SIZE_2
-  }
-})
-
-const MAX_SIZE_3 = 200000000
-const pureUpload = multer({
-  storage: storageToolkit
-})
+// const MAX_SIZE_2 = 200000000
+// const upload2 = multer({
+//   dest: './uploads/toolKit/Cholera/',
+//   fileFilter2,
+//   limits:{
+//     fileSize: MAX_SIZE_2
+//   }
+// })
+//
+// const MAX_SIZE_3 = 200000000
+// const pureUpload = multer({
+//   storage: storageToolkit
+// })
 
 
 
@@ -174,7 +174,7 @@ app.post('/api/register', (req, res, next)=>{
           if(err){
             res.status(500).send('db error')
           }else{
-            res.status(200).send(user)
+            res.send(user)
           }
         })
       }
@@ -233,7 +233,7 @@ app.post("/api/user/profile", (req, res) => {
     if(user){
       res.send(user)
     }else{
-      res.status(499).json({error: 'User retrieval failed'})
+      res.status(500).json({error: 'User retrieval failed'})
     }
   })
 })
@@ -241,11 +241,11 @@ app.post("/api/user/profile", (req, res) => {
 app.post("/api/profile/update", (req, res)=>{
   const email=req.body.email, name=req.body.fullName, contact=req.body.contact, workplace=req.body.workplace, specialty=req.body.specialty, jurisdiction=req.body.jurisdiction
   if(!email||!name||!contact||!workplace||!specialty||!jurisdiction){
-    res.status(409).json({error: 'All fields should be field!'})
+    res.status(500).json({error: 'All fields should be field!'})
     console.log('empty fields')
   }else{
     User.findOneAndUpdate({email}, {name, contact, workplace, specialty, jurisdiction}, {new: true}, (err, doc)=>{
-      if(err) res.status(499).json({error: 'Update Failed!'})
+      if(err) res.status(500).json({error: 'Update Failed!'})
       res.send(doc)
     })
   }
@@ -313,6 +313,54 @@ app.post("/api/profile/update", (req, res)=>{
 // })
 
 /************************Import Model******************************/
+let Report = require('./models/Report.js')
+/************************Import Model******************************/
+//Store Reports
+app.post("/api/reports", (req, res)=>{
+  const email = req.body.email
+  const type = req.body.type
+  const body = req.body.body
+  const created_at = req.body.created_at
+  console.log(`email : ${email}`)
+  console.log(`type : ${type}`)
+  console.log(`body : ${body}`)
+  console.log(`created_at : ${created_at}`)
+  let record=new Report()
+  record.email = email
+  record.type = type
+  record.body = body
+  record.created_at = created_at
+  record.save((err, report)=>{
+    if(err){
+      res.status(500).send('db error')
+      console.log(err)
+    }else{
+      res.status(200).send(report)
+      console.log(report)
+    }
+  })
+})
+
+//Fetch Situational Reports
+app.get("/api/situational/reports", (req, res)=>{
+  Report.find({type:false}, (err, docs)=>{
+    console.log(docs)
+    if(err) res.status(500).send('db error')
+    res.send(docs)
+  })
+})
+
+//Fetch Daily Reports
+app.get("/api/daily/reports", (req, res)=>{
+  Report.find({type:true}, (err, docs)=>{
+    console.log(docs)
+    if(err) res.status(500).send('db error')
+    res.send(docs)
+  })
+})
+
+
+/************************Import Model******************************/
 let Team = require('./models/Team.js')
 /************************Import Model******************************/
 //create Team
@@ -332,20 +380,11 @@ app.post("/api/create/team", (req, res)=>{
   record.toolkit = toolkit
   record.created_at = created_at
   record.save((err, team)=>{
-    if(err){
-      res.status(500).send('db error')
-    }else{
-        User.findOneAndUpdate({email}, {$push:{teams: teamName}}, {new: true}, (err, user)=>{
-          if(err){
-            res.status(499).json({error: err})
-            console.log(err)
-          }
-          if(user){
-            res.status(200).send(team)
-          }
-          res.status(404).json({error: 'Update error!'})
-        })
-    }
+    if(err) res.status(500).send(err)
+      User.findOneAndUpdate({email}, {$push:{teams: teamName}}, {new: true}, (err, user)=>{
+        if(err) res.status(500).json({error: err})
+        res.send(user)
+      })
   }
 )
 })
