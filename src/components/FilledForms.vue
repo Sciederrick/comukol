@@ -7,8 +7,9 @@
           <li v-for="file in files" :key="file" class="text-left text-xs font-mono pl-2 pr-1 md:px-4 md:pl-4 py-1 border border-white cursor-pointer">
             <fa-icon :icon="['fas', 'file']" color="aqua" class="self-center mr-1"/>
             <span @click="downloadFile">{{file.split('/').pop()}}</span>
-            <button class="block mt-2 outline-none">
-              <fa-icon :icon="['fas', 'trash-alt']" class="text-xs" size="1x" color="red" :id="file.split('/').pop()" @click="deleteFile"/>
+            <br>
+            <button class="outline-none w-12 h-8 z-40 text-red-600 hover:bg-red-600 hover:text-white rounded" :id="file.split('/').pop()" @click="deleteFile">
+              delete
             </button>
           </li>
         </ul>
@@ -63,23 +64,28 @@ export default {
       }
     },
     async deleteFile(e){
-      const del = window.confirm('Are you sure you want to delete this file?')
-      if(del){
-        this.spinner=true
-        let file = this.directoryPath.concat(e.target.attributes.id.nodeValue)
-        console.log(file)
-        const storageRef=storage.ref()
-        let fileRef=storageRef.child(file.trim())
-        try{
-          await fileRef.delete()
-          this.spinner=false
-          window.alert(`${file} deleted Successfully`)
-        }catch(err){
-          this.spinner=false
-          window.alert(err.code)
-          console.log(err)
+      let delFile = e.target.attributes.id.nodeValue
+      if(delFile){
+        const del = window.confirm(`Are you sure you want to delete ${delFile}?`)
+        if(del){
+            this.spinner=true
+            let file = this.directoryPath.concat(delFile)
+            console.log(file)
+            const storageRef=storage.ref()
+            let fileRef=storageRef.child(file.trim())
+            try{
+              await fileRef.delete()
+              this.spinner=false
+              window.alert(`${file} deleted Successfully`)
+            }catch(err){
+              this.spinner=false
+              window.alert(err.code)
+              console.log(err)
+            }
         }
-      }
+    }else{
+      window.alert(`reference undefined, please try again`)
+    }
     }
   },
   created(){
