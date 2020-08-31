@@ -1,5 +1,8 @@
 <template id="">
   <div class="">
+    <popover name="createNewForm">
+      <p class="text-sm">Pre-existing form templates do not satisfy my needs, Let me just create a new one!<fa-icon :icon="['fas', 'pencil-ruler']" size="1x" color="blue" class="ml-2"/></p>
+    </popover>
     <div class="flex flex-col justify-center md:flex-row md:justify-evenly">
       <div class="max-w-sm pb-4">
         <p class="text-left"><fa-icon :icon="['fas', 'folder-open']" color="" class="self-center mr-1"/>Custom Templates</p>
@@ -18,7 +21,7 @@
         <iframe src="" id="preview" class="w-full lg:h-64 mx-auto my-4 lg:max-w-sm"/>
         <MultipleFilesUploader category="Custom"/>
         <button class="btn w-full md:w-3/4 p-1 rounded my-3 bg-green-500 text-white hover:bg-green-700">
-          <a href="https://form-creator-app.herokuapp.com/" target="_blank">create form</a>
+          <a href="https://form-creator-app.herokuapp.com/" target="_blank" v-popover.bottom="{name:'createNewForm', event:'hover'}">create form</a>
         </button>
       </div>
     </div>
