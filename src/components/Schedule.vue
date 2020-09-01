@@ -8,7 +8,7 @@
     </popover>
     <p class="text-right text-xs text-underline text-green-500 p-2" v-popover.bottom="{name: 'submit', event: 'hover'}">Guide</p>
     <div class="flex flex-row flex-no-wrap overflow-x-auto text-left" style="height:500px">
-      <div class="flex flex-col overflow-y-auto">
+      <div class="flex flex-col">
         <div class="flex-grow h-6 p-1 pt-2 bg-gray-200 border border-white">
           POSITION/ROLE
         </div>
