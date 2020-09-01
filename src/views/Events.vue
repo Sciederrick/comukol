@@ -1,9 +1,9 @@
 <template>
-  <div id="events" class="pt-4 h-screen text-xs md:text-base">
+  <div id="events" class="pt-4 text-xs md:text-base">
     <popover name="events">
       <p class="text-sm">Powered by the inputs of individual team members from the profile reporting section<fa-icon :icon="['fas', 'user-circle']" size="1x" color="gold" class="ml-2"/></p>
     </popover>
-    <table class="table-auto mx-auto lg:w-3/4">
+    <table class="table-auto mx-auto lg:w-3/4 h-screen overflow-y-auto">
       <thead>
         <tr>
           <th class="px-4 py-2" v-popover.bottom="{name: 'events', event: 'hover'}">Chronology of Events</th>
@@ -35,15 +35,17 @@
           </td>
         </tr>
       </tbody>
-      <tbody v-for="report in reports" :key="report._id">
-        <tr>
-          <td class="border px-4 py-2 text-left" v-html="report.created_at"></td>
-        </tr>
-        <tr class="bg-gray-100">
-          <td class="border px-4 py-2 text-left" v-html="report.body"></td>
-        </tr>
-      </tbody>
     </table>
+    <div class="w-full mx-auto my-2 lg:w-3/4">
+      <div v-for="report in reports" :key="report._id">
+        <p class="py-2 px-4  border text-left">
+          <span v-html="report.created_at"></span>
+        </p>
+        <p class="py-2 px-4 border text-left bg-gray-100">
+          <span class="" v-html="report.body"></span>
+        </p>
+      </div>
+    </div>
     <statusBar/>
   </div>
 </template>
