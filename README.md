@@ -54,6 +54,8 @@ Geo map and line chart. For display of aggregated data.
 
 Real time Chat for members of the team
 
+![]()
+
 ### Virtual Teams
 
 Creation of virtual teams for collaboration in outbreak response
