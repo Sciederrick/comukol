@@ -29,7 +29,7 @@
               </router-link>
             </li>
             <li class="mr-3 flex-1">
-              <router-link to="" class="block py-1 md:py-3 pl-1 align-middle text-grey-darkest  hover:text-pink-800 border-b-2 border-grey-900 md:border-black hover:border-pink-700">
+              <router-link to="#" class="block py-1 md:py-3 pl-1 align-middle text-grey-darkest  hover:text-pink-800 border-b-2 border-grey-900 md:border-black hover:border-pink-700">
                 <fa-icon  :icon="['fas', 'users']" class="pr-0 md:pr-3 lg:text-2xl" size="1x"/><span class="pb-1 md:pb-0 text-xs md:text-base text-grey-dark md:text-grey-light block md:inline-block">Members</span>
               </router-link>
             </li>
@@ -81,9 +81,10 @@ export default {
 </script>
 
 <style scoped>
-#Workspace a.router-link-exact-active {
-  color: #42b983;
+#home a.router-link-exact-active {
+  color: #aa0067;
   font-weight: bold;
+  border-color: #aa0067;
 }
 .slide-enter-active,
 .slide-leave-active{
