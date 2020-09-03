@@ -1,6 +1,6 @@
 *A digital platform enabling communication and coordination among Outbreak Response Teams* :rescue_worker_helmet:
 
-![](.\comukol.png)
+![comukol_logo](./comukol.png)
 
 
 
@@ -18,7 +18,7 @@
 
 * File Management
 
-  
+
 
 **Project Curators** :factory:
 
@@ -122,12 +122,3 @@ Managing of templates for provided toolkits, customized templates and filled for
   - [ ] Optimize Navigation bar
 - [ ] Chat box for Instant Messaging
 - [ ] Logo for ComuKol
-
-
-
-
-
-
-
-
-
