@@ -6,7 +6,7 @@
     <popover name="quantitativeData">
       <p class="text-sm">Powered by Covid API, we are aiming at Integration with DHIS2 to relay relevant, targeted surveillance information<fa-icon :icon="['fas', 'chart-line']" size="1x" color="gold" class="ml-2"/></p>
     </popover>
-    <div class="mx-auto lg:w-4/5">
+    <div class="mx-auto mx-auto lg:w-4/5">
       <div class="mt-4">
         <h2 class="text-xs lg:text-sm underline" v-popover.bottom="{name: 'quantitativeData', event: 'hover'}">Total Confirmed Cases (Covid19)</h2>
         <geo-chart :data="countriesChartData"></geo-chart>
@@ -58,7 +58,6 @@ export default {
       const url='https://api.covid19api.com/summary'
       this.$axios.get(url, {timeout:20000})
       .then(response=>{
-        // , data.NewConfirmed, data.NewDeaths, data.TotalDeaths, data.NewRecovered, data.TotalRecovered
         this.globalChartData=response.data.Global
         response.data.Countries.map(data=>{
           this.countriesChartData.push([data.Country, data.TotalConfirmed])
