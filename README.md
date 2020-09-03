@@ -1,12 +1,6 @@
-# ComuKol
+*A digital platform enabling communication and coordination among Outbreak Response Teams* :rescue_worker_helmet:
 
-A digital platform enabling communication and coordination among Outbreak Response Teams
-
-![]()
-
-
-
-Respond      Coordinate  Collaborate
+![](.\comukol.png)
 
 
 
@@ -26,7 +20,7 @@ Respond      Coordinate  Collaborate
 
   
 
-**Project Curators**
+**Project Curators** :factory:
 
 1. Derrick Mbarani
 2. Abdullahi Mohamud
@@ -36,7 +30,7 @@ Respond      Coordinate  Collaborate
 6. Brenda Cherotich Kimetto
 7. Simon Oteba
 
-## Features Breakdown
+## Features Breakdown :clipboard:
 
 ### Reporting
 
@@ -74,7 +68,7 @@ Managing of templates for provided toolkits, customized templates and filled for
 
 
 
-## PROJECT PROGRESS
+## PROJECT PROGRESS :coffee:
 
 **Reporting** (75% done)
 
@@ -86,7 +80,7 @@ Managing of templates for provided toolkits, customized templates and filled for
   	- [x] Handling simple text with tables
   	- [ ] Handling reports with pictures and videos
 
-    - [ ] Printing out reports
+        - [ ] Printing out reports
 
 **Scheduler** (0% done --filler)
 
@@ -118,7 +112,7 @@ Managing of templates for provided toolkits, customized templates and filled for
 - [ ] File Preview
 - [ ] Creation of custom forms
 
-## Room for Improvements
+## Room for Improvements :school_satchel:
 
 **UI/UX Design**
 
@@ -127,7 +121,7 @@ Managing of templates for provided toolkits, customized templates and filled for
   - [ ] The Interface should be simple with light background and cover the whole screen
   - [ ] Optimize Navigation bar
 - [ ] Chat box for Instant Messaging
-- [ ] Logo for Comukol
+- [ ] Logo for ComuKol
 
 
 
