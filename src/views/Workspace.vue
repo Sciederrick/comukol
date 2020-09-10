@@ -1,8 +1,5 @@
 <template>
   <div id="Workspace" class="w-full lg:w-3/4 lg:mx-auto mt-4 h-auto overflow-hidden">
-    <!-- <p class="cursor-pointer font-mono" @click="refresh">
-      <fa-icon :icon="['fas', 'sync-alt']" size="1x" class="self-center mr-1"/><span class="text-sm self-center">refresh</span>
-    </p> -->
     <div class="w-full flex flex-row justify-evenly p-2">
       <router-link to="/workspace" class="underline hover:line-through">Default <span class="hidden md:inline-block">Templates</span></router-link>
       <router-link to="/custom/templates" class="underline hover:line-through">Custom <span class="hidden md:inline-block">Templates</span></router-link>

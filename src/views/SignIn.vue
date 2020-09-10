@@ -56,12 +56,8 @@ export default {
       let response = await this.$axios.post('/api/login', data)
         .then((response)=>{
           console.log('Login attempt successful!')
-          const user={
-            email:this.email,
-            token:response.data
-          }
           localStorage.clear()
-          localStorage.setItem('user', JSON.stringify(user))
+          localStorage.setItem('token', JSON.stringify(response.data))
           router.push('/user/profile')
         })
         .catch((errors)=>{

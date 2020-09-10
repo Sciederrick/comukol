@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import {bus} from '@/main'
 import router from "../router"
 import statusPanel from '../mixins/statusPanel'
 export default {
@@ -93,7 +94,7 @@ export default {
       const url='/api/profile/update'
       this.$axios.post(url, data, {timeout:35000})
         .then(response=>{
-          this.user=response.data
+          bus.$emit('profileChanged', response.data)
           this.success('profile modified successfully!')
           router.push('/user/profile')
         })
@@ -103,12 +104,6 @@ export default {
         })
     }
   },
-  mixins:[statusPanel],
-  created(){
-    if(localStorage.user){
-      const user=JSON.parse(localStorage.getItem('user'))
-      this.email=user.email
-    }
-  }
+  mixins:[statusPanel]
 }
 </script>

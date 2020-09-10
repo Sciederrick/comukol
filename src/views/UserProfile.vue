@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import {bus} from '@/main'
 import router from "../router"
 import statusBar from '../components/statusBar.vue'
 import statusPanel from '../mixins/statusPanel'
@@ -45,13 +46,12 @@ export default {
   },
   methods:{
     fetchUser(){
-      const user=JSON.parse(localStorage.getItem('user'))
+      const user=JSON.parse(atob(JSON.parse(localStorage.token).accessToken.split('.')[1]))
       const email=user.email
       const url='/api/user/profile'
       this.$axios.post(url, {email})
         .then(response=>{
           this.user=response.data
-          localStorage.userImage = this.user.image
           this.success()
         })
         .catch(err=>{
@@ -63,13 +63,15 @@ export default {
         router.push('/user/profile/edit')
         this.fail('please complete your profile first then')
       }else{
-        localStorage.role=this.user.role
         router.push('/create/join/team')
       }
     }
   },
   created(){
     this.fetchUser()
+    bus.$on('profileChanged', data=>{
+      this.user=data
+    })
   },
   mixins:[statusPanel]
 }

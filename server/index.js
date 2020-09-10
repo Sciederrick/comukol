@@ -182,6 +182,35 @@ app.post('/api/register', (req, res, next)=>{
   })
 })
 
+//refresh token, to be stored in Redis DB
+let refreshTokens = []
+
+app.post("/api/token", (req, res)=>{
+  const refreshToken=req.body.token
+  if(refreshToken==null) return res.sendStatus(401)
+  if(!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user)=>{
+    if(err) return res.sendStatus(403)
+    const payload={
+      email: user.email,
+      userImage: user.userImage,
+      specialty: user.specialty,
+      position: user.position,
+      role : user.role,
+      teams: user.teams
+    }
+    const accessToken=jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn:1440
+    })
+    res.json({accessToken})
+  })
+})
+
+app.delete('/logout', (req, res)=>{
+  refreshTokens = refreshTokens.filter(token => token !== req.body.token)
+  res.sendStatus(204)
+})
+
 app.post("/api/login", (req, res) => {
   let email=req.body.email
   User.findOne({email}, (err, user)=>{
@@ -189,12 +218,18 @@ app.post("/api/login", (req, res) => {
     if(user){
       if(bcrypt.compareSync(req.body.password, user.password)){
         const payload={
-          email: user.email
+          email: user.email,
+          userImage: user.userImage,
+          specialty: user.specialty,
+          position: user.position,
+          role : user.role,
+          teams: user.teams
         }
-        let token=jwt.sign(payload, process.env.SECRET_KEY, {
+        const accessToken=jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
           expiresIn:1440
         })
-        res.send(token)
+        const refreshToken=jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET)
+        res.json({accessToken, refreshToken})
       }else{
         res.status(404).json({error: 'Wrong password!'})
       }
@@ -388,6 +423,21 @@ app.post("/api/create/team", (req, res)=>{
   }
 )
 })
+
+//User Authorization
+// function authenticateToken(req, res, next){
+//   const authHeader = req.headers['authorization']
+//   //Bearer <token>
+//   const token = authHeader && authHeader.split(' ')[1]  //token or undefined
+//   if(token == null) return res.sendStatus(401)
+//
+//   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user)=>{
+//     if(err) return res.sendStatus(403)
+//     req.user = user
+//     next()
+//   })
+// }
+
 
 //Handle production
 if(process.env.NODE_ENV === 'production'){
