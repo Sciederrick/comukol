@@ -25,7 +25,7 @@ export default{
   data(){
     return{
       username: "",
-      socket: io(),
+      socket: io('localhost:5000/'),
       messages: [],
       users: []
     }
@@ -59,12 +59,12 @@ export default{
     }
   },
   mounted(){
-    const user=JSON.parse(localStorage.getItem('user'))
-    const email=user.email
-    this.username = email
-    if(!this.username){
+    // const user=JSON.parse(localStorage.getItem('user'))
+    // const email=user.email
+    // this.username = email
+    // if(!this.username){
       this.username = "Anonymous"
-    }
+    // }
     this.joinServer()
   },
   updated(){

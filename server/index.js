@@ -15,7 +15,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const mailGun = require('nodemailer-mailgun-transport')
-const multer = require('multer')
+const fileUpload = require('express-fileupload')
+const fileOp = require('./modules/fileOperations.js')
 
 const requestParser = function(req, res, next) {
   let now = new Date().toLocaleString()
@@ -27,6 +28,9 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(requestParser)
 app.use(cors())
+app.use(fileUpload({
+    createParentPath: true
+}))
 
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -215,6 +219,50 @@ app.post("/api/profile/update", (req, res)=>{
       res.send(doc)
     })
   }
+})
+//Amazon S3 File Operations listing, upload, delete, download
+app.post('/api/upload/files', (req, res) => {
+  const files = req.files
+  const destination = req.body.category
+  let response = []
+  for (const property in files) {
+    (async ()=>{
+      try{
+        let response = await fileOp.uploadFile(destination, files[property].name, files[property].data)
+        if(!response) throw err
+        res.send(`${response} successfully uploaded`)
+      }catch(err){
+        res.status(500).json({error: 'Upload Failed!'})
+      }
+    })()
+  }
+  console.log('file(s) successfully uploaded')
+})
+
+app.post('/api/list/files', (req, res) => {
+  (async ()=>{
+    const Prefix = req.body.toolkit
+    try{
+      let response = await fileOp.listFiles(Prefix)
+      if(!response) throw err
+      res.send(response)
+    }catch(err){
+      res.status(500).json({error: 'File listing Failed!'})
+    }
+  })()
+})
+
+app.post("/api/delete/file", (req, res)=>{
+  (async ()=>{
+    const fileName = req.body.file
+    try{
+      let response = await fileOp.deleteFile(fileName)
+      if(!response) throw err
+      res.send(response)
+    }catch(err){
+      res.status(500).json({error: 'File deletion Failed!'})
+    }
+  })()
 })
 
 

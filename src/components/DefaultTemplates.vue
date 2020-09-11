@@ -10,7 +10,6 @@
       </ul>
     </div>
     <div class="">
-      <p class="text-xs text-center text-red-500">file preview(pdf, images, mp4)</p>
       <iframe src="" id="preview" class="w-full lg:h-64 mx-auto my-4 lg:max-w-sm"/>
     </div>
     <Spinner v-if="spinner"/>
@@ -23,6 +22,7 @@ import storage from './firebaseInit'
 import statusBar from '@/components/statusBar.vue'
 import statusPanel from '../mixins/statusPanel'
 import downloadFile from '../mixins/downloadFile'
+import fileListing from '../mixins/fileListing'
 import Spinner from '@/components/Spinner.vue'
 export default {
   name: 'DefaultTemplates',
@@ -38,31 +38,12 @@ export default {
       directoryPath: ''
     }
   },
-  methods:{
-    async fileListing(toolkit){
-      this.spinner=true
-      const storageRef=storage.ref(toolkit)
-      try{
-        let items = await storageRef.listAll()
-        items.items.forEach((item)=>{
-          let el = item.location.path
-          this.files.push(el)
-          this.spinner=false
-        })
-      }catch(err){
-        this.spinner=true
-        this.files.push('Nothing Yet')
-        this.fail(err.response.data.error)
-        console.log(err)
-      }
-    }
-  },
   created(){
-    const userToolkit = 'Cholera/Default'  //Should be Default/Cholera
+    const userToolkit = 'Team_Test/Default'
     this.toolkit=userToolkit
     this.directoryPath = userToolkit.concat('/')
     this.fileListing(userToolkit)
   },
-  mixins:[statusPanel, downloadFile]
+  mixins:[statusPanel, downloadFile, fileListing]
 }
 </script>

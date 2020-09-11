@@ -28,7 +28,6 @@
 </div>
 </template>
 <script>
-import storage from './firebaseInit'
 import statusBar from './statusBar.vue'
 import statusPanel from '../mixins/statusPanel'
 import Spinner from '@/components/Spinner.vue'
@@ -83,23 +82,23 @@ export default{
       //show the spinner
       this.spinner = true
       //Do some action
-      _.forEach(this.uploadFiles, file=>{
+      const url = '/api/upload/files'
+      const formData = new FormData();
+      formData.append('category', this.category)
+      _.forEach(this.uploadFiles, (file, index)=>{
         if(this.validate(file) === ''){
-          const storageRef = storage.ref(`Cholera/${this.category}/${file.name}`)
-          storageRef.put(file)
-            .then((snapshot)=>{
-              //remove the spinner
-              this.spinner = false
-              this.success(`${snapshot.metadata.name} upload ${snapshot.state}`)
-            })
-            .catch(err=>{
-              //remove the spinner
-              this.spinner = false
-              this.fail(err.response.data.error)
-              console.log(err)
-            })
+          formData.append(index, file)
         }
       })
+      try{
+        this.spinner = false
+        const res = await this.$axios.post(url, formData, {timeout: 20000})
+        this.success(res.data)
+      }catch(err){
+        this.spinner = false
+        this.fail(err.response.data.error)
+        console.log(err)
+      }
     }
   },
   mixins:[statusPanel]

@@ -26,19 +26,23 @@
       </div>
     </div>
     <Spinner v-if="spinner"/>
+    <statusBar/>
   </div>
 </template>
 
 <script>
-import storage from './firebaseInit'
-import statusPanel from '../mixins/statusPanel'
-import downloadFile from '../mixins/downloadFile'
+import statusBar from '@/components/statusBar.vue'
+import statusPanel from '@/mixins/statusPanel'
+import fileListing from '@/mixins/fileListing'
+import downloadFile from '@/mixins/downloadFile'
+import deleteFile from '@/mixins/deleteFile'
 import MultipleFilesUploader from '@/components/MultipleFilesUploader.vue'
 import Spinner from '@/components/Spinner.vue'
 export default {
   name: 'CustomTemplates',
   components:{
     MultipleFilesUploader,
+    statusBar,
     Spinner
   },
   data(){
@@ -48,56 +52,12 @@ export default {
       spinner: false
     }
   },
-  methods:{
-    async fileListing(toolkit){
-      this.spinner=true
-      const storageRef=storage.ref(toolkit)
-      try{
-        let items = await storageRef.listAll()
-        items.items.forEach((item)=>{
-          let el = item.location.path
-          this.files.push(el)
-        })
-        this.spinner=false
-      }catch(err){
-        this.spinner=false
-        this.files.push('Nothing Yet')
-        this.fail(err.response.data.error)
-        console.log(err)
-      }
-    },
-    async deleteFile(e){
-      let delFile = e.target.attributes.id.nodeValue
-      if(delFile){
-      const del = window.confirm('Are you sure you want to delete this file?')
-        if(del){
-          this.spinner=true
-          console.log(`node value : ${delFile}`)
-          let file = this.directoryPath.concat(delFile)
-            const storageRef=storage.ref()
-            let fileRef=storageRef.child(file.trim())
-            try{
-              await fileRef.delete()
-              this.spinner=false
-              window.alert(`${file} deleted Successfully`)
-            }catch(err){
-              this.spinner=false
-              window.alert(err.code)
-              console.log(err)
-            }
-        }
-      }else{
-        this.spinner=false
-        window.alert(`reference undefined, please try again`)
-      }
-    }
-  },
   created(){
-    const userToolkit = 'Cholera/Custom'
+    const userToolkit = 'Team_Test/Custom'
     this.toolkit=userToolkit
     this.directoryPath = userToolkit.concat('/')
     this.fileListing(userToolkit)
   },
-  mixins:[statusPanel, downloadFile]
+  mixins:[statusPanel, downloadFile, fileListing, deleteFile]
 }
 </script>
