@@ -5,12 +5,22 @@
         <div class="w-full md:w-4/5 bg-grey-100">
            <div class="container bg-grey-100 px-1">
              <!-- header -->
-             <div class="px-6 py-2 lg:py-0 flex flex-row justify-between">
+             <div class="relative px-6 py-2 lg:py-0 flex flex-row justify-between">
                <p class="text-gray-800 font-bold text-2xl text-left">ComuKol</p>
                <div class="h-8 w-8 ml-2 my-1 lg:mx-3 lg:h-10 lg:w-10 rounded-full overflow-hidden border-2 border-gray-600 focus:outline-none focus:border-white">
-                 <router-link to="/user/profile" :key="$route.path">
-                   <img v-if="userImage" class="h-full w-full object-cover" :src="require(`@/../server/uploads/profile/${userImage}`)" alt="photo">
-                 </router-link>
+                <img @click="isOpen=!isOpen" v-if="userImage" class="h-full w-full object-cover" :src="require(`@/../server/uploads/profile/${userImage}`)" alt="photo">
+                 <button v-if="isOpen" @click="isOpen=false" tabindex="-1" class="fixed inset-0 h-full w-full bg-black opacity-50 cursor-default"></button>
+                 <div v-if="isOpen" id="RoleDropdown" class="absolute right-0 py-1 md:py-2 w-32 md:w-48 mt-2 bg-white rounded-lg shadow-xl text-sm md:text-base">
+                   <router-link to="/user/profile" :key="$route.path">
+                    <p class="block px-4 py-2 text-gray-800 hover:bg-pink-700 hover:text-white">
+                        <fa-icon :icon="['fas', 'user']" size="1x" color="" class="mr-1 self-center"/>Profile
+                    </p>
+                    </router-link>
+                    <hr class="w-3/4 mx-auto">
+                    <p @click="logout()" class="block px-4 py-2 text-gray-800 hover:bg-pink-700 hover:text-white cursor-pointer">
+                      <fa-icon :icon="['fas', 'sign-out-alt']" size="1x" color="" class="mr-1 self-center"/>Logout
+                    </p>
+                 </div>
                </div>
              </div>
              <transition name="slide" mode="out-in">
@@ -59,6 +69,7 @@
 </template>
 
 <script>
+import router from '@/router'
 import statusBar from '../components/statusBar.vue'
 export default {
   name: 'Home',
@@ -72,10 +83,24 @@ export default {
     }
   },
   methods:{
+    logout(){
+      //remove user from local storage to logout the user
+      localStorage.removeItem('token')
+      router.push('/')
+    },
 
   },
   created(){
     this.userImage = localStorage.getItem('userImage')||'avatar.jpg'
+    const handleEscape=(e)=>{
+      if(e.key==='Esc'||e.key==='Escape'){
+        this.isOpen=false
+      }
+    }
+    document.addEventListener('keydown', handleEscape)
+    this.$once('hook:beforeDestroy', ()=>{
+      document.removeEventListener('keydown', handleEscape)
+    })
   }
 }
 </script>

@@ -27,9 +27,9 @@
 
 <script>
 import {bus} from '@/main'
-import router from "../router"
-import statusBar from '../components/statusBar.vue'
-import statusPanel from '../mixins/statusPanel'
+import router from "@/router"
+import statusBar from '@/components/statusBar.vue'
+import statusPanel from '@/mixins/statusPanel'
 export default {
   name: 'UserProfile',
   components:{

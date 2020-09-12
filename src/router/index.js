@@ -137,6 +137,10 @@ Vue.use(VueRouter)
     path: '/drop/files',
     name: 'FilesDropZone',
     component: FilesDropZone
+  },
+  {
+    path: '*',
+    redirect: '/'
   }
 ]
 
@@ -144,6 +148,19 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  //redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/', '/about']
+  const authRequired = !publicPages.includes(to.path)
+  const loggedIn = localStorage.getItem('token')
+
+  if(authRequired && !loggedIn){
+    return next('/')
+  }
+
+  next()
 })
 
 export default router

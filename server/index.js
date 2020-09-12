@@ -298,7 +298,6 @@ app.post("/api/reports", (req, res)=>{
 //Fetch Situational Reports
 app.get("/api/situational/reports", (req, res)=>{
   Report.find({type:false}, (err, docs)=>{
-    console.log(docs)
     if(err) res.status(500).send('db error')
     res.send(docs)
   })
@@ -307,7 +306,6 @@ app.get("/api/situational/reports", (req, res)=>{
 //Fetch Daily Reports
 app.get("/api/daily/reports", (req, res)=>{
   Report.find({type:true}, (err, docs)=>{
-    console.log(docs)
     if(err) res.status(500).send('db error')
     res.send(docs)
   })
