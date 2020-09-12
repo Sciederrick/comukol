@@ -13,10 +13,9 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const nodemailer = require('nodemailer')
-const mailGun = require('nodemailer-mailgun-transport')
 const fileUpload = require('express-fileupload')
 const fileOp = require('./modules/fileOperations.js')
+const mail = require('./modules/mailService.js')
 
 const requestParser = function(req, res, next) {
   let now = new Date().toLocaleString()
@@ -229,7 +228,6 @@ app.post('/api/upload/files', (req, res) => {
     (async ()=>{
       try{
         let response = await fileOp.uploadFile(destination, files[property].name, files[property].data)
-        if(!response) throw err
         res.send(`${response} successfully uploaded`)
       }catch(err){
         res.status(500).json({error: 'Upload Failed!'})
@@ -244,7 +242,6 @@ app.post('/api/list/files', (req, res) => {
     const Prefix = req.body.toolkit
     try{
       let response = await fileOp.listFiles(Prefix)
-      if(!response) throw err
       res.send(response)
     }catch(err){
       res.status(500).json({error: 'File listing Failed!'})
@@ -257,12 +254,19 @@ app.post("/api/delete/file", (req, res)=>{
     const fileName = req.body.file
     try{
       let response = await fileOp.deleteFile(fileName)
-      if(!response) throw err
       res.send(response)
     }catch(err){
       res.status(500).json({error: 'File deletion Failed!'})
     }
   })()
+})
+
+app.post("/api/invite/members", (req, res)=>{
+  const recipient = req.body.recipients
+    mail.mailer(recipient, (err, done)=>{
+      if(err) res.send(err)
+      res.send(done)
+    })
 })
 
 

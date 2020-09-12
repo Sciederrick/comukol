@@ -1,7 +1,6 @@
 if(process.env.NODE_ENV !== 'production'){
   require('dotenv').config({path:'./../.env'})
 }
-console.log(process.env.GMAIL_USER)
 const nodemailer = require('nodemailer')
 
 const transport = nodemailer.createTransport({
@@ -18,17 +17,23 @@ const transport = nodemailer.createTransport({
   }
 })
 
-const mailOptions = {
-  from:process.env.GMAIL_USER,
-  to:'apponehealth@gmail.com',
-  subject:'ComuKol Invite',
-  text:'You are receiving this mail because you have been invited to ComuKol for outbreak response team, please use the following linke on consent https://comukol.herokuapp.com/about'
+const mailer = (recipient, callback) => {
+  const mailOptions = {
+    from:process.env.GMAIL_USER,
+    to:recipient,
+    subject:'ComuKol Invite',
+    text:'You are receiving this mail because you have been invited to ComuKol for outbreak response team, please use the following linke on consent https://comukol.herokuapp.com/about'
+  }
+
+  transport.sendMail(mailOptions, (err, res) => {
+    if(err){
+      console.log('Error: Email not Sent! : ', err)
+      return callback(err, null)
+    }else{
+      console.log('Success: Email Sent : ', res)
+      return callback(null, res)
+    }
+  })
 }
 
-transport.sendMail(mailOptions, (err, res) => {
-  if(err){
-    console.log('Error: Email not Sent! : ',err)
-  }else{
-    console.log('Email Sent')
-  }
-})
+module.exports.mailer = mailer
