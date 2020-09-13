@@ -1,5 +1,5 @@
 <template>
-  <div id="home" class="w-full p-1 overflow-hidden font-sans">
+  <div id="home" class="w-full overflow-hidden font-sans">
       <div class="flex md:flex-row-reverse flex-wrap">
     <!--Main Content-->
         <div class="w-full md:w-4/5 bg-grey-100">
