@@ -1,5 +1,14 @@
 module.exports = {
-  purge: [],
+  purge: {
+    content: [
+      './src/**/*.html',
+      './src/**/*.vue',
+      './src/**/*.jsx'
+    ],
+    options: {
+      layers: ['utilities'],
+    }
+  },
   target: 'relaxed',
   prefix: '',
   important: false,

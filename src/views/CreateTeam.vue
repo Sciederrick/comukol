@@ -15,7 +15,7 @@
               <div class="font-bold text-md my-2 text-left dropdown" @click="toggler()">Invite Members <fa-icon  :icon="['fas', 'angle-down']" class="dropdown" size="1x"/></div>
               <div :class="{hide:!display}">
                 <label>
-                  <textarea v-model="invites" name="description" rows="1" cols="" class="border rounded py-1 px-2 w-full" placeholder="paste email addresses here..." title="coming soon.." disabled></textarea>
+                  <textarea v-model="invites" name="description" rows="1" cols="" class="border rounded py-1 px-2 w-full" placeholder="paste email addresses here..."></textarea>
                 </label>
               </div>
             </div>
@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import InviteMembers from '@/components/InviteMembers.vue'
 import statusBar from '../components/statusBar.vue'
 import statusPanel from '../mixins/statusPanel'
 import router from "../router"
@@ -59,6 +58,7 @@ export default {
       description:null,
       invites:null,
       toolkit:null,
+      by:null,
       display:false
     }
   },
@@ -72,7 +72,7 @@ export default {
         window.alert('detected empty fields!')
       }else{
         if(invites===null||invites===' '){
-          const user=JSON.parse(localStorage.getItem('user'))
+          const user=JSON.parse(atob(JSON.parse(localStorage.token).accessToken.split('.')[1]))
           const email=user.email
           const confirm=window.confirm('Proceed without inviting members...!')
           const url = '/api/create/team'
@@ -88,7 +88,7 @@ export default {
               this.success(`team ${response.data.name} has been created successfully!`)
               setTimeout(()=>{
                 router.push('/home')
-              }, 3500)
+              }, 2000)
             })
             .catch(err=>{
               this.fail(err.response.data.error)
@@ -96,8 +96,9 @@ export default {
             })
           }
         }else{
-          const user=JSON.parse(localStorage.getItem('user'))
+          const user=JSON.parse(atob(JSON.parse(localStorage.token).accessToken.split('.')[1]))
           const email=user.email
+          this.by = email
           const url = '/api/create/team'
           const url2 = '/api/invite/members'
           const data = {
@@ -113,13 +114,13 @@ export default {
           .then(response=>{
             this.success(`team ${response.data.name} has been created successfully!`)
           })
+          .then(response=>{
+            this.inviteMembers() //send email to invited members on successful creation of the team
+          })
           .catch(err=>{
             this.fail(err)
             console.log(err.response.data.error)
           })
-          // .then(response=>{
-            // this.inviteMembers() //send email to invited members
-          // })
         }
       }
 
@@ -133,10 +134,13 @@ export default {
       })
       invitees.pop()
       invitees=invitees.toString()
+      const by = this.by
       const url='/api/invite/members'
-      this.$axios.post(url, {invitees})
+      this.$axios.post(url, {invitees, by})
         .then(response=>{
-          this.success('email invite sent!')
+          let accepted = response.accepted, rejected = response.rejected
+          console.log(response)
+          this.success({accepted, rejected})
         })
         .catch(err=>{
           this.fail(err)

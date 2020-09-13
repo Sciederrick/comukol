@@ -17,12 +17,12 @@ const transport = nodemailer.createTransport({
   }
 })
 
-const mailer = (recipient, callback) => {
+const mailer = (params, callback) => {
   const mailOptions = {
     from:process.env.GMAIL_USER,
-    to:recipient,
+    to:params.recipient,
     subject:'ComuKol Invite',
-    text:'You are receiving this mail because you have been invited to ComuKol for outbreak response team, please use the following linke on consent https://comukol.herokuapp.com/about'
+    text:`You are receiving this mail because you have been invited to ComuKol for outbreak response team by ${params.by}, please use the following linke on consent https://comukol.herokuapp.com/about`
   }
 
   transport.sendMail(mailOptions, (err, res) => {

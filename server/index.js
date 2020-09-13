@@ -249,7 +249,7 @@ app.post('/api/list/files', (req, res) => {
   })()
 })
 
-app.post("/api/delete/file", (req, res)=>{
+app.post("/api/delete/file", (req, res) => {
   (async ()=>{
     const fileName = req.body.file
     try{
@@ -261,12 +261,17 @@ app.post("/api/delete/file", (req, res)=>{
   })()
 })
 
-app.post("/api/invite/members", (req, res)=>{
-  const recipient = req.body.recipients
-    mail.mailer(recipient, (err, done)=>{
-      if(err) res.send(err)
-      res.send(done)
-    })
+app.post("/api/invite/members", (req, res) => {
+  const recipient = req.body.invitees
+  const by = req.body.by
+  const params = {
+    recipient,
+    by
+  }
+  mail.mailer(params, (err, done)=>{
+    if(err) res.send(err)
+    res.send(done)
+  })
 })
 
 

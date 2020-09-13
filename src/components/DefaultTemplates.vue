@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import storage from './firebaseInit'
 import statusBar from '@/components/statusBar.vue'
 import statusPanel from '../mixins/statusPanel'
 import downloadFile from '../mixins/downloadFile'

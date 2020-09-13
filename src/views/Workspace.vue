@@ -11,17 +11,6 @@
   </div>
 </template>
 
-<script>
-export default{
-  name:'Workspace',
-  methods:{
-    refresh(){
-      location.reload()
-    }
-  }
-}
-</script>
-
 <style scoped>
 #Workspace a.router-link-exact-active {
   color: #42b983;
