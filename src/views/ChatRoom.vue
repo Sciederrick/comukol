@@ -25,7 +25,7 @@ export default{
   data(){
     return{
       username: "",
-      socket: io('localhost:5000/'),
+      socket: io(),
       messages: [],
       users: []
     }
