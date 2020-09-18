@@ -166,7 +166,9 @@ app.get('/api/resetpassword/:id/:token', (req, res)=>{
 })
 
 app.post('/api/resetpassword', (req, res)=>{
-  User.findByIdAndUpdate(req.body.id, {password:User.hashPassword(req.body.password)}, (err, user) => {
+  let record = new User()
+  const pwd = record.hashPassword(req.body.password)
+  User.findByIdAndUpdate(req.body.id, {password:pwd}, (err, user) => {
     if(err) res.status(500).json({error: 'password reset failed!'})
     // const secret = `${user.password}-${d.getTime(user.createdAt)}`
     // const payload = jwt.decode(req.body.token, secret)
