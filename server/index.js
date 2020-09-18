@@ -148,14 +148,16 @@ app.post('/api/passwordreset', (req, res)=>{
 
 app.get('/api/resetpassword/:id/:token', (req, res)=>{
   const id = req.params.id
-  const d = new Date()
   User.findById(id, (err, user) => {
     if(err) res.status(500).json({error: 'db operation failed!'})
       const secret = `${user.password}-${Date.parse(user.updatedAt)}`
-      const payload = jwt.decode(req.params.token, secret)
+      try{
+        const payload = jwt.verify(req.params.token, secret)
+      }catch(err){
+        console.log(err)
+        res.status(500).json({error:'invalid reset link'})
+      }
       //Form to reset password
-      console.log('payload\n')
-      console.log(payload)
       res.send(
       '<form action="/api/resetpassword" method="POST">' +
       '<input type="hidden" name="id" value="' + payload.id + '" />' +
