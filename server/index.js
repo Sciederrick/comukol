@@ -156,6 +156,8 @@ app.get('/api/resetpassword/:id/:token', (req, res)=>{
       const secret = `${user.password}-${d.getTime(user.updatedAt)}`
       const payload = jwt.decode(req.params.token, secret)
       //Form to reset password
+      console.log('payload\n')
+      console.log(payload)
       res.send(
       '<form action="/api/resetpassword" method="POST">' +
       '<input type="hidden" name="id" value="' + payload.id + '" />' +
