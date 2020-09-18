@@ -150,6 +150,7 @@ app.post('/api/passwordreset', (req, res)=>{
 
 app.get('/api/resetpassword/:id/:token', (req, res)=>{
   const id = req.params.id
+  const d = new Date()
   User.findById(id, function (err, user) {
     if(err) res.status(500).json({error: 'db operation failed!'})
       const secret = `${user.password}-${d.getTime(user.createdAt)}`
