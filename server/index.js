@@ -116,6 +116,64 @@ app.post('/api/register', (req, res, next)=>{
   })
 })
 
+//reset password
+app.post('/api/passwordreset', (req, res)=>{
+  const email = req.body.email
+
+  User.findOne({email}, (err, user)=>{
+    if(err){
+      console.log(err)
+      res.status(500).send('error occured')
+    }else{
+      if(user){
+        const payload = {
+          id:user._id,
+          email:user.email,
+        }
+        let d = new Date()
+        const secret = `${user.password}-${d.getTime(user.createdAt)}`
+        const token = jwt.sign(payload, secret)
+        const params = {
+          email : req.body.email,
+          resetLink: `https://comukol.herokuapp.com/api/resetpassword/${payload.id}/${token}`
+        }
+        mail.mailResetLink(params, (err, success)=>{
+          if(err) res.status(400).json({err})
+          res.send(success.accepted)
+        })
+      }else{
+        res.status(404).json({error:'email does not exist!'})
+      }
+    }
+  })
+})
+
+app.get('/api/resetpassword/:id/:token', (req, res)=>{
+  const id = req.params.id
+  User.findById(id, function (err, user) {
+    if(err) res.status(500).json({error: 'db operation failed!'})
+      const secret = `${user.password}-${d.getTime(user.createdAt)}`
+      const payload = jwt.decode(req.params.token, secret)
+      //Form to reset password
+      res.send('<form action="/api/resetpassword" method="POST">' +
+      '<input type="hidden" name="id" value="' + payload._id + '" />' +
+      '<input type="hidden" name="token" value="' + req.params.token + '" />' +
+      '<input type="password" name="password" value="" placeholder="Enter your new password..." />' +
+      '<input type="submit" value="Reset Password" />' +
+      '</form>')
+  })
+})
+
+app.post('/api/resetpassword', (req, res)=>{
+  User.findByIdAndUpdate(id, {password:req.body.password}, (err, user) => {
+    if(err) res.status(500).json({error: 'password reset failed!'})
+    // const secret = `${user.password}-${d.getTime(user.createdAt)}`
+    // const payload = jwt.decode(req.body.token, secret)
+    //TODO: update password
+    res.send('Your password has been successfully changed.')
+  })
+})
+
 //refresh token, to be stored in Redis DB
 let refreshTokens = []
 

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
+import ForgotPassword from '../views/ForgotPassword.vue'
 import CreateJoinTeam from '../views/CreateJoinTeam.vue'
 import CreateTeam from '../views/CreateTeam.vue'
 import UserProfile from '../views/UserProfile.vue'
@@ -20,6 +21,7 @@ import FilesDropZone from '../components/FilesDropZone.vue'
 import DefaultTemplates from '../components/DefaultTemplates.vue'
 import CustomTemplates from '../components/CustomTemplates.vue'
 import FilledForms from '../components/FilledForms.vue'
+import NotFound from '../components/NotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +30,16 @@ Vue.use(VueRouter)
     path: '/',
     name: 'SignIn',
     component: SignIn
+  },
+  {
+    path: '/register',
+    name: 'SignUp',
+    component: SignUp
+  },
+  {
+    path: '/forgotpassword',
+    name: 'ForgotPassword',
+    component: ForgotPassword
   },
   {
     path: '/invited',
@@ -70,11 +82,6 @@ Vue.use(VueRouter)
         ]
       }
     ]
-  },
-  {
-    path: '/register',
-    name: 'SignUp',
-    component: SignUp
   },
   {
     path: '/create/join/team',
@@ -139,8 +146,13 @@ Vue.use(VueRouter)
     component: FilesDropZone
   },
   {
+    path: '/NotFound',
+    name: 'NotFound',
+    component: NotFound
+  },
+  {
     path: '*',
-    redirect: '/'
+    redirect: '/NotFound'
   }
 ]
 
@@ -152,7 +164,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   //redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/', '/about']
+  const publicPages = ['/', '/register', '/forgotpassword', '/about', '/NotFound']
   const authRequired = !publicPages.includes(to.path)
   const loggedIn = localStorage.getItem('token')
 

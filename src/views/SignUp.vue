@@ -1,13 +1,13 @@
 <template>
-  <div id="signUp" class="pt-4">
+  <div id="signUp" class="pt-1">
     <div id="nav">
       <router-link to="/register">Register</router-link> |
       <router-link to="/">Login</router-link>
     </div>
-    <div class="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
+    <div class="max-w-sm lg:max-w-md rounded overflow-hidden shadow-lg mx-auto">
       <img class="w-full" src="@/assets/img/comukol.jpeg" alt="Comukol">
-      <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2">ComuKOL Account Creation</div>
+      <div class="px-6 py-4 lg:py-2">
+        <div class="font-bold text-xl mb-2">ComuKol Account Creation</div>
         <form class="" action="" method="post">
         <div v-if="errors.length" class="text-xs">
           <b class="text-blue-700">Please correct the following error(s):</b>
@@ -17,16 +17,16 @@
         </div>
         <label class="flex flex-row">
           <fa-icon :icon="['fas', 'envelope']" size="1x" class="self-center"/>
-          <input v-model="email" type="email" name="email" placeholder="johndoe@gmail.com" class="input mx-auto py-1 px-2" autocomplete="off">
+          <input v-model="email" type="email" name="email" placeholder="johndoe@gmail.com" class="input mx-auto py-1 lg:py-2 px-2" autocomplete="off">
         </label>
         <label class="flex flex-row">
           <fa-icon  :icon="['fas', 'key']" class="self-center" size="1x"/>
-          <input v-model="password" type="password" name="password" class="input mx-auto py-1 px-2" autocomplete="off">
+          <input v-model="password" type="password" name="password" class="input mx-auto py-1 lg:py-2 px-2" autocomplete="off">
         </label>
-        <input @click.submit.prevent="checkForm()" class="btn float-right bg-green-500 text-white mr-8" type="submit" name="login" value="sign up">
+        <input @click.submit.prevent="checkForm()" class="btn float-right border border-green-600 bg-white text-green-600 mr-8 lg:mr-10 p-1 rounded-md hover:bg-green-600 hover:text-white" type="submit" name="login" value="sign up">
         </form>
       </div>
-      <div class="px-6 py-4 w-full mt-2">
+      <div class="px-6 py-6 w-full mt-2">
         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#join us</span>
         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#invite</span>
         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mt-1">#lead team</span>

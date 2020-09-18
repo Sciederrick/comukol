@@ -40,7 +40,7 @@ const userSchema = new Schema({
   password: {
     type: String, required: true
   }
-}, {timestamp: true, _id: true, autoIndex: true });
+}, {timestamps: true, _id: true, autoIndex: true });
 
 userSchema.methods.hashPassword=(password)=>{
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10))
