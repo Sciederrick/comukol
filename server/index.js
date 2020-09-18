@@ -119,7 +119,6 @@ app.post('/api/register', (req, res, next)=>{
 //reset password
 app.post('/api/passwordreset', (req, res)=>{
   const email = req.body.email
-
   User.findOne({email}, (err, user)=>{
     if(err){
       console.log(err)
@@ -130,8 +129,7 @@ app.post('/api/passwordreset', (req, res)=>{
           id:user._id,
           email:user.email,
         }
-        let d = new Date()
-        const secret = `${user.password}-${d.getTime(user.updatedAt)}`
+        const secret = `${user.password}-${Date.parse(user.updatedAt)}`
         const token = jwt.sign(payload, secret)
         const params = {
           email : req.body.email,
@@ -153,7 +151,7 @@ app.get('/api/resetpassword/:id/:token', (req, res)=>{
   const d = new Date()
   User.findById(id, (err, user) => {
     if(err) res.status(500).json({error: 'db operation failed!'})
-      const secret = `${user.password}-${d.getTime(user.updatedAt)}`
+      const secret = `${user.password}-${Date.parse(user.updatedAt)}`
       const payload = jwt.decode(req.params.token, secret)
       //Form to reset password
       console.log('payload\n')
