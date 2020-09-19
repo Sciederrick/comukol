@@ -133,7 +133,7 @@ app.post('/api/passwordreset', (req, res)=>{
         const token = jwt.sign(payload, secret)
         const params = {
           email : req.body.email,
-          resetLink: `https://comukol.herokuapp.com/api/resetpassword/${payload.id}/${token}`
+          resetLink: `http://localhost:8080/api/resetpassword/${payload.id}/${token}` //https://comukol.herokuapp.com
         }
         mail.mailResetLink(params, (err, success)=>{
           if(err) res.status(400).json({err})
@@ -233,18 +233,38 @@ app.get('/api/resetpassword/:id/:token', (req, res)=>{
 })
 
 app.post('/api/resetpassword', (req, res)=>{
-  let record = new User()
-  const pwd = record.hashPassword(req.body.password)
-  User.findByIdAndUpdate(req.body.id, {password:pwd}, (err, user) => {
-    if(err) res.status(500).json({error: 'password reset failed!'})
-    // const secret = `${user.password}-${d.getTime(user.createdAt)}`
-    // const payload = jwt.decode(req.body.token, secret)
-    res.send(`
-      <div style="height:100%;display:flex;justify-content:center;align-content:center;align-items:center;">
+  const id = req.body.id
+  const token = req.body.token
+  const password = req.body.password
+  //fn
+  const updatePassword = () => {
+    let record = new User()
+    const pwd = record.hashPassword(password)
+    User.findByIdAndUpdate(id, {password:pwd}, (err, user) => {
+      if(err) res.status(500).json({error: 'password reset failed!'})
+      res.send(`
+        <div style="height:100%;display:flex;justify-content:center;align-content:center;align-items:center;">
         <p style="font-family:sans-serif;font-size=3.5rem;font-weight:700;color:#008000;">Your password has been changed successfully</p>
-      </div>
-    `)
+        </div>
+        `)
+      })
+  }
+  User.findById(id, (err, user) => {
+    if(err) res.status(500).json({error: 'db operation failed!'})
+      const secret = `${user.password}-${Date.parse(user.updatedAt)}`
+      try{
+        const payload = jwt.verify(token, secret)
+        updatePassword()
+      }catch(err){
+        console.log(err)
+        res.status(500).send(`
+          <div style="height:100%;display:flex;justify-content:center;align-content:center;align-items:center;">
+            <p style="font-family:sans-serif;font-size=3.5rem;font-weight:700;color:#990F02;">Invalid Reset Link!</p>
+          </div>
+        `)
+      }
   })
+
 })
 
 //refresh token, to be stored in Redis DB
