@@ -1,10 +1,5 @@
 <template id="ForgotPassword">
 <div class="flex h-screen justify-center">
-  <!-- <form method="post" class="m-auto">
-      <legend><fa-icon :icon="['fas', 'envelope']" size="1x"/></legend>
-      <input type="email" placeholder="janedoe@gmail.com" class="p-2 pl-4 border border-r-0 border-blue-700 rounded-r-none rounded-l-md focus:outline-none" autofocus>
-      <input type="submit" value="submit" class="btn p-2 border border-l-0 border-blue-500 rounded-l-none rounded-r-md bg-blue-500 text-white hover:bg-blue-900 hover:border-blue-900">
-  </form> -->
   <form class="m-auto">
     <div v-if="errors.length" class="text-xs pb-12">
       <b class="text-blue-700">Please correct the following error(s):</b>
@@ -22,15 +17,22 @@
       </button>
     </div>
   </form>
+  <Spinner v-if="spinner"/>
 </div>
 </template>
 
 <script>
+import Spinner from '@/components/Spinner.vue'
 export default{
+  name: 'ForgotPassword',
+  components:{
+    Spinner
+  },
   data(){
     return{
       email:'',
-      errors:[]
+      errors:[],
+      spinner: false
     }
   },
   methods:{
@@ -41,9 +43,11 @@ export default{
       const url = '/api/passwordreset'
       let response = await this.$axios.post(url, data)
         .then((response)=>{
+          this.spinner = false
           window.alert('password reset link sent')
         })
         .catch((errors)=>{
+          this.spinner = false
           window.alert('password reset failed!')
         })
     },
@@ -55,6 +59,7 @@ export default{
         this.errors.push('valid email required')
       }
       if(!this.errors.length){
+        this.spinner = true
         this.passwordResetLink()
       }
     },

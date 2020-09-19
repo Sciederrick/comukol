@@ -133,7 +133,7 @@ app.post('/api/passwordreset', (req, res)=>{
         const token = jwt.sign(payload, secret)
         const params = {
           email : req.body.email,
-          resetLink: `https://comukol.herokuapp.com/api/resetpassword/${payload.id}/${token}`
+          resetLink: `http://localhost:8080/api/resetpassword/${payload.id}/${token}`
         }
         mail.mailResetLink(params, (err, success)=>{
           if(err) res.status(400).json({err})
@@ -155,16 +155,79 @@ app.get('/api/resetpassword/:id/:token', (req, res)=>{
         const payload = jwt.verify(req.params.token, secret)
         //Form to reset password
         res.send(
-          '<form action="/api/resetpassword" method="POST">' +
+          '<p style="font-family:sans-serif;font-weight:700;font-size:2rem;padding:10px;color:#FFFFFF;text-shadow:2px 2px #ADD8E6;">ComuKol</p>' +
+          '<form action="/api/resetpassword" method="POST" style="width:60%;margin:60px auto;background:#ADD8E6;padding:60px 120px 80px 120px;text-align:center;-webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.1);box-shadow: 2px 2px 3px rgba(0,0,0,0.1);">' +
           '<input type="hidden" name="id" value="' + payload.id + '" />' +
           '<input type="hidden" name="token" value="' + req.params.token + '" />' +
-          '<input type="password" name="password" value="" placeholder="Enter your new password..." />' +
-          '<input type="submit" value="Reset Password" />' +
-          '</form>'
+          '<label style="display:block;position:relative;margin:40px 0px;">' +
+            `<p style="position:absolute;top:-1.6em;padding:10px;font-family:sans-serif;font-size:.8em;letter-spacing:1px;color:rgb(120,120,120);transition:ease .3s;" onfocus="this.style.top='-3em'" onfocusout="this.style.top='0'">New Password</p>` +
+            '<input id="newPwd" type="password" name="password" style="width:100%;margin-top:20px;padding:10px;background:transparent;border:none;outline:none;"/>' +
+           `<div style="position:relative;width:100%;height:2px;background:#FFFFFF;" class="box-line">` +
+            '<div style="position:absolute;width:0%;height:2px;top:0px;left:50%;transform:translateX(-50%);background:#8BC34A;transition:ease .3s;"></div>' +
+           '</div>' +
+           '</label>' +
+          '<label style="display:block;position:relative;margin:40px 0px;">' +
+            `<p style="position:absolute;top:-1.6em;padding:10px;font-family:sans-serif;font-size:.8em;letter-spacing:1px;color:rgb(120,120,120);transition:ease .3s;" onfocus="this.style.top='-3em'" onfocusout="this.style.top='0'">Confirm Password</p>` +
+            '<input id="confirmPwd" type="password" name="confirmPassword" style="width:100%;margin-top:20px;padding:10px;background:transparent;border:none;outline:none;"/>' +
+           `<div style="position:relative;width:100%;height:2px;background:#FFFFFF;" class="box-line">` +
+            '<div style="position:absolute;width:0%;height:2px;top:0px;left:50%;transform:translateX(-50%);background:#8BC34A;transition:ease .3s;"></div>' +
+           '</div>' +
+           '</label>' +
+           '<p id="matchPasswords" style="text-align:left"></p>' +
+          `<input onMouseOver="this.style.color='#FFF';this.style.backgroundColor='#008000'" onMouseOut="this.style.color='#787878';this.style.backgroundColor='#FFFFFF'" type="submit" value="Reset Password" style="inline-block;padding:12px 24px;background:rgb(360,360,360);font-weight:bold;color:rgb(120,120,120);border:none;outline:none;border-radius:3px;cursor:not-allowed;transition:ease .3s;" disabled/>` +
+          '</form>' +
+          `<script type="text/javascript">
+            let passwordField = document.querySelectorAll('input[type="password"]')
+            let boxLine = document.querySelectorAll('div.box-line')
+            const matchPasswords = document.querySelector('#matchPasswords')
+            const submitButton = document.querySelector('input[type="submit"]')
+              passwordField[0].addEventListener('focus', ()=>{
+                boxLine[0].style.transition='ease .5s'
+                boxLine[0].style.backgroundColor='#008000'
+              })
+              passwordField[0].addEventListener('focusout', ()=>{
+                boxLine[0].style.transition='ease .3s'
+                boxLine[0].style.backgroundColor='#FFFFFF'
+              })
+              passwordField[1].addEventListener('focus', ()=>{
+                boxLine[1].style.transition='ease .5s'
+                boxLine[1].style.backgroundColor='#008000'
+              })
+              passwordField[1].addEventListener('focusout', ()=>{
+                boxLine[1].style.transition='ease .3s'
+                boxLine[1].style.backgroundColor='#FFFFFF'
+              })
+              passwordField[0].addEventListener('keyup', ()=>{
+                if(passwordField[0].value !== passwordField[1].value){
+                  submitButton.setAttribute("disabled", "disabled")
+                  submitButton.style.cursor='not-allowed'
+                  matchPasswords.innerHTML='<small style="color:#FF0000">passwords do not match!</small>'
+                }else{
+                  matchPasswords.innerHTML='<small style="color:#008000">passwords match</small>'
+                  submitButton.style.cursor='pointer'
+                  submitButton.removeAttribute("disabled")
+                }
+              })
+              passwordField[1].addEventListener('keyup', ()=>{
+                if(passwordField[0].value !== passwordField[1].value){
+                  submitButton.setAttribute("disabled", "disabled")
+                  submitButton.style.cursor='not-allowed'
+                  matchPasswords.innerHTML='<small style="color:#FF0000">passwords do not match!</small>'
+                }else{
+                  matchPasswords.innerHTML='<small style="color:#008000">passwords match</small>'
+                  submitButton.style.cursor='pointer'
+                  submitButton.removeAttribute("disabled")
+                }
+              })
+           </script>`
         )
       }catch(err){
         console.log(err)
-        res.status(500).json({error:'invalid reset link'})
+        res.status(500).send(`
+          <div style="height:100%;display:flex;justify-content:center;align-content:center;align-items:center;">
+            <p style="font-family:sans-serif;font-size=3.5rem;font-weight:700;color:#990F02;">Invalid Reset Link!</p>
+          </div>
+        `)
       }
   })
 })
@@ -176,8 +239,11 @@ app.post('/api/resetpassword', (req, res)=>{
     if(err) res.status(500).json({error: 'password reset failed!'})
     // const secret = `${user.password}-${d.getTime(user.createdAt)}`
     // const payload = jwt.decode(req.body.token, secret)
-    //TODO: update password
-    res.send('Your password has been successfully changed.')
+    res.send(`
+      <div style="height:100%;display:flex;justify-content:center;align-content:center;align-items:center;">
+        <p style="font-family:sans-serif;font-size=3.5rem;font-weight:700;color:#008000;">Your password has been changed successfully</p>
+      </div>
+    `)
   })
 })
 
