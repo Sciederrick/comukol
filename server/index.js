@@ -133,7 +133,7 @@ app.post('/api/passwordreset', (req, res)=>{
         const token = jwt.sign(payload, secret)
         const params = {
           email : req.body.email,
-          resetLink: `http://localhost:8080/api/resetpassword/${payload.id}/${token}` //https://comukol.herokuapp.com
+          resetLink: `https://comukol.herokuapp.com/api/resetpassword/${payload.id}/${token}` 
         }
         mail.mailResetLink(params, (err, success)=>{
           if(err) res.status(400).json({err})
