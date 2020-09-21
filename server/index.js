@@ -133,7 +133,7 @@ app.post('/api/passwordreset', (req, res)=>{
         const token = jwt.sign(payload, secret)
         const params = {
           email : req.body.email,
-          resetLink: `https://comukol.herokuapp.com/api/resetpassword/${payload.id}/${token}`  
+          resetLink: `https://comukol.herokuapp.com/api/resetpassword/${payload.id}/${token}`
         }
         mail.mailResetLink(params, (err, success)=>{
           if(err) res.status(400).json({err})
@@ -150,8 +150,8 @@ app.get('/api/resetpassword/:id/:token', (req, res)=>{
   const id = req.params.id
   User.findById(id, (err, user) => {
     if(err) res.status(500).json({error: 'db operation failed!'})
-      const secret = `${user.password}-${Date.parse(user.updatedAt)}`
       try{
+        const secret = `${user.password}-${Date.parse(user.updatedAt)}`
         const payload = jwt.verify(req.params.token, secret)
         //Form to reset password
         res.send(
