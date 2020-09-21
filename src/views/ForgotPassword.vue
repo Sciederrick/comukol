@@ -1,5 +1,5 @@
 <template id="ForgotPassword">
-<div class="flex h-screen justify-center">
+<div class="flex h-screen justify-center px-1">
   <form class="m-auto">
     <div v-if="errors.length" class="text-xs pb-12">
       <b class="text-blue-700">Please correct the following error(s):</b>
@@ -11,9 +11,6 @@
       <input v-model="email" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="email" placeholder="Enter your email address" aria-label="email address">
       <button @click="checkForm()" class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="button">
         Send
-      </button>
-      <button class="flex-shrink-0 border-transparent border-4 text-teal-700 hover:text-teal-900 text-sm py-1 px-2 rounded" type="button">
-        <fa-icon :icon="['fas', 'envelope']" size="1x"/> Reset Link
       </button>
     </div>
   </form>
@@ -44,7 +41,7 @@ export default{
       let response = await this.$axios.post(url, data)
         .then((response)=>{
           this.spinner = false
-          window.alert('password reset link sent')
+          window.alert('password reset link sent to your inbox')
         })
         .catch((errors)=>{
           this.spinner = false
