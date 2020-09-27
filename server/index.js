@@ -119,7 +119,7 @@ app.post('/api/register', (req, res, next)=>{
 //reset password
 app.post('/api/passwordreset', (req, res)=>{
   const email = req.body.email
-  User.findOne({email}, (err, user)=>{
+  User.findOne({email}, (err, user)=>{                                                        /*check if the email exists, generate secret, generate and send reset link*/
     if(err){
       console.log(err)
       res.status(500).send('error occured')
@@ -137,7 +137,7 @@ app.post('/api/passwordreset', (req, res)=>{
         }
         mail.mailResetLink(params, (err, success)=>{
           if(err) res.status(400).json({err})
-          res.send(success.accepted)
+          res.send(success)
         })
       }else{
         res.status(404).json({error:'email does not exist!'})
@@ -148,7 +148,7 @@ app.post('/api/passwordreset', (req, res)=>{
 
 app.get('/api/resetpassword/:id/:token', (req, res)=>{
   const id = req.params.id
-  User.findById(id, (err, user) => {
+  User.findById(id, (err, user) => {                                                    /*verify the user id, verify token, display form*/
     if(err) res.status(500).json({error: 'db operation failed!'})
       try{
         const secret = `${user.password}-${Date.parse(user.updatedAt)}`
@@ -341,7 +341,7 @@ app.post('/api/resetpassword', (req, res)=>{
   const updatePassword = () => {
     let record = new User()
     const pwd = record.hashPassword(password)
-    User.findByIdAndUpdate(id, {password:pwd}, (err, user) => {
+    User.findByIdAndUpdate(id, {password:pwd}, (err, user) => {                                       /*verify user, change password*/
       if(err) res.status(500).json({error: 'password reset failed!'})
       res.send(
         `<!DOCTYPE html>
@@ -363,8 +363,8 @@ app.post('/api/resetpassword', (req, res)=>{
   }
   User.findById(id, (err, user) => {
     if(err) res.status(500).json({error: 'db operation failed!'})
-      const secret = `${user.password}-${Date.parse(user.updatedAt)}`
       try{
+        const secret = `${user.password}-${Date.parse(user.updatedAt)}`
         const payload = jwt.verify(token, secret)
         updatePassword()
       }catch(err){
@@ -446,27 +446,102 @@ app.post("/api/login", (req, res) => {
   })
 })
 
-// app.post("/api/invited/confirm", (req, res)=>{
-//   let email=req.body.email
-//   User.findOne({email, role:false, contact:null}, (err, user)=>{
-//     if(err) res.status(404).send(`error: ${err}`)
-//     if(user) console.log(user)
-//     res.status(404).json({error: 'User does not exist'})
-//   })
-// })
-//
-// app.post("/api/invited/modify/password", (req, res)=>{
-//   let email=req.body.email
-//   let password=req.body.password
-//   password=bcrypt.hashSync(password, bcrypt.genSaltSync(10))
-//   User.findOneAndUpdate({email}, {password}, {new: true}, (err, user)=>{
-//     if(err) res.status(499).json({error: 'Update Failed!'})
-//     if(user){
-//       res.send(user)
-//     }
-//     res.status(404).json({error: 'Update error!'})
-//   })
-// })
+/************************Import Model******************************/
+let Invite = require('./models/Invite.js')
+/************************Import Model******************************/
+
+/************************Import Model******************************/
+let Team = require('./models/Team.js')
+/************************Import Model******************************/
+
+app.post("/api/invited/verify", (req, res)=>{
+  const email = req.body.email
+  const teamName = req.body.team
+  Invite.findOne({email, team:teamName}, (err, user) => {
+    if(err) res.status(404).send(`error: ${err}`)
+    if(user){
+      console.log(user)
+      Team.findOne({name:teamName}, (err, team) => {
+        if(err) res.status(404).send(`error: ${err}`)
+        if(team){
+          res.sendStatus(200)
+          console.log(team)
+        }else{
+          console.log('team does not exist')
+          res.status(404).json({error: 'Team does not exist'})
+        }
+      })
+    }else{
+      console.log('user does not exist')
+      res.status(404).json({error: 'User does not exist'})
+    }
+  })
+})
+
+app.post("/api/invite/members", (req, res) => {
+  const teamName = req.body.teamName
+  const teamDescription = req.body.description
+  const recipient = req.body.invitees
+  const by = req.body.by
+  const params = {
+    recipient,
+    by,
+    teamName,
+    teamDescription
+  }
+  const length = Array.from(recipient.split(',')).length
+  let index = 0
+  let responses = []
+  mail.mailer(params, (err, done)=>{
+    index++
+    if(err){
+      res.send(err)
+    }else{
+      let record = new Invite()
+      record.email = done
+      record.team = teamName
+      record.save((err, invite)=>{
+        if(err){
+          res.status(500).send('db error')
+          console.log(err)
+        }else{
+          responses.push(invite)
+          if(index===length) res.status(200).send(responses)
+        }
+      })
+    }
+  })
+})
+
+app.post("/api/register/member", (req, res)=>{
+  const id = req.body.id
+  const email = req.body.email
+  const team = req.body.team
+  let password = req.body.password
+  password=bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+
+  let record = new User()
+  record._id = id
+  record.email = email
+  record.teams = team
+  record.password = record.hashPassword(password)
+  record.save((err, user)=>{
+    if(err){
+      res.status(500).json({error:'db(1.save user) operation failed'})
+      console.log(err)
+    }else{
+      const usr = user
+      Invite.deleteOne({email}, (err)=>{
+        if(err){
+          res.status(500).json({error:'db(2.delete invite) operation failed'})
+        }else{
+          res.status(200).json(usr)
+          console.log(user)
+        }
+      })
+    }
+  })
+})
 
 app.post("/api/user/profile", (req, res) => {
   const email=req.body.email
@@ -534,18 +609,6 @@ app.post("/api/delete/file", (req, res) => {
   })()
 })
 
-app.post("/api/invite/members", (req, res) => {
-  const recipient = req.body.invitees
-  const by = req.body.by
-  const params = {
-    recipient,
-    by
-  }
-  mail.mailer(params, (err, done)=>{
-    if(err) res.send(err)
-    res.send(done)
-  })
-})
 
 
 /************************Import Model******************************/
@@ -594,9 +657,6 @@ app.get("/api/daily/reports", (req, res)=>{
 })
 
 
-/************************Import Model******************************/
-let Team = require('./models/Team.js')
-/************************Import Model******************************/
 //create Team
 app.post("/api/create/team", (req, res)=>{
   const teamName = req.body.teamName

@@ -1,6 +1,6 @@
 <template id="ForgotPassword">
 <div class="flex h-screen justify-center px-1">
-  <form class="m-auto">
+  <form class="m-auto w-full md:w-2/3 lg:w-1/3">
     <div v-if="errors.length" class="text-xs pb-12">
       <b class="text-blue-700">Please correct the following error(s):</b>
       <ul>
@@ -19,12 +19,9 @@
 </template>
 
 <script>
-import Spinner from '@/components/Spinner.vue'
+
 export default{
   name: 'ForgotPassword',
-  components:{
-    Spinner
-  },
   data(){
     return{
       email:'',

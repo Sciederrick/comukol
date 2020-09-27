@@ -13,6 +13,13 @@ import VueTelInput from 'vue-tel-input'
 import CKEditor from 'ckeditor4-vue'
 import Popover from 'vue-js-popover'
 
+//global components
+import Modal from '@/components/Modal.vue'
+import Spinner from '@/components/Spinner.vue'
+
+Vue.component('Modal', Modal)
+Vue.component('Spinner', Spinner)
+
 Vue.config.productionTip = false
 
 Vue.use(UUID)

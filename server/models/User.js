@@ -17,7 +17,7 @@ const userSchema = new Schema({
     type: String, default: null
   },
   email: {
-    type: String, required: true
+    type: String, required: true, unique: true 
   },
   workplace: {
     type: String, default: null

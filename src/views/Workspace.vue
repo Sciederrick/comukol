@@ -5,9 +5,9 @@
       <router-link to="/custom/templates" class="underline hover:line-through">Custom <span class="hidden md:inline-block">Templates</span></router-link>
       <router-link to="/filled/forms" class="underline hover:line-through">Filled <span class="hidden md:inline-block">Forms</span></router-link>
     </div>
-    <transition name="slide" mode="out-in">
+    <!-- <transition name="slide" mode="out-in"> -->
       <router-view class="pt-8"></router-view>
-    </transition>
+    <!-- </transition> -->
   </div>
 </template>
 

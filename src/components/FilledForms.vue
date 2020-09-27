@@ -33,13 +33,12 @@ import fileListing from '@/mixins/fileListing'
 import downloadFile from '@/mixins/downloadFile'
 import deleteFile from '@/mixins/deleteFile'
 import MultipleFilesUploader from '@/components/MultipleFilesUploader.vue'
-import Spinner from '@/components/Spinner.vue'
+
 export default {
   name: 'FilledForms',
   components:{
     MultipleFilesUploader,
-    statusBar,
-    Spinner
+    statusBar
   },
   data(){
     return{

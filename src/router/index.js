@@ -2,26 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import SignIn from '../views/SignIn.vue'
-import SignUp from '../views/SignUp.vue'
-import ForgotPassword from '../views/ForgotPassword.vue'
-import CreateJoinTeam from '../views/CreateJoinTeam.vue'
-import CreateTeam from '../views/CreateTeam.vue'
-import UserProfile from '../views/UserProfile.vue'
-import Events from '../views/Events.vue'
 import Charts from '../views/Charts.vue'
-import Workspace from '../views/Workspace.vue'
-import InvitedMemberSignIn from '../views/InvitedMemberSignIn.vue'
-import ChatRoom from '../views/ChatRoom.vue'
-import Profile from '../components/Profile.vue'
-import EditProfile from '../components/EditProfile.vue'
-import Report from '../components/Report.vue'
-import Schedule from '../components/Schedule.vue'
 import MultipleUploads from '../components/MultipleFilesUploader.vue'
 import FilesDropZone from '../components/FilesDropZone.vue'
-import DefaultTemplates from '../components/DefaultTemplates.vue'
-import CustomTemplates from '../components/CustomTemplates.vue'
-import FilledForms from '../components/FilledForms.vue'
-import NotFound from '../components/NotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -29,22 +12,34 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'SignIn',
-    component: SignIn
+    component: SignIn,
+    meta:{
+      requiresAuth:false
+    }
   },
   {
     path: '/register',
     name: 'SignUp',
-    component: SignUp
+    component: () => import(/* webpackChunkName: "SignUp" */ '../views/SignUp.vue'),
+    meta:{
+      requiresAuth:false
+    }
   },
   {
     path: '/forgotpassword',
     name: 'ForgotPassword',
-    component: ForgotPassword
+    component: () => import(/* webpackChunkName: "ForgotPassword" */ '../views/ForgotPassword.vue'),
+    meta:{
+      requiresAuth:false
+    }
   },
   {
-    path: '/invited',
+    path: '/invited/:email/:team',
     name: 'InvitedMemberSignIn',
-    component: InvitedMemberSignIn
+    component: () => import(/* webpackChunkName: "InvitedMemberSignIn" */ '../views/InvitedMemberSignIn.vue'),
+    meta:{
+      requiresAuth:false
+    }
   },
   {
     path: '/home',
@@ -54,30 +49,45 @@ Vue.use(VueRouter)
         path: '',
         name: 'Charts',
         component: Charts,
+        meta:{
+          requiresAuth:true
+        }
       },
       {
         path: '/events',
         name: 'Events',
-        component: Events
+        component: () => import(/* webpackChunkName: "Events" */ '../views/Events.vue'),
+        meta:{
+          requiresAuth:true
+        }
       },
       {
         path: '/workspace',
-        component: Workspace,
+        component: () => import(/* webpackChunkName: "Workspace" */ '../views/Workspace.vue'),
         children:[
           {
             path: '',
             name: 'DefaultTemplates',
-            component: DefaultTemplates
+            component: () => import(/* webpackChunkName: "DefaultTemplates" */ '../components/DefaultTemplates.vue'),
+            meta:{
+              requiresAuth:true
+            }
           },
           {
             path: '/custom/templates',
             name: 'CustomTemplates',
-            component: CustomTemplates
+            component: () => import(/* webpackChunkName: "CustomTemplates" */ '../components/CustomTemplates.vue'),
+            meta:{
+              requiresAuth:true
+            }
           },
           {
             path: '/filled/forms',
             name: 'FilledForms',
-            component: FilledForms
+            component: () => import(/* webpackChunkName: "FilledForms" */ '../components/FilledForms.vue'),
+            meta:{
+              requiresAuth:true
+            }
           }
         ]
       }
@@ -86,54 +96,75 @@ Vue.use(VueRouter)
   {
     path: '/create/join/team',
     name: 'CreateJoinTeam',
-    component: CreateJoinTeam
+    component: () => import(/* webpackChunkName: "CreateJoinTeam" */ '../views/CreateJoinTeam.vue'),
+    meta:{
+      requiresAuth:true
+    }
   },
   {
     path: '/create/team',
     name: 'CreateTeam',
-    component: CreateTeam
+    component: () => import(/* webpackChunkName: "CreateTeam" */ '../views/CreateTeam.vue'),
+    meta:{
+      requiresAuth:true
+    }
   },
   {
     path: '/user/profile',
-    component: UserProfile,
+    component: () => import(/* webpackChunkName: "UserProfile" */ '../views/UserProfile.vue'),
     children:[
       {
         path: '',
         name: 'Profile',
-        component: Profile,
-        props:true
+        component: () => import(/* webpackChunkName: "Profile" */ '../components/Profile.vue'),
+        props:true,
+        meta:{
+          requiresAuth:true
+        }
       },
       {
-        path: '/user/profile/edit',
+        path: 'edit',
         name: 'EditProfile',
-        component: EditProfile,
-        props:true
+        component: () => import(/* webpackChunkName: "EditProfile" */ '../components/EditProfile.vue'),
+        props:true,
+        meta:{
+          requiresAuth:true
+        }
       },
       {
-        path: '/user/profile/schedule',
+        path: 'schedule',
         name: 'Schedule',
-        component: Schedule,
-        props:true
+        component: () => import(/* webpackChunkName: "Schedule" */ '../components/Schedule.vue'),
+        props:true,
+        meta:{
+          requiresAuth:true
+        }
       },
       {
-        path: '/user/profile/report',
+        path: 'report',
         name: 'Report',
-        component: Report
+        component: () => import(/* webpackChunkName: "Report" */ '../components/Report.vue'),
+        meta:{
+          requiresAuth:true
+        }
       }
     ]
-  },
+    },
   {
     path: '/chatroom',
     name: 'ChatRoom',
-    component: ChatRoom
+    component: () => import(/* webpackChunkName: "ChatRoom" */ '../views/ChatRoom.vue'),
+    meta:{
+      requiresAuth:true
+    }
   },
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    meta:{
+      requiresAuth:false
+    }
   },
   {
     path: '/files',
@@ -146,26 +177,55 @@ Vue.use(VueRouter)
     component: FilesDropZone
   },
   {
-    path: '/NotFound',
-    name: 'NotFound',
-    component: NotFound
+    path: '/expired',
+    name: 'Expired',
+    component: () => import(/* webpackChunkName: "Expired" */ '../components/Expired.vue'),
+    meta:{
+      requiresAuth:false
+    }
   },
   {
     path: '*',
-    redirect: '/NotFound'
-  }
+    alias: '/404',
+    name: 'NotFound',
+    component: () => import(/* webpackChunkName: "NotFound" */ '../components/NotFound.vue'),
+    meta:{
+      requiresAuth:false
+    }
+  },
+  // {
+  //   path: '*',
+  //   redirect: '/NotFound'
+  // },
 ]
 
 const router = new VueRouter({
   mode: 'history',
+  // linkExactActiveClass: '', ##change the name of the active class from here (referenced by css)
+  // scrollBehavior(to, from, savedPosition){
+  //   if(savedPosition){
+  //     return savedPosition
+  //   }else{
+  //     const position = {}
+  //     if(to.hash){
+  //       position.selector = to.hash
+  //       if(to.hash === "#experience"){
+  //         position.offset = {y:140}
+  //       }
+  //       if(document.querySelector(to.hash)){
+  //         return position
+  //       }
+  //       return false
+  //     }
+  //   }
+  // },
   base: process.env.BASE_URL,
   routes
 })
 
 router.beforeEach((to, from, next) => {
   //redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/', '/register', '/forgotpassword', '/about', '/NotFound']
-  const authRequired = !publicPages.includes(to.path)
+  const authRequired = to.meta.requiresAuth
   const loggedIn = localStorage.getItem('token')
 
   if(authRequired && !loggedIn){

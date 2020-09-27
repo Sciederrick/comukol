@@ -23,9 +23,13 @@
                  </div>
                </div>
              </div>
-             <transition name="slide" mode="out-in">
+             <!-- <transition name="slide" mode="out-in"> -->
+             <!-- <transition name="moveUp"> -->
+             <transition name="fade" mode="out-in">
                <router-view class="static"></router-view>
              </transition>
+             <!-- </transition> -->
+             <!-- </transition> -->
            </div>
         </div>
       </div>
@@ -111,7 +115,7 @@ export default {
   font-weight: bold;
   border-color: #aa0067;
 }
-.slide-enter-active,
+/* .slide-enter-active,
 .slide-leave-active{
   transition: opacity 1s, transform 1s;
 }
@@ -119,5 +123,38 @@ export default {
 .slide-leave-to{
   opacity: 0;
   transform: translateX(-30%);
+} */
+/* .moveUp-enter-active {
+  animation: fadeIn 1s ease-in;
+}
+@keyframes fadeIn {
+  0%{
+    opacity:0;
+  }
+  50%{
+    opacity:0.5;
+  }
+  100%{
+    opacity:1;
+  }
+}
+.moveUp-leave-active {
+  animation:moveUp 0.3s ease-in;
+}
+@keyframes moveUp {
+  0%{
+    transform:translateY(0);
+  }
+  100%{
+    transform:translateY(-400px);
+  }
+} */
+.fade-enter-active,
+.fade-leave-active {
+  transition:opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -22,11 +22,10 @@ import statusBar from '@/components/statusBar.vue'
 import statusPanel from '../mixins/statusPanel'
 import downloadFile from '../mixins/downloadFile'
 import fileListing from '../mixins/fileListing'
-import Spinner from '@/components/Spinner.vue'
+
 export default {
   name: 'DefaultTemplates',
   components:{
-    Spinner,
     statusBar
   },
   data(){

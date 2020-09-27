@@ -30,13 +30,12 @@
 <script>
 import statusBar from './statusBar.vue'
 import statusPanel from '../mixins/statusPanel'
-import Spinner from '@/components/Spinner.vue'
+
 import _ from 'lodash'
 export default{
   name: 'Files',
   components:{
-    statusBar,
-    Spinner
+    statusBar
   },
   props:{
     category:{

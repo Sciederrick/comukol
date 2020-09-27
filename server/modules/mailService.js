@@ -18,22 +18,29 @@ const transport = nodemailer.createTransport({
 })
 //Invite members
 const mailer = (params, callback) => {
-  const mailOptions = {
-    from:process.env.GMAIL_USER,
-    to:params.recipient,
-    subject:'ComuKol Invite',
-    text:`You are receiving this mail because you have been invited to ComuKol for outbreak response team by ${params.by}, please use the following link on consent https://comukol.herokuapp.com/about`
-  }
-
-  transport.sendMail(mailOptions, (err, res) => {
-    if(err){
-      console.log('Error: Email not Sent! : ', err)
-      return callback(err, null)
-    }else{
-      console.log('Success: Email Sent : ', res)
-      return callback(null, res)
+  let email = Array.from(params.recipient.split(','))
+  let teamName = params.teamName
+  for(i=0; i<email.length; i++){
+    const mailOptions = {
+      from:process.env.GMAIL_USER,
+      to:email[i],
+      subject:'ComuKol Invite',
+      html:`<p>You are receiving this mail because you have been invited to ComuKol for outbreak response team by ${params.by}</p>
+            <p style="text-decoration:underline;">Team Name: ${teamName}</p>
+            <p>Team Description: ${params.teamDescription}</p>
+            <a href="https://comukol.herokuapp.com/invited/${email[i]}/${teamName}">Join!</a>
+            `
     }
-  })
+    transport.sendMail(mailOptions, (err, res) => {
+      if(err){
+        console.log('Error: Email not Sent! : ', err)
+        return callback(err, null)
+      }else{
+        console.log('Success: Email Sent : ', res)
+        return callback(null, res.accepted[0])
+      }
+    })
+  }
 }
 //Password reset
 const mailResetLink = (params, callback) => {
